@@ -1,5 +1,5 @@
 /*
- *  $Id: Cgicc.cc,v 1.12 1999/05/11 17:03:47 sbooth Exp $
+ *  $Id: Cgicc.cc,v 1.15 1999/06/01 17:10:18 sbooth Exp $
  *
  *  Copyright (C) 1996, 1997, 1998, 1999 Stephen F. Booth
  *
@@ -17,6 +17,10 @@
  *  along with this program; if not, write to the Free Software
  *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
+
+#ifdef __GNUG__
+#pragma implementation
+#endif
 
 #include <new>
 #include <algorithm>
@@ -206,8 +210,8 @@ CGICCNS Cgicc::Cgicc()
   LOGLN(s)
 #else
   LOGLN("Cgicc debugging log started.")
-#endif
-#endif
+#endif /* HAVE_STRFTIME */
+#endif /* DEBUG */
   
   // this can be tweaked for performance
   fFormData.reserve(40);
@@ -338,17 +342,37 @@ CGICCNS Cgicc::findEntries(const STDNS string& param,
   // empty the target vector
   result.clear();
 
+#ifdef _MSC_VER
+  // Workaround for Microsoft C++ compiler bug, which is unable to instantiate
+  // the copy_if() template functions.
+  if(byName) {
+    STDNS vector<FormEntry>::const_iterator i = fFormData.begin();
+    while(i != fFormData.end()) {
+      if(stringsAreEqual((*i).getName(), param))
+        result.push_back(*i);
+      ++i;
+    }
+  }
+  else {
+    STDNS vector<FormEntry>::const_iterator i = fFormData.begin();
+    while(i != fFormData.end()) {
+      if(stringsAreEqual((*i).getValue(), param))
+        result.push_back(*i);
+      ++i;
+    }
+  }
+#else
   if(byName)
     copy_if(fFormData.begin(), 
 	    fFormData.end(), 
-	    back_inserter(result),
+	    STDNS back_inserter(result),
 	    FE_nameCompare(param));
   else
     copy_if(fFormData.begin(), 
 	    fFormData.end(), 
-	    back_inserter(result),
+	    STDNS back_inserter(result),
 	    FE_valueCompare(param));
-  
+#endif 
   return ! result.empty();
 }
 

@@ -1,5 +1,5 @@
 /*
- *  $Id: Cgicc.hh,v 1.18 1999/05/10 19:13:17 sbooth Exp $
+ *  $Id: Cgicc.hh,v 1.21 1999/06/01 21:24:28 sbooth Exp $
  *
  *  Copyright (C) 1996, 1997, 1998, 1999 Stephen F. Booth
  *
@@ -18,8 +18,12 @@
  *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-#ifndef __CGICC__
-#define __CGICC__ 1
+#ifndef _CGICC_HH_
+#define _CGICC_HH_ 1
+
+#ifdef __GNUG__
+#pragma interface
+#endif
 
 /*
  * The GNU Cgicc library, by Stephen F. Booth. 
@@ -27,9 +31,8 @@
  *
  * Please mail bug reports to <mailto:bug-cgicc@gnu.org>
  *
- * There is a Cgicc mailing list at <mailto:cgicc@gnu.org>
- * To subscribe, send a message to <mailto:cgicc-request@gnu.org> with
- * the word "subscribe" in the subject field.
+ * To subscribe, send a message to <mailto:bug-cgicc-request@gnu.org>
+ * with the word "subscribe" in the subject field.
  *
  * Cgicc is intended to simplify and speed the development of C++
  * CGI(Common Gateway Interface) applications by providing a simple,
@@ -304,6 +307,4 @@ private:
 
 CGICC_END_NAMESPACE
 
-#endif
-
-//EOF
+#endif /* ! _CGICC_HH_ */

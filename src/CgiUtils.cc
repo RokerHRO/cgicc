@@ -1,5 +1,5 @@
 /*
- *  $Id: CgiUtils.cc,v 1.3 1999/05/11 17:03:47 sbooth Exp $
+ *  $Id: CgiUtils.cc,v 1.6 1999/06/01 17:10:18 sbooth Exp $
  *
  *  Copyright (C) 1996, 1997, 1998, 1999 Stephen F. Booth
  *
@@ -17,6 +17,10 @@
  *  along with this program; if not, write to the Free Software
  *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
+
+#ifdef __GNUG__
+#pragma implementation
+#endif
 
 #include <stdexcept>
 #include <cstdlib> 	// for getenv, system
@@ -108,6 +112,7 @@ CGICCNS unescapeString(const string& src)
 {
   STDNS string result;
   STDNS string::const_iterator iter;
+  char c;
 
   for(iter = src.begin(); iter != src.end(); ++iter) {
     switch(*iter) {
@@ -116,7 +121,9 @@ CGICCNS unescapeString(const string& src)
       break;
     case '%':
       // assume well-formed input
-      result.append(1, hexToChar(*(++iter), *(++iter)));
+      // ensure evaluation order for hexToChar
+      c = *++iter;
+      result.append(1, hexToChar(c, *(++iter)));
       break;
     default:
       result.append(1, *iter);
@@ -180,7 +187,7 @@ CGICCNS readString(STDNS istream& in)
     delete [] temp;
     throw STDNS runtime_error("I/O error");
   }
-  s = string(temp, dataSize);
+  s = STDNS string(temp, dataSize);
   delete [] temp;
   return s;
 }

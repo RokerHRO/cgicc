@@ -1,5 +1,5 @@
 /*
- *  $Id: CgiEnvironment.hh,v 1.9 1999/05/10 19:13:16 sbooth Exp $
+ *  $Id: CgiEnvironment.hh,v 1.11 1999/05/28 19:37:11 sbooth Exp $
  *
  *  Copyright (C) 1996, 1997, 1998, 1999 Stephen F. Booth
  *
@@ -18,8 +18,12 @@
  *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-#ifndef __CGI_ENVIRONMENT__
-#define __CGI_ENVIRONMENT__ 1
+#ifndef _CGIENVIRONMENT_HH_
+#define _CGIENVIRONMENT_HH_ 1
+
+#ifdef __GNUG__
+#pragma interface
+#endif
 
 #include <vector>
 #include <string>
@@ -365,6 +369,4 @@ private:
 
 CGICC_END_NAMESPACE
 
-#endif
-
-//EOF
+#endif /* ! _CGIENVIRONMENT_HH_ */

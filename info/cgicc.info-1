@@ -37,7 +37,7 @@ Cgicc
 that facilitates the development of Common Gateway Inteface (CGI)
 applications for the World Wide Web (WWW).
 
-   This is Edition 3.0 of the Cgicc documentation, 14 May 1999.
+   This is Edition 3.0.1 of the Cgicc documentation, 1 June 1999.
 
 * Menu:
 
@@ -53,6 +53,7 @@ applications for the World Wide Web (WWW).
 * class FormFile::              Represents a file uploaded via HTTP
 * classes for HTTP headers::    Used for generating response information
 * classes for HTML output::     Used for generating a client response
+* Reporting Bugs::              How to report a bug in Cgicc
 * Copying::                     Your rights to distribute Cgicc
 * Concept Index::               Index of concepts introduced in the manual
 * Function Index::              Index of member functions
@@ -1413,7 +1414,7 @@ HTTPAudioHeader
      Creates an HTTP header for data of MIME type `audio/basic'.
 
 
-File: cgicc.info,  Node: classes for HTML output,  Next: Copying,  Prev: classes for HTTP headers,  Up: Top
+File: cgicc.info,  Node: classes for HTML output,  Next: Reporting Bugs,  Prev: classes for HTTP headers,  Up: Top
 
 classes for HTML output
 ***********************
@@ -1502,4 +1503,22 @@ objects via the `add' functions.
           NAME, const string& VALUE)
      Adds an `HTMLAttribute' with name NAME and value VALUE to the
      attribute list.
+
+
+File: cgicc.info,  Node: Reporting Bugs,  Next: Copying,  Prev: classes for HTML output,  Up: Top
+
+Reporting Bugs
+**************
+
+   There is a mailing list for reporting bugs, <bug-cgicc@gnu.org>, to
+enable the developers to track submitted bug reports.
+
+   If you think you have found a bug in Cgicc, then you should send as
+complete a report as possible to this list. Ideally, you should include
+the text you get by running `config.guess', the text you see when you
+run `configure', and if you can, a patch made with `diff -u5' which
+fixes the problem.
+
+   If you wish to subscribe to this list, send empty mail with a
+`Subject:' line of `subscribe' to <bug-cgicc-request@gnu.org>.
 

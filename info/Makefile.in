@@ -67,6 +67,7 @@ LD = @LD@
 LIBTOOL = @LIBTOOL@
 LIB_NET = @LIB_NET@
 LN_S = @LN_S@
+MAINT = @MAINT@
 MAKEINFO = @MAKEINFO@
 NM = @NM@
 OBJDUMP = @OBJDUMP@
@@ -75,9 +76,11 @@ RANLIB = @RANLIB@
 VERSION = @VERSION@
 
 CLEANFILES = *~
+MAINTAINERCLEANFILES = cgicc-doc-texi.tar.gz cgicc-doc-info.tar.gz	cgicc-doc-dvi.tar.gz
+
 
 info_TEXINFOS = cgicc.texinfo
-cgicc_TEXINFOS = gpl.texinfo cgi-overview.texinfo tutorial.texinfo library-overview.texinfo cgi-classes.texinfo http-classes.texinfo html-classes.texinfo class-cgicc.texinfo class-cgienv.texinfo class-formentry.texinfo class-formfile.texinfo classes-http.texinfo classes-html.texinfo concept-index.texinfo function-index.texinfo datatype-index.texinfo
+cgicc_TEXINFOS = gpl.texinfo cgi-overview.texinfo tutorial.texinfo	library-overview.texinfo cgi-classes.texinfo http-classes.texinfo	html-classes.texinfo class-cgicc.texinfo class-cgienv.texinfo		class-formentry.texinfo class-formfile.texinfo classes-http.texinfo	classes-html.texinfo reporting-bugs.texinfo concept-index.texinfo	function-index.texinfo datatype-index.texinfo
 
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
 CONFIG_HEADER = ../src/config.h
@@ -97,7 +100,7 @@ GZIP_ENV = --best
 all: all-redirect
 .SUFFIXES:
 .SUFFIXES: .dvi .info .ps .texi .texinfo .txi
-$(srcdir)/Makefile.in: Makefile.am $(top_srcdir)/configure.in $(ACLOCAL_M4) 
+$(srcdir)/Makefile.in: @MAINTAINER_MODE_TRUE@ Makefile.am $(top_srcdir)/configure.in $(ACLOCAL_M4) 
 	cd $(top_srcdir) && $(AUTOMAKE) --gnu --include-deps info/Makefile
 
 Makefile: $(srcdir)/Makefile.in  $(top_builddir)/config.status
@@ -105,7 +108,7 @@ Makefile: $(srcdir)/Makefile.in  $(top_builddir)/config.status
 	  && CONFIG_FILES=$(subdir)/$@ CONFIG_HEADERS= $(SHELL) ./config.status
 
 
-$(srcdir)/version.texi: stamp-vti
+$(srcdir)/version.texi: @MAINTAINER_MODE_TRUE@stamp-vti
 	@:
 
 $(srcdir)/stamp-vti: cgicc.texinfo $(top_srcdir)/configure.in
@@ -126,7 +129,7 @@ clean-vti:
 distclean-vti:
 
 maintainer-clean-vti:
-	-rm -f $(srcdir)/stamp-vti $(srcdir)/version.texi
+	-@MAINTAINER_MODE_TRUE@rm -f $(srcdir)/stamp-vti $(srcdir)/version.texi
 
 cgicc.info: cgicc.texinfo version.texi $(cgicc_TEXINFOS)
 cgicc.dvi: cgicc.texinfo version.texi $(cgicc_TEXINFOS)
@@ -301,6 +304,7 @@ distclean-generic:
 	-rm -f config.cache config.log stamp-h stamp-h[0-9]*
 
 maintainer-clean-generic:
+	-test -z "$(MAINTAINERCLEANFILES)" || rm -f $(MAINTAINERCLEANFILES)
 mostlyclean-am:  mostlyclean-vti mostlyclean-aminfo mostlyclean-generic
 
 mostlyclean: mostlyclean-am
@@ -330,6 +334,22 @@ uninstall-am uninstall all-redirect all-am all installdirs \
 mostlyclean-generic distclean-generic clean-generic \
 maintainer-clean-generic clean mostlyclean distclean maintainer-clean
 
+
+################################################################
+
+@MAINTAINER_MODE_TRUE@doc-gz: doc-texi-gz doc-info-gz doc-dvi-gz
+
+@MAINTAINER_MODE_TRUE@doc-texi-gz: 
+@MAINTAINER_MODE_TRUE@	-rm -f cgicc-doc-texi.tar.gz
+@MAINTAINER_MODE_TRUE@	GZIP=$(GZIP_ENV) $(TAR) chozf cgicc-doc-texi.tar.gz *.texi*
+
+@MAINTAINER_MODE_TRUE@doc-info-gz: info
+@MAINTAINER_MODE_TRUE@	-rm -f cgicc-doc-info.tar.gz
+@MAINTAINER_MODE_TRUE@	GZIP=$(GZIP_ENV) $(TAR) chozf cgicc-doc-info.tar.gz *.info*
+
+@MAINTAINER_MODE_TRUE@doc-dvi-gz: dvi
+@MAINTAINER_MODE_TRUE@	-rm -f cgicc-doc-dvi.tar.gz
+@MAINTAINER_MODE_TRUE@	GZIP=$(GZIP_ENV) $(TAR) chozf cgicc-doc-dvi.tar.gz $(DVIS)
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.

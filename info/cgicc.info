@@ -30,26 +30,27 @@ translation approved by the Free Software Foundation.
 
 Indirect:
 cgicc.info-1: 1205
-cgicc.info-2: 49547
+cgicc.info-2: 50305
 
 Tag Table:
 (Indirect)
 Node: Top1205
-Node: Overview of CGI2660
-Node: A tutorial example5087
-Node: Library overview12986
-Node: CGI classes14775
-Node: HTTP header classes16461
-Node: HTML generation classes18796
-Node: class Cgicc23001
-Node: class CgiEnvironment28469
-Node: class FormEntry34689
-Node: class FormFile37849
-Node: classes for HTTP headers40021
-Node: classes for HTML output46184
-Node: Copying49547
-Node: Concept Index68818
-Node: Function Index69416
-Node: Data Type Index75462
+Node: Overview of CGI2723
+Node: A tutorial example5150
+Node: Library overview13049
+Node: CGI classes14838
+Node: HTTP header classes16524
+Node: HTML generation classes18859
+Node: class Cgicc23064
+Node: class CgiEnvironment28532
+Node: class FormEntry34752
+Node: class FormFile37912
+Node: classes for HTTP headers40084
+Node: classes for HTML output46247
+Node: Reporting Bugs49617
+Node: Copying50305
+Node: Concept Index69567
+Node: Function Index70165
+Node: Data Type Index76211
 
 End Tag Table

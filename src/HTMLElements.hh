@@ -1,5 +1,5 @@
 /*
- *  $Id: HTMLElements.hh,v 1.6 1999/04/26 22:42:29 sbooth Exp $
+ *  $Id: HTMLElements.hh,v 1.8 1999/05/28 19:37:13 sbooth Exp $
  *
  *  Copyright (C) 1996, 1997, 1998, 1999 Stephen F. Booth
  *
@@ -18,8 +18,12 @@
  *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-#ifndef __HTML_ELEMENTS__
-#define __HTML_ELEMENTS__ 1
+#ifndef _HTMLELEMENTS_HH_
+#define _HTMLELEMENTS_HH_ 1
+
+#ifdef __GNUG__
+#pragma interface
+#endif
 
 #include <string>
 
@@ -238,6 +242,4 @@ private:
 
 CGICC_END_NAMESPACE
 
-#endif
-
-//EOF
+#endif /* ! _HTMLELEMENTS_HH_ */

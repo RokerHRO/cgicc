@@ -1,5 +1,5 @@
 /*
- *  $Id: HTMLDirLang.hh,v 1.6 1999/04/26 22:42:28 sbooth Exp $
+ *  $Id: HTMLDirLang.hh,v 1.8 1999/05/28 19:37:13 sbooth Exp $
  *
  *  Copyright (C) 1996, 1997, 1998, 1999 Stephen F. Booth
  *
@@ -18,8 +18,12 @@
  *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-#ifndef __HTML_DIRLANG__
-#define __HTML_DIRLANG__ 1
+#ifndef _HTMLDIRLANG_HH_
+#define _HTMLDIRLANG_HH_ 1
+
+#ifdef __GNUG__
+#pragma interface
+#endif
 
 #include <string>
 
@@ -91,6 +95,4 @@ private:
 
 CGICC_END_NAMESPACE
 
-#endif
-
-//EOF
+#endif /* ! _HTMLDIRLANG_HH_ */

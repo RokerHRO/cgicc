@@ -1,5 +1,5 @@
 /*
- *  $Id: HTMLLinks.hh,v 1.6 1999/04/26 22:42:30 sbooth Exp $
+ *  $Id: HTMLLinks.hh,v 1.8 1999/05/28 19:37:14 sbooth Exp $
  *
  *  Copyright (C) 1996, 1997, 1998, 1999 Stephen F. Booth
  *
@@ -18,8 +18,12 @@
  *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-#ifndef __HTML_LINKS__
-#define __HTML_LINKS__ 1
+#ifndef _HTMLLINKS_HH_
+#define _HTMLLINKS_HH_ 1
+
+#ifdef __GNUG__
+#pragma interface
+#endif
 
 #include <string>
 
@@ -141,4 +145,4 @@ public:
 
 CGICC_END_NAMESPACE
 
-#endif
+#endif /* ! _HTMLLINKS_HH_ */

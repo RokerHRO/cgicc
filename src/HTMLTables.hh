@@ -1,5 +1,5 @@
 /*
- *  $Id: HTMLTables.hh,v 1.6 1999/04/26 22:42:32 sbooth Exp $
+ *  $Id: HTMLTables.hh,v 1.8 1999/05/28 19:37:15 sbooth Exp $
  *
  *  Copyright (C) 1996, 1997, 1998, 1999 Stephen F. Booth
  *
@@ -18,8 +18,12 @@
  *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-#ifndef __HTML_TABLES__
-#define __HTML_TABLES__ 1
+#ifndef _HTMLTABLES_HH_
+#define _HTMLTABLES_HH_ 1
+
+#ifdef __GNUG__
+#pragma interface
+#endif
 
 #include <string>
 
@@ -605,4 +609,4 @@ private:
 
 CGICC_END_NAMESPACE
 
-#endif
+#endif /* ! _HTMLTABLES_HH_ */

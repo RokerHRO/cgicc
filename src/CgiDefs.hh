@@ -1,5 +1,5 @@
 /*
- *  $Id: CgiDefs.hh,v 1.7 1999/04/26 22:42:23 sbooth Exp $
+ *  $Id: CgiDefs.hh,v 1.10 1999/05/28 19:37:11 sbooth Exp $
  *
  *  Copyright (C) 1996, 1997, 1998, 1999 Stephen F. Booth
  *
@@ -18,8 +18,8 @@
  *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-#ifndef __CGI_DEFS__
-#define __CGI_DEFS__ 1
+#ifndef _CGIDEFS_HH_
+#define _CGIDEFS_HH_ 1
 
 #if HAVE_CONFIG_H
 #include "config.h"
@@ -38,4 +38,4 @@
 #define STDNS 
 #endif
 
-#endif
+#endif /* ! _CGIDEFS_HH_ */
