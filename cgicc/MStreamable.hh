@@ -1,5 +1,5 @@
 /*
- *  $Id: MStreamable.hh,v 1.7 1999/05/28 19:37:15 sbooth Exp $
+ *  $Id: MStreamable.hh,v 1.2 1999/06/04 00:07:42 sbooth Exp $
  *
  *  Copyright (C) 1996, 1997, 1998, 1999 Stephen F. Booth
  *
@@ -27,7 +27,7 @@
 
 #include <iostream>
 
-#include "CgiDefs.hh"
+#include "cgicc/CgiDefs.hh"
 
 CGICC_BEGIN_NAMESPACE
 

@@ -468,7 +468,7 @@ echo > confdefs.h
 
 # A filename unique to this package, relative to the directory that
 # configure is in, which we can look for to find out if srcdir is correct.
-ac_unique_file=src/Cgicc.cc
+ac_unique_file=cgicc/Cgicc.cc
 
 # Find the source files, if location was not specified.
 if test -z "$srcdir"; then
@@ -708,7 +708,7 @@ fi
 
 PACKAGE=cgicc
 
-VERSION=3.0.1
+VERSION=3.0.2
 
 if test "`cd $srcdir && pwd`" != "`pwd`" && test -f $srcdir/config.status; then
   { echo "configure: error: source directory already configured; run "make distclean" there first" 1>&2; exit 1; }
@@ -2398,7 +2398,8 @@ done
 ac_given_srcdir=$srcdir
 ac_given_INSTALL="$INSTALL"
 
-trap 'rm -fr `echo "Makefile src/Makefile info/Makefile demo/Makefile example/Makefile src/config.h" | sed "s/:[^ ]*//g"` conftest*; exit 1' 1 2 15
+trap 'rm -fr `echo "Makefile cgicc/Makefile info/Makefile demo/Makefile 
+	example/Makefile cgicc/config.h" | sed "s/:[^ ]*//g"` conftest*; exit 1' 1 2 15
 EOF
 cat >> $CONFIG_STATUS <<EOF
 
@@ -2506,7 +2507,8 @@ EOF
 
 cat >> $CONFIG_STATUS <<EOF
 
-CONFIG_FILES=\${CONFIG_FILES-"Makefile src/Makefile info/Makefile demo/Makefile example/Makefile"}
+CONFIG_FILES=\${CONFIG_FILES-"Makefile cgicc/Makefile info/Makefile demo/Makefile 
+	example/Makefile"}
 EOF
 cat >> $CONFIG_STATUS <<\EOF
 for ac_file in .. $CONFIG_FILES; do if test "x$ac_file" != x..; then
@@ -2587,7 +2589,7 @@ ac_eD='%g'
 if test "${CONFIG_HEADERS+set}" != set; then
 EOF
 cat >> $CONFIG_STATUS <<EOF
-  CONFIG_HEADERS="src/config.h"
+  CONFIG_HEADERS="cgicc/config.h"
 EOF
 cat >> $CONFIG_STATUS <<\EOF
 fi
@@ -2678,7 +2680,7 @@ cat >> $CONFIG_STATUS <<EOF
 
 EOF
 cat >> $CONFIG_STATUS <<\EOF
-test -z "$CONFIG_HEADERS" || echo timestamp > src/stamp-h
+test -z "$CONFIG_HEADERS" || echo timestamp > cgicc/stamp-h
 
 exit 0
 EOF

@@ -30,14 +30,14 @@ translation approved by the Free Software Foundation.
 
 File: cgicc.info,  Node: Top,  Next: Overview of CGI,  Prev: (dir),  Up: (dir)
 
-Cgicc
-*****
+GNU Cgicc
+*********
 
    This document describes the GNU Cgicc library, a C++ class library
 that facilitates the development of Common Gateway Inteface (CGI)
 applications for the World Wide Web (WWW).
 
-   This is Edition 3.0.1 of the Cgicc documentation, 1 June 1999.
+   This is edition 3.0.2 of the Cgicc documentation, 7 June 1999.
 
 * Menu:
 
@@ -309,7 +309,7 @@ sample code given in this chapter.
      #include <vector>
      #include <string>
      
-     #include "Cgicc.hh"
+     #include "cgicc/Cgicc.hh"
      
      using namespace std;
      using namespace cgicc;

@@ -77,10 +77,12 @@ VERSION = @VERSION@
 
 CLEANFILES = *~
 
+INCLUDES = -I$(top_srcdir)
+
 lib_LTLIBRARIES = libcgicc.la
 libcgicc_la_SOURCES = CgiEnvironment.cc CgiUtils.cc Cgicc.cc		FormEntry.cc FormFile.cc HTMLAttributes.cc HTMLDirLang.cc		HTMLElements.cc HTMLForms.cc HTMLFrames.cc HTMLGlobal.cc		HTMLGraphics.cc HTMLLinks.cc HTMLLists.cc HTMLObjects.cc		HTMLScripts.cc HTMLStyles.cc HTMLTables.cc HTMLText.cc HTTPHeaders.cc	MStreamable.cc
 
-libcgicc_la_LDFLAGS = -version-info 0:1:0
+libcgicc_la_LDFLAGS = -version-info 0:2:0
 
 pkginclude_HEADERS = Cgicc.hh CgiDefs.hh CgiEnvironment.hh CgiUtils.hh	FormEntry.hh FormFile.hh HTMLAttributes.hh HTMLClasses.hh		HTMLDirLang.hh HTMLElements.hh HTMLForms.hh HTMLFrameClasses.hh		HTMLFrames.hh HTMLGlobal.hh HTMLGraphics.hh HTMLLinks.hh HTMLLists.hh	HTMLObjects.hh HTMLScripts.hh HTMLStyles.hh HTMLTables.hh HTMLText.hh	HTTPHeaders.hh MStreamable.hh config.h
 
@@ -121,7 +123,7 @@ all: all-redirect
 .SUFFIXES:
 .SUFFIXES: .S .c .cc .lo .o .s
 $(srcdir)/Makefile.in: @MAINTAINER_MODE_TRUE@ Makefile.am $(top_srcdir)/configure.in $(ACLOCAL_M4) 
-	cd $(top_srcdir) && $(AUTOMAKE) --gnu --include-deps src/Makefile
+	cd $(top_srcdir) && $(AUTOMAKE) --gnu --include-deps cgicc/Makefile
 
 Makefile: $(srcdir)/Makefile.in  $(top_builddir)/config.status
 	cd $(top_builddir) \
@@ -135,7 +137,7 @@ config.h: stamp-h
 	else :; fi
 stamp-h: $(srcdir)/config.h.in $(top_builddir)/config.status
 	cd $(top_builddir) \
-	  && CONFIG_FILES= CONFIG_HEADERS=src/config.h \
+	  && CONFIG_FILES= CONFIG_HEADERS=cgicc/config.h \
 	     $(SHELL) ./config.status
 	@echo timestamp > stamp-h 2> /dev/null
 $(srcdir)/config.h.in: @MAINTAINER_MODE_TRUE@$(srcdir)/stamp-h.in
@@ -272,7 +274,7 @@ maintainer-clean-tags:
 
 distdir = $(top_builddir)/$(PACKAGE)-$(VERSION)/$(subdir)
 
-subdir = src
+subdir = cgicc
 
 distdir: $(DISTFILES)
 	@for file in $(DISTFILES); do \
@@ -285,51 +287,6 @@ distdir: $(DISTFILES)
 	    || cp -p $$d/$$file $(distdir)/$$file || :; \
 	  fi; \
 	done
-CgiEnvironment.lo CgiEnvironment.o : CgiEnvironment.cc CgiEnvironment.hh \
-	CgiDefs.hh config.h CgiUtils.hh HTTPHeaders.hh MStreamable.hh
-CgiUtils.lo CgiUtils.o : CgiUtils.cc CgiUtils.hh CgiDefs.hh config.h
-Cgicc.lo Cgicc.o : Cgicc.cc CgiUtils.hh CgiDefs.hh config.h Cgicc.hh \
-	FormEntry.hh FormFile.hh CgiEnvironment.hh HTTPHeaders.hh \
-	MStreamable.hh
-FormEntry.lo FormEntry.o : FormEntry.cc FormEntry.hh CgiDefs.hh config.h \
-	CgiUtils.hh
-FormFile.lo FormFile.o : FormFile.cc FormFile.hh CgiDefs.hh config.h \
-	CgiUtils.hh
-HTMLAttributes.lo HTMLAttributes.o : HTMLAttributes.cc HTMLAttributes.hh \
-	CgiDefs.hh config.h MStreamable.hh CgiUtils.hh
-HTMLDirLang.lo HTMLDirLang.o : HTMLDirLang.cc HTMLDirLang.hh CgiDefs.hh \
-	config.h HTMLElements.hh MStreamable.hh HTMLAttributes.hh
-HTMLElements.lo HTMLElements.o : HTMLElements.cc HTMLElements.hh \
-	CgiDefs.hh config.h MStreamable.hh HTMLAttributes.hh
-HTMLForms.lo HTMLForms.o : HTMLForms.cc HTMLForms.hh CgiDefs.hh config.h \
-	HTMLElements.hh MStreamable.hh HTMLAttributes.hh
-HTMLFrames.lo HTMLFrames.o : HTMLFrames.cc HTMLFrames.hh CgiDefs.hh \
-	config.h HTMLElements.hh MStreamable.hh HTMLAttributes.hh
-HTMLGlobal.lo HTMLGlobal.o : HTMLGlobal.cc HTMLGlobal.hh CgiDefs.hh \
-	config.h HTMLElements.hh MStreamable.hh HTMLAttributes.hh
-HTMLGraphics.lo HTMLGraphics.o : HTMLGraphics.cc HTMLGraphics.hh \
-	HTMLElements.hh CgiDefs.hh config.h MStreamable.hh \
-	HTMLAttributes.hh
-HTMLLinks.lo HTMLLinks.o : HTMLLinks.cc HTMLLinks.hh HTMLElements.hh \
-	CgiDefs.hh config.h MStreamable.hh HTMLAttributes.hh
-HTMLLists.lo HTMLLists.o : HTMLLists.cc HTMLLists.hh HTMLElements.hh \
-	CgiDefs.hh config.h MStreamable.hh HTMLAttributes.hh
-HTMLObjects.lo HTMLObjects.o : HTMLObjects.cc HTMLObjects.hh \
-	HTMLElements.hh CgiDefs.hh config.h MStreamable.hh \
-	HTMLAttributes.hh
-HTMLScripts.lo HTMLScripts.o : HTMLScripts.cc HTMLScripts.hh \
-	HTMLElements.hh CgiDefs.hh config.h MStreamable.hh \
-	HTMLAttributes.hh
-HTMLStyles.lo HTMLStyles.o : HTMLStyles.cc HTMLStyles.hh CgiDefs.hh \
-	config.h HTMLElements.hh MStreamable.hh HTMLAttributes.hh
-HTMLTables.lo HTMLTables.o : HTMLTables.cc HTMLTables.hh CgiDefs.hh \
-	config.h HTMLElements.hh MStreamable.hh HTMLAttributes.hh
-HTMLText.lo HTMLText.o : HTMLText.cc HTMLText.hh CgiDefs.hh config.h \
-	HTMLElements.hh MStreamable.hh HTMLAttributes.hh
-HTTPHeaders.lo HTTPHeaders.o : HTTPHeaders.cc HTTPHeaders.hh \
-	MStreamable.hh CgiDefs.hh config.h
-MStreamable.lo MStreamable.o : MStreamable.cc MStreamable.hh CgiDefs.hh \
-	config.h
 
 info-am:
 info: info-am

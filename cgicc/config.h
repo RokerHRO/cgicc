@@ -1,5 +1,5 @@
-/* src/config.h.  Generated automatically by configure.  */
-/* src/config.h.in.  Generated automatically from configure.in by autoheader.  */
+/* cgicc/config.h.  Generated automatically by configure.  */
+/* cgicc/config.h.in.  Generated automatically from configure.in by autoheader.  */
 /*
  *  $Id: acconfig.h,v 1.3 1999/05/26 17:09:55 sbooth Exp $
  *
@@ -52,5 +52,5 @@
 #define PACKAGE "cgicc"
 
 /* Version number of package */
-#define VERSION "3.0.1"
+#define VERSION "3.0.2"
 

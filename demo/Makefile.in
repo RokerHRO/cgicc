@@ -79,30 +79,30 @@ CLEANFILES = *~
 
 EXTRA_DIST = testform.html
 
-noinst_PROGRAMS = test.cgi dns.cgi
+noinst_PROGRAMS = test.cgi dns.cgi 
 
-INCLUDES = -I$(top_srcdir)/src
+INCLUDES = -I$(top_srcdir)
 
 test_cgi_SOURCES = test.cc
-test_cgi_LDADD = ../src/libcgicc.la
+test_cgi_LDADD = ../cgicc/libcgicc.la
 
 dns_cgi_SOURCES = dns.cc
-dns_cgi_LDADD = ../src/libcgicc.la @LIB_NET@
+dns_cgi_LDADD = ../cgicc/libcgicc.la @LIB_NET@
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
-CONFIG_HEADER = ../src/config.h
+CONFIG_HEADER = ../cgicc/config.h
 CONFIG_CLEAN_FILES = 
 PROGRAMS =  $(noinst_PROGRAMS)
 
 
-DEFS = @DEFS@ -I. -I$(srcdir) -I../src
+DEFS = @DEFS@ -I. -I$(srcdir) -I../cgicc
 CPPFLAGS = @CPPFLAGS@
 LDFLAGS = @LDFLAGS@
 LIBS = @LIBS@
 test_cgi_OBJECTS =  test.o
-test_cgi_DEPENDENCIES =  ../src/libcgicc.la
+test_cgi_DEPENDENCIES =  ../cgicc/libcgicc.la
 test_cgi_LDFLAGS = 
 dns_cgi_OBJECTS =  dns.o
-dns_cgi_DEPENDENCIES =  ../src/libcgicc.la
+dns_cgi_DEPENDENCIES =  ../cgicc/libcgicc.la
 dns_cgi_LDFLAGS = 
 CXXFLAGS = @CXXFLAGS@
 CXXCOMPILE = $(CXX) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS)
@@ -233,24 +233,6 @@ distdir: $(DISTFILES)
 	    || cp -p $$d/$$file $(distdir)/$$file || :; \
 	  fi; \
 	done
-dns.o: dns.cc ../src/CgiDefs.hh ../src/config.h ../src/HTMLClasses.hh \
-	../src/HTTPHeaders.hh ../src/MStreamable.hh \
-	../src/HTMLAttributes.hh ../src/HTMLElements.hh \
-	../src/HTMLDirLang.hh ../src/HTMLForms.hh ../src/HTMLGlobal.hh \
-	../src/HTMLGraphics.hh ../src/HTMLLinks.hh ../src/HTMLLists.hh \
-	../src/HTMLObjects.hh ../src/HTMLScripts.hh \
-	../src/HTMLStyles.hh ../src/HTMLTables.hh ../src/HTMLText.hh \
-	../src/Cgicc.hh ../src/FormEntry.hh ../src/FormFile.hh \
-	../src/CgiEnvironment.hh ../src/CgiUtils.hh
-test.o: test.cc ../src/CgiDefs.hh ../src/config.h ../src/Cgicc.hh \
-	../src/FormEntry.hh ../src/FormFile.hh ../src/CgiEnvironment.hh \
-	../src/CgiUtils.hh ../src/HTTPHeaders.hh ../src/MStreamable.hh \
-	../src/HTMLClasses.hh ../src/HTMLAttributes.hh \
-	../src/HTMLElements.hh ../src/HTMLDirLang.hh \
-	../src/HTMLForms.hh ../src/HTMLGlobal.hh ../src/HTMLGraphics.hh \
-	../src/HTMLLinks.hh ../src/HTMLLists.hh ../src/HTMLObjects.hh \
-	../src/HTMLScripts.hh ../src/HTMLStyles.hh ../src/HTMLTables.hh \
-	../src/HTMLText.hh
 
 info-am:
 info: info-am

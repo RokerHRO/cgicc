@@ -1,5 +1,5 @@
 /*
- *  $Id: HTMLElements.cc,v 1.7 1999/05/25 19:16:45 sbooth Exp $
+ *  $Id: HTMLElements.cc,v 1.2 1999/06/04 00:07:38 sbooth Exp $
  *
  *  Copyright (C) 1996, 1997, 1998, 1999 Stephen F. Booth
  *
@@ -22,7 +22,7 @@
 #pragma implementation
 #endif
 
-#include "HTMLElements.hh"
+#include "cgicc/HTMLElements.hh"
 
 // ============================================================
 // Class HTMLElement

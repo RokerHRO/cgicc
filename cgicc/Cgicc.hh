@@ -1,5 +1,5 @@
 /*
- *  $Id: Cgicc.hh,v 1.21 1999/06/01 21:24:28 sbooth Exp $
+ *  $Id: Cgicc.hh,v 1.2 1999/06/04 00:07:36 sbooth Exp $
  *
  *  Copyright (C) 1996, 1997, 1998, 1999 Stephen F. Booth
  *
@@ -43,10 +43,10 @@
 #include <vector>
 #include <string>
 
-#include "CgiDefs.hh"
-#include "FormEntry.hh"
-#include "FormFile.hh"
-#include "CgiEnvironment.hh"
+#include "cgicc/CgiDefs.hh"
+#include "cgicc/FormEntry.hh"
+#include "cgicc/FormFile.hh"
+#include "cgicc/CgiEnvironment.hh"
 
 CGICC_BEGIN_NAMESPACE
   

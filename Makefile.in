@@ -77,7 +77,7 @@ VERSION = @VERSION@
 @DEMOS_TRUE@DEMO = demo
 @DEMOS_FALSE@DEMO = 
 
-SUBDIRS = src info $(DEMO)
+SUBDIRS = cgicc info $(DEMO)
 
 CLEANFILES = *~
 
@@ -88,19 +88,19 @@ EXTRA_DIST = acconfig.h
 @MAINTAINER_MODE_TRUE@CVS = cvs
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
-CONFIG_HEADER = ./src/config.h
+CONFIG_HEADER = ./cgicc/config.h
 CONFIG_CLEAN_FILES = 
 DIST_COMMON =  README AUTHORS COPYING ChangeLog INSTALL Makefile.am \
-Makefile.in NEWS acconfig.h acinclude.m4 aclocal.m4 config.guess \
-config.sub configure configure.in install-sh ltconfig ltmain.sh missing \
-mkinstalldirs src/config.h.in src/stamp-h.in
+Makefile.in NEWS acconfig.h acinclude.m4 aclocal.m4 cgicc/config.h.in \
+cgicc/stamp-h.in config.guess config.sub configure configure.in \
+install-sh ltconfig ltmain.sh missing mkinstalldirs
 
 
 DISTFILES = $(DIST_COMMON) $(SOURCES) $(HEADERS) $(TEXINFOS) $(EXTRA_DIST)
 
 TAR = tar
 GZIP_ENV = --best
-DIST_SUBDIRS =  src info demo
+DIST_SUBDIRS =  cgicc info demo
 all: all-redirect
 .SUFFIXES:
 $(srcdir)/Makefile.in: @MAINTAINER_MODE_TRUE@ Makefile.am $(top_srcdir)/configure.in $(ACLOCAL_M4) 
@@ -118,31 +118,31 @@ config.status: $(srcdir)/configure $(CONFIG_STATUS_DEPENDENCIES)
 $(srcdir)/configure: @MAINTAINER_MODE_TRUE@$(srcdir)/configure.in $(ACLOCAL_M4) $(CONFIGURE_DEPENDENCIES)
 	cd $(srcdir) && $(AUTOCONF)
 
-src/config.h: src/stamp-h
+cgicc/config.h: cgicc/stamp-h
 	@if test ! -f $@; then \
-		rm -f src/stamp-h; \
-		$(MAKE) src/stamp-h; \
+		rm -f cgicc/stamp-h; \
+		$(MAKE) cgicc/stamp-h; \
 	else :; fi
-src/stamp-h: $(srcdir)/src/config.h.in $(top_builddir)/config.status
+cgicc/stamp-h: $(srcdir)/cgicc/config.h.in $(top_builddir)/config.status
 	cd $(top_builddir) \
-	  && CONFIG_FILES= CONFIG_HEADERS=src/config.h \
+	  && CONFIG_FILES= CONFIG_HEADERS=cgicc/config.h \
 	     $(SHELL) ./config.status
-	@echo timestamp > src/stamp-h 2> /dev/null
-$(srcdir)/src/config.h.in: @MAINTAINER_MODE_TRUE@$(srcdir)/src/stamp-h.in
+	@echo timestamp > cgicc/stamp-h 2> /dev/null
+$(srcdir)/cgicc/config.h.in: @MAINTAINER_MODE_TRUE@$(srcdir)/cgicc/stamp-h.in
 	@if test ! -f $@; then \
-		rm -f $(srcdir)/src/stamp-h.in; \
-		$(MAKE) $(srcdir)/src/stamp-h.in; \
+		rm -f $(srcdir)/cgicc/stamp-h.in; \
+		$(MAKE) $(srcdir)/cgicc/stamp-h.in; \
 	else :; fi
-$(srcdir)/src/stamp-h.in: $(top_srcdir)/configure.in $(ACLOCAL_M4) acconfig.h
+$(srcdir)/cgicc/stamp-h.in: $(top_srcdir)/configure.in $(ACLOCAL_M4) acconfig.h
 	cd $(top_srcdir) && $(AUTOHEADER)
-	@echo timestamp > $(srcdir)/src/stamp-h.in 2> /dev/null
+	@echo timestamp > $(srcdir)/cgicc/stamp-h.in 2> /dev/null
 
 mostlyclean-hdr:
 
 clean-hdr:
 
 distclean-hdr:
-	-rm -f src/config.h
+	-rm -f cgicc/config.h
 
 maintainer-clean-hdr:
 
