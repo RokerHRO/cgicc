@@ -1,3 +1,116 @@
+2002-03-17  Stephen F. Booth  <sbooth@gnu.org>
+
+	* Makefile.am: Make distclean in example for dist-hook
+	* contrib/fcgi-test.cpp: New file
+	* contrib/FCgioIO.{h,cpp}: New files
+	* configure.ac: Add checks for FastCgi
+	* contrib/Makefile.am: Added conditional support for FastCgi demo
+
+2002-03-13  Stephen F. Booth  <sbooth@gnu.org>
+
+	* doc/tutorial.tmpl: Fixed bug in complete example code 
+	(bug fix submitted by sevcenko@vc.cvut.cz)
+
+2002-03-12  Stephen F. Booth  <sbooth@gnu.org>
+
+	* support/cgicc-config.in: Update copyright
+
+2002-03-09  Stephen F. Booth  <sbooth@gnu.org>
+
+	* Makefile.am: Removed DIST_SUBDIRS
+	* Makefile.am: Added win and contrib to EXTRA_DIST
+	* Makefile.am: Removed dist-hook section
+	* configure.ac: Updated for automake-1.6
+	* acconfig.h: Removed file
+	* Makefile.am: Removed acconfig.h from EXTRA_DIST
+	* configure.ac: Updated AC_DEFINE calls for autoconf-2.53
+	* configure.ac: Use /bin/echo if doxygen is not found
+	* doc/Makefile.am: Added html to EXTRA_DIST
+	* doc/Makefile.am: Removed dist-hook section
+	* support/Makefile.am: Removed mdate-sh from EXTRA_DIST
+	* Makefile.am: Added dist-hook to remove CVS directories
+	* doc/cgicc.css: Renamed to cgicc-doc.css
+	* doc/images: Directory removed
+	* doc/cgicc.png: New file
+	* doc/Doxyfile.in: Use cgicc-doc.css stylesheet
+	* doc/Doxyfile.in: Don't generate alphabetical index
+	* Makefile.am: Remove autogen from example in dist-hook
+
+2002-03-06  Stephen F. Booth  <sbooth@gnu.org>
+
+	* support/Makefile.am: Distribute depcomp, don't distribute it
+
+2002-03-05  Stephen F. Booth  <sbooth@gnu.org>
+
+	* Makefile.am: Removed html dir
+	* CgiEnvironment.{h,cpp}: Changed CgiInput back to CgiInput*
+	* Cgicc.{h,cpp}: Changed CgiInput back to CgiInput*
+	* THANKS: Thanks to Steve McAndrewsmith
+	* configure.ac: Removed html dir references
+
+2002-03-03  Stephen F. Booth  <sbooth@gnu.or>
+
+	* cgicc/CgiInput.h: Added copy construcor, operator=, 
+	operator==, operator!=
+	* CgiEnvironment.cpp: Got rid of static CgiInput*
+	* CgiEnvironment.{h,cpp}: Changed CgiInput* to CgiInput
+	* Cgicc.{h,cpp}: Changed CgiInput* to CgiInput
+	* demo/{cookie,dns,test,upload}.cpp: Got rid of my name
+	* demo/{cookie,dns,test,upload}.html: Got rid of my name
+
+2002-03-02  Stephen F. Booth  <sbooth@gnu.org>
+
+	* cgicc/Cgicc.cpp: Removed unnecessary variable initialization
+
+2002-03-01  Stephen F. Booth  <sbooth@gnu.org>
+
+	* cgicc/CgiInput.{h,cpp}: New files for input data sources
+	* cgicc/Cgicc.{h,cpp}: Added support for CgiInput class
+	* cgicc/CgiEnvironment.{h,cpp}: Added support for CgiInput class
+	* cgicc/HTTPHeaders.h: Removed (unnecessary)
+	* demo/cookie.cpp: #include "HTTPHTMLHeader.h"
+	* demo/dns.cpp: #include "HTTPHTMLHeader.h"
+	* demo/test.cpp: #include "HTTPHTMLHeader.h"
+	* demo/upload.cpp: #include "HTTPHTMLHeader.h"
+	* contrib/nph-login.cpp: #include "HTTPResponseHeader.h"
+	* contrib/nph-hello.cpp: #include "HTTPResponseHeader.h"
+	
+2002-02-19  Stephen F. Booth  <sbooth@gnu.org>
+
+	* cgicc/HTTPCookie.cpp: Don't output a trailing newline
+	(bug fix submitted by natebiz@msn.com)
+	* cgicc/CgiEnvironment.cpp: #include <stdio.h> on Win32
+	* cgicc/CgiEnvironment.cpp: Use setmode instead of _setmode for
+	Borland C++ Builder
+	(bug fixes submitted by alexoss@bellatlantic.net 
+	and eddielee@tropicsoft.com)
+	* THANKS: Thanks to Nathan Barnett, Edward Diener, Alexander J. Oss
+
+2002-02-05  Stephen F. Booth  <sbooth@gnu.org>
+
+	* acinclude.m4(CGICC_CHECK_LINK_STDCPP): Use std:: namespace
+	qualifier
+	* acinclude.m4: Added CGICC_CHECK_ACC function
+	* configure.ac: Added support for aCC
+	* demo/Makefile.am: Added support for aCC
+
+2002-02-04  Stephen F. Booth  <sbooth@gnu.org>
+
+	* win/cgicc.dsp: Modified for version 3.2
+	* win/cgicc.dsw: Modified for version 3.2
+	* win/cookie.dsp: Added
+	* win/dns.dsp: Modified for version 3.2
+	* win/example.dsp: Modified for version 3.2
+	* win/test.dsp: Modified for version 3.2
+	* win/upload.dsp: Added
+	* THANKS: Thanks to Quintin Connell
+	* Makefile.am: Distribute cookie.dsp and upload.dsp
+
+2002-01-19  Stephen F. Booth  <sbooth@gnu.org>
+
+	* demo/Makefile.am: Distribute cookie.html, cgicc.css
+	* demo/cgicc.css: Added
+
 2002-01-09  Stephen F. Booth  <sbooth@gnu.org>
 
 	* README: Updated for 3.2

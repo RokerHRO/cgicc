@@ -1,3 +1,70 @@
+/* $Id: cgicc-doc.css,v 1.1 2002/03/09 18:30:37 sbooth Exp $ */
+
+body { 
+	color: black; 
+	background: white; 
+}
+
+a:link 		{ color: #1f00ff }
+a:visited 	{ color: #9900dd }
+a:active 	{ color: #ff0000 }
+a:hover 	{ background-color: #eeeeee }
+
+div.unix { 
+	width: 80%; 
+	border: none; 
+	color: #006600; 
+	background-color: #eeeeee;
+}
+
+span.red 	{ color: red; }
+span.big	{ font-size: large; }
+span.white	{ color: white; }
+
+div.center {
+	text-align: center;
+}
+
+div.notice { 
+	border: solid thin; 
+	margin: 1em 0; 
+	padding: 1em;
+	background: #ddd;
+}
+
+div.header { 
+	width: 95%;
+	margin-left: auto;
+	margin-right: auto;
+	border: solid thin; 
+	background: #ddd;
+	text-align: center;
+	font-size: larger;
+}
+
+div.footer {
+	width: 95%;
+	margin-left: auto;
+	margin-right: auto;
+	font-size: smaller;
+	font-style: italic;
+}
+
+div.subsection {
+	width: 90%;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+hr.half { 
+	width: 60%; 
+	background-color: #ff0000;
+}
+
+/* ============================ */	
+/* Doxygen style sheet elements */
+/* ============================ */	
+
 H1 { text-align: center; }
 CAPTION { font-weight: bold }
 A.qindex {}

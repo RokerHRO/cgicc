@@ -1,7 +1,7 @@
 /*
- *  $Id: dns.cpp,v 1.15 2001/09/03 16:14:26 sbooth Exp $
+ *  $Id: dns.cpp,v 1.17 2002/03/03 17:41:44 sbooth Exp $
  *
- *  Copyright (C) 1996, 1997, 1998, 1999, 2000, 2001 Stephen F. Booth
+ *  Copyright (C) 1996 - 2002 Stephen F. Booth
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -34,7 +34,7 @@
 
 #include "cgicc/CgiDefs.h"
 #include "cgicc/Cgicc.h"
-#include "cgicc/HTTPHeaders.h"
+#include "cgicc/HTTPHTMLHeader.h"
 #include "cgicc/HTMLClasses.h"
 
 #if HAVE_UNAME
@@ -107,8 +107,6 @@ main(int /*argc*/,
     cout << comment() << style() << endl;
 
     cout << title("DNS Gateway") << endl;
-    cout << meta().set("name", "author")
-		  .set("content", "Stephen F. Booth") << endl;
     cout << head() << endl;
     
     cout << h1() << "GNU cgi" << span("cc").set("class","red")
@@ -237,9 +235,7 @@ main(int /*argc*/,
     cout << hr(set("class","half")) << endl;
     cout << CGICCNS div().set("align","center").set("class","smaller") << endl;
     cout << "GNU cgi" << span("cc").set("class","red") << " v"
-	 << cgi.getVersion();
-    cout << " by " << a("Stephen F. Booth")
-      .set("href", "mailto:sbooth@gnu.org") << br() << endl;
+	 << cgi.getVersion() << br() << endl;
     cout << "Compiled at " << cgi.getCompileTime() 
 	 << " on " << cgi.getCompileDate() << br() << endl;
     

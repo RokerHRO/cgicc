@@ -1,8 +1,8 @@
 /* -*-c++-*- */
 /*
- *  $Id: Cgicc.h,v 1.7 2001/09/02 19:53:17 sbooth Exp $
+ *  $Id: Cgicc.h,v 1.11 2002/03/09 18:34:18 sbooth Exp $
  *
- *  Copyright (C) 1996, 1997, 1998, 1999, 2000, 2001 Stephen F. Booth
+ *  Copyright (C) 1996 - 2002 Stephen F. Booth
  *
  *  This library is free software; you can redistribute it and/or
  *  modify it under the terms of the GNU Lesser General Public
@@ -27,11 +27,12 @@
 #endif
 
 /*! \file Cgicc.h
- * The main header file for the GNU cgicc library
+ * \brief The main header file for the GNU %cgicc library
  */
 
 /*
  * The GNU cgicc library, by Stephen F. Booth <sbooth@gnu.org>
+ * http://www.cgicc.org
  *
  * The latest version can be found on your closest GNU mirror site.
  * Please mail bug reports to <bug-cgicc@gnu.org>
@@ -43,6 +44,7 @@
 #include "cgicc/CgiDefs.h"
 #include "cgicc/FormEntry.h"
 #include "cgicc/FormFile.h"
+#include "cgicc/CgiInput.h"
 #include "cgicc/CgiEnvironment.h"
 
 CGICC_BEGIN_NAMESPACE
@@ -108,11 +110,12 @@ public:
    * \brief Constructor 
    *
    * If you are using %cgicc with FastCGI, you will need to pass 
-   * a \c reader_function_t that %cgicc will use to read input.  If
-   * \c stream_reader is omitted or \c NULL, standard input will be used.
-   * \param stream_reader A reader_function_t to use for reading input
+   * a \c CgiInput subclass that %cgicc will use to read input.  If
+   * \c input is omitted, standard input and environment
+   * variables will be used.
+   * \param input A CgiInput object to use for reading input
    */
-  Cgicc(reader_function_t stream_reader = NULL);
+  Cgicc(CgiInput *input = 0);
   
   /*! 
    * \brief Destructor 

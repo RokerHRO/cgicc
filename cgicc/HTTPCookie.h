@@ -1,8 +1,8 @@
 /* -*-c++-*- */
 /*
- *  $Id: HTTPCookie.h,v 1.1 2001/09/03 16:15:44 sbooth Exp $
+ *  $Id: HTTPCookie.h,v 1.3 2002/03/09 18:34:18 sbooth Exp $
  *
- *  Copyright (C) 1996, 1997, 1998, 1999, 2000, 2001 Stephen F. Booth
+ *  Copyright (C) 1996 - 2002 Stephen F. Booth
  *
  *  This library is free software; you can redistribute it and/or
  *  modify it under the terms of the GNU Lesser General Public
@@ -27,7 +27,7 @@
 #endif
 
 /*! \file HTTPCookie.h
- * \brief 
+ * \brief An HTTP Cookie
  */
 
 #include <string>

@@ -1,13 +1,13 @@
 dnl -*-m4-*-
-dnl $Id: configure.ac,v 1.1 2001/09/03 22:09:25 sbooth Exp $
+dnl $Id: configure.ac,v 1.5 2002/03/17 21:39:46 sbooth Exp $
 
 dnl Process this file with autoconf to produce a configure script.
-AC_INIT(cgicc, 3.2, bug-cgicc@gnu.org)
+AC_INIT(cgicc, 3.2.1, bug-cgicc@gnu.org)
 AC_CONFIG_SRCDIR(cgicc/Cgicc.cpp)
-AC_REVISION([$Revision: 1.1 $])
+AC_REVISION([$Revision: 1.5 $])
 AC_CONFIG_AUX_DIR(support)
 AC_PREFIX_DEFAULT(/usr)
-AM_INIT_AUTOMAKE(cgicc, 3.2)
+AM_INIT_AUTOMAKE
 AM_CONFIG_HEADER(cgicc/config.h)
 AM_MAINTAINER_MODE
 
@@ -17,8 +17,7 @@ dnl Checks for programs.
 AC_PROG_CXX
 AC_PROG_INSTALL
 AC_PROG_LIBTOOL
-AM_PROG_LIBTOOL
-AC_CHECK_PROG(DOXYGEN, doxygen, doxygen)
+AC_CHECK_PROG(DOXYGEN, doxygen, doxygen, /bin/echo)
 
 dnl Checks for libraries.
 
@@ -37,7 +36,15 @@ AC_STRUCT_TM
 
 dnl Determine host system type
 AC_CANONICAL_HOST
-AC_DEFINE_UNQUOTED(HOST, "$host")
+AC_DEFINE_UNQUOTED(HOST, "$host", [The host system cgicc was configured for])
+
+dnl Check whether we're using aCC
+CGICC_CHECK_ACC
+if test "$cgicc_cv_acc" = yes; then
+  CXXFLAGS="-AA $CXXFLAGS"
+  DEMO_LIBS="-lstd_v2 -lCsup_v2"
+fi
+AC_SUBST(DEMO_LIBS)
 
 dnl verify STL support
 CGICC_CHECK_CPP_STL
@@ -92,14 +99,14 @@ AC_ARG_ENABLE(debug-logging,
 AC_MSG_CHECKING(whether to enable debug logging)
 AC_MSG_RESULT($cgicc_debug)
 if test "$debug" = yes; then
-  AC_DEFINE(DEBUG,1)
+  AC_DEFINE(DEBUG, 1, [Define if debug logging is enabled])
 else
-  AC_DEFINE(DEBUG,0)
+  AC_DEFINE(DEBUG, 0, [Define if debug logging is enabled])
 fi
 
 dnl enable/disable the demos, if specified
 AC_ARG_ENABLE(demos, 
-  [  --enable-demos          build demos [default=yes]],
+  [  --enable-demos          build demos default=yes],
   [case "${enableval}" in
     yes) cgicc_demos=yes ;;
     no)  cgicc_demos=no ;;
@@ -113,10 +120,24 @@ if test "$cgicc_demos" = yes; then
   AC_CONFIG_FILES(demo/Makefile contrib/Makefile)
 fi
 
-dnl Only build HTML if maintainer mode is active
-if test "$USE_MAINTAINER_MODE" = yes; then
-  AC_CONFIG_FILES(html/Makefile html/cgicc.html)
+dnl enable/disable the FastCgi demos, if specified
+AC_ARG_ENABLE(fcgi-demos, 
+  [  --enable-fcgi-demos     build FastCgi demos default=no],
+  [case "${enableval}" in
+    yes) cgicc_fcgi_demos=yes ;;
+    no)  cgicc_fcgi_demos=no ;;
+    *) AC_MSG_ERROR(bad value ${enableval} for --enable-fcgi-demos) ;;
+  esac], cgicc_fcgi_demos=no)
+AC_MSG_CHECKING(whether to build the cgicc fcgi demos)
+AC_MSG_RESULT($cgicc_fcgi_demos)
+AM_CONDITIONAL(FCGI_DEMOS, test "$cgicc_fcgi_demos" = yes)
+
+if test "$cgicc_fcgi_demos" = yes; then
+  AC_CHECK_LIB(fcgi, FCGX_Accept, FCGI_LIBS="-lfcgi++ -lfcgi",
+	AC_MSG_ERROR([FastCGI libraries not found]))
+  AC_CONFIG_FILES(contrib/Makefile)
 fi
+AC_SUBST(FCGI_LIBS)
 
 dnl Always output certain files
 AC_CONFIG_FILES([Makefile cgicc/Makefile cgicc/CgiDefs.h 

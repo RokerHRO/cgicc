@@ -1,7 +1,7 @@
 /*
- *  $Id: Cgicc.cpp,v 1.10 2001/09/03 16:19:51 sbooth Exp $
+ *  $Id: Cgicc.cpp,v 1.13 2002/03/06 02:46:21 sbooth Exp $
  *
- *  Copyright (C) 1996, 1997, 1998, 1999, 2000, 2001 Stephen F. Booth
+ *  Copyright (C) 1996 - 2002 Stephen F. Booth
  *
  *  This library is free software; you can redistribute it and/or
  *  modify it under the terms of the GNU Lesser General Public
@@ -99,9 +99,9 @@ private:
 template<class In, class Out, class Pred>
 Out 
 copy_if(In first, 
-		In last, 
-		Out res, 
-		Pred p)
+	In last, 
+	Out res, 
+	Pred p)
 {
   while(first != last) {
     if(p(*first))
@@ -187,8 +187,8 @@ CGICCNS MultipartHeader::operator= (const MultipartHeader& head)
 // ============================================================
 // Class Cgicc
 // ============================================================
-CGICCNS Cgicc::Cgicc(reader_function_t stream_reader)
-  : fEnvironment(stream_reader)
+CGICCNS Cgicc::Cgicc(CgiInput *input)
+  : fEnvironment(input)
 {
 #if DEBUG
 #if HAVE_STRFTIME
@@ -374,8 +374,6 @@ CGICCNS Cgicc::parseFormInput(const STDNS string& data)
     // Find the data between the separators
     STDNS string::size_type start  = data.find(sep);
     STDNS string::size_type sepLen = sep.length();
-
-    pos = 0;
     STDNS string::size_type oldPos = start + sepLen;
 
     while(true) {
@@ -400,8 +398,8 @@ CGICCNS Cgicc::parseFormInput(const STDNS string& data)
     }
   }
   else if(! data.empty()) {
-    STDNS string::size_type pos 	= 0;
-    STDNS string::size_type oldPos	= 0;
+    STDNS string::size_type pos;
+    STDNS string::size_type oldPos = 0;
 
     while(true) {
       // find the '&' separating a name=value pairs

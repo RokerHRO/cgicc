@@ -1,7 +1,7 @@
 /*
- *  $Id: acconfig.h,v 1.7 2001/09/02 20:08:28 sbooth Exp $
+ *  $Id: CgiInput.cpp,v 1.2 2002/03/03 17:39:52 sbooth Exp $
  *
- *  Copyright (C) 1996, 1997, 1998, 1999, 2000, 2001 Stephen F. Booth
+ *  Copyright (C) 1996 - 2002 Stephen F. Booth
  *
  *  This library is free software; you can redistribute it and/or
  *  modify it under the terms of the GNU Lesser General Public
@@ -18,16 +18,33 @@
  *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-@TOP@
+#ifdef __GNUG__
+#  pragma implementation
+#endif
 
-/* Name of package. */
-#undef PACKAGE
+#include <iostream>
+#include <cstdlib>
 
-/* Version of package. */
-#undef VERSION
+#include "cgicc/CgiInput.h"
 
-/* System cgicc was configured for */
-#define HOST ""
+// ========== Destructor
 
-/* Whether to enable debug logging */
-#undef DEBUG
+CGICCNS CgiInput::~CgiInput()
+{}
+
+// ========== Members
+
+size_t 
+CGICCNS CgiInput::read(char *data, 
+		       size_t length)
+{
+  STDNS cin.read(data, length);
+  return STDNS cin.gcount();
+}
+
+STDNS string
+CGICCNS CgiInput::getenv(const char *varName)
+{
+  char *var = STDNS getenv(varName);
+  return (var == 0) ? "" : var;
+}

@@ -1,4 +1,4 @@
-## $Id: Makefile.am,v 1.30 2002/01/09 17:16:41 sbooth Exp $
+## $Id: Makefile.am,v 1.34 2002/03/17 21:46:18 sbooth Exp $
 
 AUTOMAKE_OPTIONS = check-news dist-zip dist-bzip2
 
@@ -8,50 +8,19 @@ else
 DEMO =
 endif
 
-if MAINTAINER_MODE
-HTML = html
-else
-HTML =
-endif
-
-SUBDIRS = cgicc doc support $(HTML) $(DEMO)
-
-DIST_SUBDIRS = cgicc doc support $(DEMO)
+SUBDIRS = cgicc doc support $(DEMO)
 
 CLEANFILES = *~
 
-MAINTAINERCLEANFILES = config.guess config.sub ltmain.sh aclocal.m4 \
-	cgicc-*.tar.gz cgicc-*.diff
+MAINTAINERCLEANFILES = aclocal.m4 cgicc-*.tar.gz cgicc-*.diff
 
-EXTRA_DIST = acconfig.h README.WIN COPYING.DOC
+EXTRA_DIST = README.WIN COPYING.DOC example win
 
 dist-hook:
-	test -d $(distdir)/example || mkdir $(distdir)/example || exit 1
-	cp -p $(srcdir)/example/AUTHORS $(distdir)/example
-	cp -p $(srcdir)/example/COPYING $(distdir)/example
-	cp -p $(srcdir)/example/ChangeLog $(distdir)/example
-	cp -p $(srcdir)/example/INSTALL $(distdir)/example
-	cp -p $(srcdir)/example/Makefile.am $(distdir)/example
-	cp -p $(srcdir)/example/Makefile.in $(distdir)/example
-	cp -p $(srcdir)/example/NEWS $(distdir)/example
-	cp -p $(srcdir)/example/README $(distdir)/example
-	cp -p $(srcdir)/example/acinclude.m4 $(distdir)/example
-	cp -p $(srcdir)/example/aclocal.m4 $(distdir)/example
-	cp -p $(srcdir)/example/autogen $(distdir)/example
-	cp -p $(srcdir)/example/config.guess $(distdir)/example
-	cp -p $(srcdir)/example/config.sub $(distdir)/example
-	cp -p $(srcdir)/example/configure $(distdir)/example
-	cp -p $(srcdir)/example/configure.ac $(distdir)/example
-	cp -p $(srcdir)/example/example.cpp $(distdir)/example
-	cp -p $(srcdir)/example/install-sh $(distdir)/example
-	cp -p $(srcdir)/example/missing $(distdir)/example
-	cp -p $(srcdir)/example/mkinstalldirs $(distdir)/example
-	test -d $(distdir)/win || mkdir $(distdir)/win || exit 1
-	cp -p $(srcdir)/win/cgicc.dsw $(distdir)/win
-	cp -p $(srcdir)/win/cgicc.dsp $(distdir)/win
-	cp -p $(srcdir)/win/test.dsp $(distdir)/win
-	cp -p $(srcdir)/win/dns.dsp $(distdir)/win
-	cp -p $(srcdir)/win/example.dsp $(distdir)/win
+	cd $(distdir)/example && (make distclean || exit 0)
+	rm -rf $(distdir)/example/CVS
+	rm -f $(distdir)/example/autogen
+	rm -rf $(distdir)/win/CVS
 
 if MAINTAINER_MODE
 ################################################################

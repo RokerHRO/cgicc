@@ -1,8 +1,8 @@
 /* -*-c++-*- */
 /*
- *  $Id: CgiEnvironment.h,v 1.9 2001/09/05 02:18:28 sbooth Exp $
+ *  $Id: CgiEnvironment.h,v 1.12 2002/03/06 02:46:21 sbooth Exp $
  *
- *  Copyright (C) 1996, 1997, 1998, 1999, 2000, 2001 Stephen F. Booth
+ *  Copyright (C) 1996 - 2002 Stephen F. Booth
  *
  *  This library is free software; you can redistribute it and/or
  *  modify it under the terms of the GNU Lesser General Public
@@ -41,12 +41,10 @@
 
 #include "cgicc/CgiDefs.h"
 #include "cgicc/CgiUtils.h"
+#include "cgicc/CgiInput.h"
 #include "cgicc/HTTPCookie.h"
 
 CGICC_BEGIN_NAMESPACE
-
-//! A stream-reader function, for FastCGI compatibility
-typedef size_t (* reader_function_t)(void *, size_t);
 
 #ifdef WIN32
   template class CGICC_API STDNS vector<HTTPCookie>;
@@ -91,10 +89,14 @@ public:
    * This function is not usually called directly; instead, an object of type
    * CgiEnvironment is retrieved by calling the \c getEnvironment() method
    * on Cgicc.
-   * \param stream_reader \c 0 for \c cout, or a valid FastCGI reader function
+   * If you are using %cgicc with FastCGI, you will need to pass 
+   * a \c CgiInput subclass that %cgicc will use to read input.  If
+   * \c input is omitted, standard input and environment
+   * variables will be used.
+   * \param input A CgiInput object to use for reading input
    * \see Cgicc::getEnvironment
    */
-  CgiEnvironment(reader_function_t stream_reader);
+  CgiEnvironment(CgiInput *input);
   
   /*!
    * \brief Destructor 
@@ -485,7 +487,7 @@ private:
   
   // Read in all the environment variables
   void 
-  readEnvironmentVariables();
+  readEnvironmentVariables(CgiInput *input);
   
   unsigned long 		fServerPort;
   unsigned long 		fContentLength;
