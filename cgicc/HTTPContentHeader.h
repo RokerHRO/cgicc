@@ -1,8 +1,8 @@
 /* -*-c++-*- */
 /*
- *  $Id: HTTPContentHeader.h,v 1.2 2002/03/06 02:49:55 sbooth Exp $
+ *  $Id: HTTPContentHeader.h,v 1.4 2003/07/13 14:20:35 sbooth Exp $
  *
- *  Copyright (C) 1996 - 2002 Stephen F. Booth
+ *  Copyright (C) 1996 - 2003 Stephen F. Booth
  *
  *  This library is free software; you can redistribute it and/or
  *  modify it under the terms of the GNU Lesser General Public
@@ -35,45 +35,45 @@
 
 #include "cgicc/HTTPHeader.h"
 
-CGICC_BEGIN_NAMESPACE
+namespace cgicc {
   
-// ============================================================
-// Class HTTPContentHeader
-// ============================================================
-/*! \class HTTPContentHeader HTTPContentHeader.h cgicc/HTTPContentHeader.h
- * \brief HTTP header for data of a specified MIME type. 
- *
- */
-class CGICC_API HTTPContentHeader : public HTTPHeader 
-{
-public:
-
-  /*! \name Constructor and Destructor */
-  //@{
-
-  /*!
-   * \brief Create a new MIME type header.
-   * \param mimeType The MIME type of the data which will be sent.
-   */
-  HTTPContentHeader(const STDNS string& mimeType);
-    
-  /*!
-   * \brief Destructor 
+  // ============================================================
+  // Class HTTPContentHeader
+  // ============================================================
+  /*! \class HTTPContentHeader HTTPContentHeader.h cgicc/HTTPContentHeader.h
+   * \brief HTTP header for data of a specified MIME type. 
    *
    */
-  virtual ~HTTPContentHeader();
-  //@}
-
-  /*! \name Inherited Methods */
-  //@{ 
-  virtual void 
-  render(STDNS ostream& out) 			const;
-  //@}
-
-private:
-  HTTPContentHeader();
-};
+  class CGICC_API HTTPContentHeader : public HTTPHeader 
+  {
+  public:
+    
+    /*! \name Constructor and Destructor */
+    //@{
+    
+    /*!
+     * \brief Create a new MIME type header.
+     * \param mimeType The MIME type of the data which will be sent.
+     */
+    HTTPContentHeader(const std::string& mimeType);
+    
+    /*!
+     * \brief Destructor 
+     *
+     */
+    virtual ~HTTPContentHeader();
+    //@}
+    
+    /*! \name Inherited Methods */
+    //@{ 
+    virtual void 
+    render(std::ostream& out) 			const;
+    //@}
+    
+  private:
+    HTTPContentHeader();
+  };
   
-CGICC_END_NAMESPACE
+} // namespace cgicc
 
 #endif /* ! _HTTPCONTENTHEADER_H_ */

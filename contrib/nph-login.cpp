@@ -1,7 +1,7 @@
 /*
- * $Id: nph-login.cpp,v 1.4 2002/03/02 06:25:55 sbooth Exp $
+ * $Id: nph-login.cpp,v 1.6 2003/07/13 14:21:58 sbooth Exp $
  *
- *  Copyright (C) 1996 - 2002 Stephen F. Booth
+ *  Copyright (C) 1996 - 2003 Stephen F. Booth
  *  Copyright (C) 2001 Peter Goedtkindt
  *
  *  This program is free software; you can redistribute it and/or modify
@@ -50,16 +50,11 @@
 // To use the debug logging feature, the variable gLogFile MUST be
 // defined, and it _must_ be an ofstream
 #if DEBUG
-STDNS ofstream gLogFile( "/tmp/cgicc.log", STDNS ios::app );
+std::ofstream gLogFile( "/tmp/cgicc.log", std::ios::app );
 #endif
 
-#if CGICC_USE_NAMESPACES
 using namespace std;
 using namespace cgicc;
-#else
-#  define div div_
-#  define select select_
-#endif
 
 int
 main(int /*argc*/, 

@@ -1,7 +1,7 @@
 /*
- *  $Id: FormFile.cpp,v 1.3 2002/03/06 02:49:55 sbooth Exp $
+ *  $Id: FormFile.cpp,v 1.6 2003/07/13 14:20:35 sbooth Exp $
  *
- *  Copyright (C) 1996 - 2002 Stephen F. Booth
+ *  Copyright (C) 1996 - 2003 Stephen F. Booth
  *
  *  This library is free software; you can redistribute it and/or
  *  modify it under the terms of the GNU Lesser General Public
@@ -25,30 +25,30 @@
 #include "cgicc/FormFile.h"
 #include "cgicc/CgiUtils.h"
 
-CGICCNS FormFile::FormFile(const STDNS string& name, 
-			   const STDNS string& filename, 
-			   const STDNS string& dataType, 
-			   const STDNS string& data)
+cgicc::FormFile::FormFile(const std::string& name, 
+			  const std::string& filename, 
+			  const std::string& dataType, 
+			  const std::string& data)
   : fName(name),
     fFilename(filename),
     fData(data)
 {
-  fDataType = dataType.empty() ? "text/plain" : dataType;
+  fDataType = dataType.empty() ? std::string("text/plain") : dataType;
 
   LOG("Got file ") LOG(getFilename()) LOG(" (") LOG(getDataType())
   LOG(" / ") LOG(getDataLength()) LOGLN(" bytes)")
 }
 
 bool
-CGICCNS FormFile::operator== (const FormFile& file) 		const
+cgicc::FormFile::operator== (const FormFile& file) 		const
 {
   return (stringsAreEqual(fName, file.fName) && 
 	  stringsAreEqual(fFilename, file.fFilename) &&
 	  stringsAreEqual(fDataType, file.fDataType));
 }
 
-CGICCNS FormFile& 
-CGICCNS FormFile::operator= (const FormFile& file)
+cgicc::FormFile& 
+cgicc::FormFile::operator= (const FormFile& file)
 {
   fName 	= file.fName;
   fFilename 	= file.fFilename;
@@ -59,7 +59,7 @@ CGICCNS FormFile::operator= (const FormFile& file)
 }
 
 void 
-CGICCNS FormFile::writeToStream(STDNS ostream& out) 		const
+cgicc::FormFile::writeToStream(std::ostream& out) 		const
 {
   out.write(getData().data(), getDataLength());
 }

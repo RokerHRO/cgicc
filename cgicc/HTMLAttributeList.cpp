@@ -1,7 +1,7 @@
 /*
- *  $Id: HTMLAttributeList.cpp,v 1.2 2002/03/06 02:49:55 sbooth Exp $
+ *  $Id: HTMLAttributeList.cpp,v 1.4 2003/07/13 14:20:35 sbooth Exp $
  *
- *  Copyright (C) 1996 - 2002 Stephen F. Booth
+ *  Copyright (C) 1996 - 2003 Stephen F. Booth
  *
  *  This library is free software; you can redistribute it and/or
  *  modify it under the terms of the GNU Lesser General Public
@@ -28,51 +28,51 @@
 // ============================================================
 // Class HTMLAttributeList
 // ============================================================
-CGICCNS HTMLAttributeList::HTMLAttributeList()
+cgicc::HTMLAttributeList::HTMLAttributeList()
 {
   fAttributes.reserve(5);
 }
 
-CGICCNS HTMLAttributeList::HTMLAttributeList(const HTMLAttribute& head) 
+cgicc::HTMLAttributeList::HTMLAttributeList(const HTMLAttribute& head) 
 {
   fAttributes.reserve(5);
   fAttributes.push_back(head);
 }
 
-CGICCNS HTMLAttributeList::HTMLAttributeList(const HTMLAttributeList& list)
+cgicc::HTMLAttributeList::HTMLAttributeList(const HTMLAttributeList& list)
 {
   this->operator=(list);
 }
 
-CGICCNS HTMLAttributeList::~HTMLAttributeList()
+cgicc::HTMLAttributeList::~HTMLAttributeList()
 {}
 
-CGICCNS HTMLAttributeList&
-CGICCNS HTMLAttributeList::operator= (const HTMLAttributeList& list)
+cgicc::HTMLAttributeList&
+cgicc::HTMLAttributeList::operator= (const HTMLAttributeList& list)
 {
   fAttributes = list.fAttributes;
   return *this;
 }
 
-CGICCNS HTMLAttributeList&
-CGICCNS HTMLAttributeList::set(const STDNS string& name)
+cgicc::HTMLAttributeList&
+cgicc::HTMLAttributeList::set(const std::string& name)
 { 
   fAttributes.push_back(HTMLAttribute(name));
   return *this;
 }
 
-CGICCNS HTMLAttributeList&
-CGICCNS HTMLAttributeList::set(const STDNS string& name, 
-			       const STDNS string& value)
+cgicc::HTMLAttributeList&
+cgicc::HTMLAttributeList::set(const std::string& name, 
+			      const std::string& value)
 { 
   fAttributes.push_back(HTMLAttribute(name, value));
   return *this;
 }
 
 void 
-CGICCNS HTMLAttributeList::render(STDNS ostream& out) 	const
+cgicc::HTMLAttributeList::render(std::ostream& out) 	const
 {
-  STDNS vector<HTMLAttribute>::const_iterator iter;
+  std::vector<HTMLAttribute>::const_iterator iter;
   for(iter = fAttributes.begin(); iter != fAttributes.end(); ++iter) {
     out << *iter << ' ';
   }

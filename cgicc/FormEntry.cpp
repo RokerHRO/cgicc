@@ -1,7 +1,7 @@
 /*
- *  $Id: FormEntry.cpp,v 1.4 2002/03/06 02:49:55 sbooth Exp $
+ *  $Id: FormEntry.cpp,v 1.8 2003/07/13 14:20:35 sbooth Exp $
  *
- *  Copyright (C) 1996 - 2002 Stephen F. Booth
+ *  Copyright (C) 1996 - 2003 Stephen F. Booth
  *
  *  This library is free software; you can redistribute it and/or
  *  modify it under the terms of the GNU Lesser General Public
@@ -30,8 +30,8 @@
 // local macro for integer maximum
 #define MAX(a, b) ((a) > (b) ? (a) : (b))
 
-CGICCNS FormEntry& 
-CGICCNS FormEntry::operator= (const FormEntry& entry)
+cgicc::FormEntry& 
+cgicc::FormEntry::operator= (const FormEntry& entry)
 {
   fName  = entry.getName();
   fValue = entry.getValue();
@@ -40,10 +40,45 @@ CGICCNS FormEntry::operator= (const FormEntry& entry)
 }
 
 long
-CGICCNS FormEntry::getIntegerValue(long min, 
-				   long max) 		const
+cgicc::FormEntry::getIntegerValue(long min, 
+				  long max) 		const
 {
-  long value = atol(fValue.c_str());
+  long value = std::atol(fValue.c_str());
+
+  if(value > max)
+    value = max;
+  else if(value < min)
+    value = min;
+  
+  return value;
+}
+
+long
+cgicc::FormEntry::getIntegerValue(long min, 
+				  long max,
+				  bool& bounded) 	const
+{
+  long value = std::atol(fValue.c_str());
+
+  bounded = false;
+
+  if(value > max) {
+    value = max;
+    bounded = true;
+  }
+  else if(value < min) {
+    value = min;
+    bounded = true;
+  }
+  
+  return value;
+}
+
+double
+cgicc::FormEntry::getDoubleValue(double min, 
+				  double max) 		const
+{
+  double value = std::atof(fValue.c_str());
   if(value > max)
     value = max;
   else if(value < min)
@@ -53,29 +88,37 @@ CGICCNS FormEntry::getIntegerValue(long min,
 }
 
 double
-CGICCNS FormEntry::getDoubleValue(double min, 
-				  double max) 		const
+cgicc::FormEntry::getDoubleValue(double min, 
+				 double max,
+				 bool& bounded) 	const
 {
-  double value = atof(fValue.c_str());
-  if(value > max)
+  double value = std::atof(fValue.c_str());
+
+  bounded = false;
+
+  if(value > max) {
     value = max;
-  else if(value < min)
+    bounded = true;
+  }
+  else if(value < min) {
     value = min;
+    bounded = true;
+  }
   
   return value;
 }
 
-STDNS string
-CGICCNS FormEntry::makeString(STDNS string::size_type maxLen, 
-			      bool allowNewlines)	const
+std::string
+cgicc::FormEntry::makeString(std::string::size_type maxLen, 
+			     bool allowNewlines)	const
 {
-  STDNS string::size_type	len 		= 0;
-  STDNS string::size_type	avail 		= maxLen;
-  STDNS string::size_type	crCount 	= 0;
-  STDNS string::size_type	lfCount 	= 0;	
-  STDNS string::const_iterator 	src 		= fValue.begin();
-  STDNS string::const_iterator 	lim 		= fValue.end();
-  STDNS string 			dst;
+  std::string::size_type	len 		= 0;
+  std::string::size_type	avail 		= maxLen;
+  std::string::size_type	crCount 	= 0;
+  std::string::size_type	lfCount 	= 0;	
+  std::string::const_iterator 	src 		= fValue.begin();
+  std::string::const_iterator 	lim 		= fValue.end();
+  std::string 			dst;
 
 
   while(src != lim && len < avail) {

@@ -1,7 +1,7 @@
 /*
- *  $Id: CgiUtils.cpp,v 1.5 2002/03/06 02:49:55 sbooth Exp $
+ *  $Id: CgiUtils.cpp,v 1.13 2004/06/12 15:24:31 sbooth Exp $
  *
- *  Copyright (C) 1996 - 2002 Stephen F. Booth
+ *  Copyright (C) 1996 - 2004 Stephen F. Booth
  *
  *  This library is free software; you can redistribute it and/or
  *  modify it under the terms of the GNU Lesser General Public
@@ -24,33 +24,26 @@
 
 #include <stdexcept>
 #include <memory>
-#include <cstdlib> 	// for getenv, system
-#include <cctype> 	// for toupper
+#include <vector>
+#include <iterator> 	// for distance
+#include <cctype> 	// for toupper, isxdigit
 
 #include "cgicc/CgiUtils.h"
-
-// Fetch an environment variable
-STDNS string
-CGICCNS safeGetenv(const char *varName)
-{
-  char *var = getenv(varName);
-  return (var == 0) ? "" : var;
-}
 
 // case-insensitive string comparison
 // This code based on code from 
 // "The C++ Programming Language, Third Edition" by Bjarne Stroustrup
 bool 
-CGICCNS stringsAreEqual(const STDNS string& s1, 
-			const STDNS string& s2)
+cgicc::stringsAreEqual(const std::string& s1, 
+		       const std::string& s2)
 {
-  STDNS string::const_iterator p1 = s1.begin();
-  STDNS string::const_iterator p2 = s2.begin();
-  STDNS string::const_iterator l1 = s1.end();
-  STDNS string::const_iterator l2 = s2.end();
+  std::string::const_iterator p1 = s1.begin();
+  std::string::const_iterator p2 = s2.begin();
+  std::string::const_iterator l1 = s1.end();
+  std::string::const_iterator l2 = s2.end();
 
   while(p1 != l1 && p2 != l2) {
-    if(toupper(*(p1++)) != toupper(*(p2++)))
+    if(std::toupper(*(p1++)) != std::toupper(*(p2++)))
       return false;
   }
 
@@ -59,60 +52,129 @@ CGICCNS stringsAreEqual(const STDNS string& s1,
 
 // case-insensitive string comparison
 bool 
-CGICCNS stringsAreEqual(const STDNS string& s1, 
-			const STDNS string& s2,
-			size_t n)
+cgicc::stringsAreEqual(const std::string& s1, 
+		       const std::string& s2,
+		       size_t n)
 {
-  STDNS string::const_iterator p1 = s1.begin();
-  STDNS string::const_iterator p2 = s2.begin();
+  std::string::const_iterator p1 = s1.begin();
+  std::string::const_iterator p2 = s2.begin();
   bool good = (n <= s1.length() && n <= s2.length());
-  STDNS string::const_iterator l1 = good ? (s1.begin() + n) : s1.end();
-  STDNS string::const_iterator l2 = good ? (s2.begin() + n) : s2.end();
+  std::string::const_iterator l1 = good ? (s1.begin() + n) : s1.end();
+  std::string::const_iterator l2 = good ? (s2.begin() + n) : s2.end();
 
   while(p1 != l1 && p2 != l2) {
-    if(toupper(*(p1++)) != toupper(*(p2++)))
+    if(std::toupper(*(p1++)) != std::toupper(*(p2++)))
       return false;
   }
   
   return good;
 }
 
-// A safer alternative to system()
-int 
-CGICCNS saferSystem(const STDNS string& command)
+std::string
+cgicc::charToHex(char c)
 {
-  STDNS string s = command;
-  STDNS string::size_type pos = 0;
+  std::string result;
+  char first, second;
 
-  // escape out all semicolons, pipes, and redirects
-  while(true) {
-    pos = s.find_first_of(";|<>", pos);
-    if(pos == STDNS string::npos)
-      break;
-    s.insert(pos++, 1, '\\');
-    ++pos;
-  }
+  first = (c & 0xF0) / 16;
+  first += first > 9 ? 'A' - 10 : '0';
+  second = c & 0x0F;
+  second += second > 9 ? 'A' - 10 : '0';
 
-  // make the call
-  return system(s.c_str());
+  result.append(1, first);
+  result.append(1, second);
+  
+  return result;
 }
 
 char
-CGICCNS hexToChar(char first, 
-		  char second)
+cgicc::hexToChar(char first,
+		 char second)
 {
-  char digit;
+  int digit;
+  
   digit = (first >= 'A' ? ((first & 0xDF) - 'A') + 10 : (first - '0'));
   digit *= 16;
   digit += (second >= 'A' ? ((second & 0xDF) - 'A') + 10 : (second - '0'));
-  return digit;
+  return static_cast<char>(digit);
 }
 
-STDNS string
-CGICCNS unescapeString(const STDNS string& src)
+/* 
+   From the HTML standard: 
+   <http://www.w3.org/TR/html4/interact/forms.html#h-17.13.4.1>
+
+   application/x-www-form-urlencoded  
+
+   This is the default content type. Forms submitted with this content
+   type must be encoded as follows:
+
+   1. Control names and values are escaped. Space characters are
+   replaced by `+', and then reserved characters are escaped as
+   described in [RFC1738], section 2.2: Non-alphanumeric characters
+   are replaced by `%HH', a percent sign and two hexadecimal digits
+   representing the ASCII code of the character. Line breaks are
+   represented as "CR LF" pairs (i.e., `%0D%0A').  
+   2. The control names/values are listed in the order they appear in
+   the document. The name is separated from the value by `=' and
+   name/value pairs are separated from each other by `&'.
+
+
+   Note RFC 1738 is obsoleted by RFC 2396.  Basically it says to
+   escape out the reserved characters in the standard %xx format.  It
+   also says this about the query string:
+   
+   query         = *uric
+   uric          = reserved | unreserved | escaped
+   reserved      = ";" | "/" | "?" | ":" | "@" | "&" | "=" | "+" |
+                   "$" | ","
+   unreserved    = alphanum | mark
+   mark          = "-" | "_" | "." | "!" | "~" | "*" | "'" |
+                   "(" | ")"
+   escaped = "%" hex hex */
+ 
+std::string
+cgicc::form_urlencode(const std::string& src)
 {
-  STDNS string result;
-  STDNS string::const_iterator iter;
+  std::string result;
+  std::string::const_iterator iter;
+  
+  for(iter = src.begin(); iter != src.end(); ++iter) {
+    switch(*iter) {
+    case ' ':
+      result.append(1, '+');
+      break;
+      // alnum
+    case 'A': case 'B': case 'C': case 'D': case 'E': case 'F': case 'G':
+    case 'H': case 'I': case 'J': case 'K': case 'L': case 'M': case 'N':
+    case 'O': case 'P': case 'Q': case 'R': case 'S': case 'T': case 'U':
+    case 'V': case 'W': case 'X': case 'Y': case 'Z':
+    case 'a': case 'b': case 'c': case 'd': case 'e': case 'f': case 'g':
+    case 'h': case 'i': case 'j': case 'k': case 'l': case 'm': case 'n':
+    case 'o': case 'p': case 'q': case 'r': case 's': case 't': case 'u':
+    case 'v': case 'w': case 'x': case 'y': case 'z':
+    case '0': case '1': case '2': case '3': case '4': case '5': case '6':
+    case '7': case '8': case '9':
+      // mark
+    case '-': case '_': case '.': case '!': case '~': case '*': case '\'': 
+    case '(': case ')':
+      result.append(1, *iter);
+      break;
+      // escape
+    default:
+      result.append(1, '%');
+      result.append(charToHex(*iter));
+      break;
+    }
+  }
+  
+  return result;
+}
+
+std::string
+cgicc::form_urldecode(const std::string& src)
+{
+  std::string result;
+  std::string::const_iterator iter;
   char c;
 
   for(iter = src.begin(); iter != src.end(); ++iter) {
@@ -121,11 +183,18 @@ CGICCNS unescapeString(const STDNS string& src)
       result.append(1, ' ');
       break;
     case '%':
-      // assume well-formed input
-      // ensure evaluation order for hexToChar
-      c = *++iter;
-      result.append(1, hexToChar(c, *(++iter)));
-      break;
+	// Don't assume well-formed input
+	if(std::distance(iter, src.end()) >= 2
+	   && std::isxdigit(*(iter + 1)) && std::isxdigit(*(iter + 2))) {
+	    c = *++iter;
+	    result.append(1, hexToChar(c, *++iter));
+	}
+	// Just pass the % through untouched
+	else {
+	    result.append(1, '%');
+	}
+	break;
+    
     default:
       result.append(1, *iter);
       break;
@@ -136,19 +205,19 @@ CGICCNS unescapeString(const STDNS string& src)
 }
 
 // locate data between separators, and return it
-STDNS string
-CGICCNS extractBetween(const STDNS string& data, 
-		       const STDNS string& separator1, 
-		       const STDNS string& separator2)
+std::string
+cgicc::extractBetween(const std::string& data, 
+		      const std::string& separator1, 
+		      const std::string& separator2)
 {
-  STDNS string result;
+  std::string result;
   unsigned int start, limit;
   
   start = data.find(separator1, 0);
-  if(start != STDNS string::npos) {
+  if(start != std::string::npos) {
     start += separator1.length();
     limit = data.find(separator2, start);
-    if(limit != STDNS string::npos)
+    if(limit != std::string::npos)
       result = data.substr(start, limit - start);
   }
   
@@ -157,8 +226,8 @@ CGICCNS extractBetween(const STDNS string& data,
 
 // write a string
 void 
-CGICCNS writeString(STDNS ostream& out, 
-		    const STDNS string& s)
+cgicc::writeString(std::ostream& out, 
+		   const std::string& s)
 { 
   out << s.length() << ' ';
   out.write(s.data(), s.length()); 
@@ -166,34 +235,41 @@ CGICCNS writeString(STDNS ostream& out,
 
 // write a long
 void 
-CGICCNS writeLong(STDNS ostream& out, 
-		  unsigned long l)
+cgicc::writeLong(std::ostream& out, 
+		 unsigned long l)
 { 
   out << l << ' '; 
 }
 
 // read a string
-STDNS string
-CGICCNS readString(STDNS istream& in)
+std::string
+cgicc::readString(std::istream& in)
 {
-  STDNS string::size_type dataSize = 0;
+  std::string::size_type dataSize = 0;
   
   in >> dataSize;
   in.get(); // skip ' '
-
-  STDNS auto_ptr<char> temp(new char[dataSize]);
-
-  in.read(temp.get(), dataSize);
-  if((STDNS string::size_type)in.gcount() != dataSize) {
-    throw STDNS runtime_error("I/O error");
+  
+  // Avoid allocation of a zero-length vector
+  if(dataSize == 0) {
+    return std::string("");
   }
 
-  return STDNS string(temp.get(), dataSize);
+  // Don't use auto_ptr, but vector instead
+  // Bug reported by bostjan@optonline.net / fix by alexoss@verizon.net
+  std::vector<char> temp(dataSize);
+
+  in.read(&temp[0], dataSize);
+  if((std::string::size_type)in.gcount() != dataSize) {
+    throw std::runtime_error("I/O error");
+  }
+
+  return std::string(&temp[0], dataSize);
 }
 
 // read a long
 unsigned long
-CGICCNS readLong(STDNS istream& in)
+cgicc::readLong(std::istream& in)
 {
   unsigned long l;
 

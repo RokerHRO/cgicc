@@ -1,8 +1,8 @@
 /* -*-c++-*- */
 /*
- *  $Id: HTTPHTMLHeader.h,v 1.2 2002/03/06 02:49:55 sbooth Exp $
+ *  $Id: HTTPHTMLHeader.h,v 1.4 2003/07/13 14:20:35 sbooth Exp $
  *
- *  Copyright (C) 1996 - 2002 Stephen F. Booth
+ *  Copyright (C) 1996 - 2003 Stephen F. Booth
  *
  *  This library is free software; you can redistribute it and/or
  *  modify it under the terms of the GNU Lesser General Public
@@ -31,40 +31,38 @@
  * 
  */
 
-#include <string>
-
 #include "cgicc/HTTPContentHeader.h"
 
-CGICC_BEGIN_NAMESPACE
+namespace cgicc {
 
-// ============================================================
-// Class HTTPHTMLHeader
-// ============================================================
-/*! \class HTTPHTMLHeader HTTPHTMLHeader.h cgicc/HTTPHTMLHeader.h
- * \brief Shortcut to HTTPContentHeader for \c text/html
- *
- */
-class CGICC_API HTTPHTMLHeader : public HTTPContentHeader 
-{
-public:
-
-  /*! \name Constructor and Destructor */
-  //@{
-
-  /*!
-   * \brief Create a new \c text/html header 
+  // ============================================================
+  // Class HTTPHTMLHeader
+  // ============================================================
+  /*! \class HTTPHTMLHeader HTTPHTMLHeader.h cgicc/HTTPHTMLHeader.h
+   * \brief Shortcut to HTTPContentHeader for \c text/html
    *
    */
-  HTTPHTMLHeader();
-
-  /*!
-   * \brief Destructor 
-   *
-   */
-  virtual ~HTTPHTMLHeader();
-  //@}
-};
+  class CGICC_API HTTPHTMLHeader : public HTTPContentHeader 
+  {
+  public:
+    
+    /*! \name Constructor and Destructor */
+    //@{
+    
+    /*!
+     * \brief Create a new \c text/html header 
+     *
+     */
+    HTTPHTMLHeader();
+    
+    /*!
+     * \brief Destructor 
+     *
+     */
+    virtual ~HTTPHTMLHeader();
+    //@}
+  };
   
-CGICC_END_NAMESPACE
+} // namespace cgicc
 
 #endif /* ! _HTTPHTMLHEADER_H_ */

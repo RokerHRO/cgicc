@@ -1,7 +1,7 @@
 /*
- * $Id: nph-hello.cpp,v 1.3 2002/03/02 06:25:55 sbooth Exp $ 
+ * $Id: nph-hello.cpp,v 1.5 2003/07/13 14:21:58 sbooth Exp $ 
  *
- *  Copyright (C) 1996 - 2002 Stephen F. Booth
+ *  Copyright (C) 1996 - 2003 Stephen F. Booth
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -34,16 +34,11 @@
 // To use the debug logging feature, the variable gLogFile MUST be
 // defined, and it _must_ be an ofstream
 #if DEBUG
-  ofstream gLogFile( "/change_this_path/cgicc.log", ios::app );
+  std::ofstream gLogFile( "/change_this_path/cgicc.log", std::ios::app );
 #endif
 
-#if CGICC_USE_NAMESPACES
-  using namespace std;
-  using namespace cgicc;
-#else
-#  define div div_
-#  define select select_
-#endif
+using namespace std;
+using namespace cgicc;
 
 extern char **environ;
 
@@ -60,7 +55,7 @@ main(int /*argc*/,
     strftime(current_date, 30, "%a, %d %b %Y %H:%M:%S GMT", gmtime(&now));
 
     // Build our own server string
-    STDNS string server_string("GNU cgicc/");
+    string server_string("GNU cgicc/");
     server_string += cgi.getVersion();
 
     // Tell the server not to parse our headers

@@ -1,8 +1,8 @@
 /* -*-c++-*- */
 /*
- *  $Id: HTTPPlainHeader.h,v 1.2 2002/03/06 02:49:55 sbooth Exp $
+ *  $Id: HTTPPlainHeader.h,v 1.4 2003/07/13 14:20:35 sbooth Exp $
  *
- *  Copyright (C) 1996 - 2002 Stephen F. Booth
+ *  Copyright (C) 1996 - 2003 Stephen F. Booth
  *
  *  This library is free software; you can redistribute it and/or
  *  modify it under the terms of the GNU Lesser General Public
@@ -31,29 +31,27 @@
  * 
  */
 
-#include <string>
-
 #include "cgicc/HTTPContentHeader.h"
 
-CGICC_BEGIN_NAMESPACE
+namespace cgicc {
   
-// ============================================================
-// Class HTTPPlainHeader
-// ============================================================
-/*! \class HTTPPlainHeader HTTPPlainHeader.h cgicc/HTTPPlainHeader.h
- * \brief Shortcut to HTTPContentHeader for \c text/html
- *
- */
-class CGICC_API HTTPPlainHeader : public HTTPContentHeader 
-{
-public:
-  /*! \brief Create a new \c text/plain header  */
-  HTTPPlainHeader();
-
-  /*! \brief Destructor */
-  virtual ~HTTPPlainHeader();
-};
-
-CGICC_END_NAMESPACE
+  // ============================================================
+  // Class HTTPPlainHeader
+  // ============================================================
+  /*! \class HTTPPlainHeader HTTPPlainHeader.h cgicc/HTTPPlainHeader.h
+   * \brief Shortcut to HTTPContentHeader for \c text/html
+   *
+   */
+  class CGICC_API HTTPPlainHeader : public HTTPContentHeader 
+  {
+  public:
+    /*! \brief Create a new \c text/plain header  */
+    HTTPPlainHeader();
+    
+    /*! \brief Destructor */
+    virtual ~HTTPPlainHeader();
+  };
+  
+} // namespace cgicc
 
 #endif /* ! _HTTPPLAINHEADER_H_ */

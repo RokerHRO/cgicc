@@ -1,8 +1,8 @@
 /* -*-c++-*- */
 /*
- *  $Id: CgiDefs.h.in,v 1.6 2001/09/02 19:53:17 sbooth Exp $
+ *  $Id: CgiDefs.h.in,v 1.8 2003/07/13 14:20:35 sbooth Exp $
  *
- *  Copyright (C) 1996, 1997, 1998, 1999, 2000, 2001 Stephen F. Booth
+ *  Copyright (C) 1996 - 2003 Stephen F. Booth
  *
  *  This library is free software; you can redistribute it and/or
  *  modify it under the terms of the GNU Lesser General Public
@@ -44,9 +44,6 @@
 // Win32-specific setup
 #ifdef WIN32
 
-// always use namespaces
-#  define CGICC_USE_NAMESPACES 1
-
 // export library symbols
 #  ifdef CGICC_EXPORTS
 #    define CGICC_API __declspec(dllexport)
@@ -55,24 +52,10 @@
 #  endif
 
 #  define HOST "Win32"
-#  define VERSION "3.2.1"
+#  define VERSION "3.2.3"
 
 #else
-#  define CGICC_USE_NAMESPACES 1
 #  define CGICC_API
 #endif /* WIN32 */
-
-// Handle namespaces
-#if CGICC_USE_NAMESPACES
-#  define CGICC_BEGIN_NAMESPACE namespace cgicc {
-#  define CGICC_END_NAMESPACE }
-#  define CGICCNS cgicc::
-#  define STDNS std::
-#else
-#  define CGICC_BEGIN_NAMESPACE 
-#  define CGICC_END_NAMESPACE 
-#  define CGICCNS 
-#  define STDNS 
-#endif /* CGICC_USE_NAMESPACES */
 
 #endif /* ! _CGIDEFS_H_ */

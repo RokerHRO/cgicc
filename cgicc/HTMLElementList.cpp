@@ -1,7 +1,7 @@
 /*
- *  $Id: HTMLElementList.cpp,v 1.2 2002/03/06 02:49:55 sbooth Exp $
+ *  $Id: HTMLElementList.cpp,v 1.4 2003/07/13 14:20:35 sbooth Exp $
  *
- *  Copyright (C) 1996 - 2002 Stephen F. Booth
+ *  Copyright (C) 1996 - 2003 Stephen F. Booth
  *
  *  This library is free software; you can redistribute it and/or
  *  modify it under the terms of the GNU Lesser General Public
@@ -30,60 +30,59 @@
 // ============================================================
 // Class HTMLElementList
 // ============================================================
-CGICCNS HTMLElementList::HTMLElementList()
+cgicc::HTMLElementList::HTMLElementList()
 {
   fElements.reserve(5);
 }
 
-CGICCNS HTMLElementList::HTMLElementList(const HTMLElement& head) 
+cgicc::HTMLElementList::HTMLElementList(const HTMLElement& head) 
 {
   fElements.reserve(5);
   fElements.push_back(head.clone());
 }
 
-CGICCNS HTMLElementList::HTMLElementList(const HTMLElementList& list)
+cgicc::HTMLElementList::HTMLElementList(const HTMLElementList& list)
 {
   this->operator=(list);
 }
 
-CGICCNS HTMLElementList::~HTMLElementList()
+cgicc::HTMLElementList::~HTMLElementList()
 {
-  STDNS vector<HTMLElement*>::const_iterator iter;
+  std::vector<HTMLElement*>::const_iterator iter;
   for(iter = fElements.begin(); iter != fElements.end(); ++iter)
     delete *iter;
 }
 
-CGICCNS HTMLElementList&
-CGICCNS HTMLElementList::operator= (const HTMLElementList& list)
+cgicc::HTMLElementList&
+cgicc::HTMLElementList::operator= (const HTMLElementList& list)
 {
   fElements = list.fElements;
   
-  STDNS vector<HTMLElement*>::iterator iter;
+  std::vector<HTMLElement*>::iterator iter;
   for(iter = fElements.begin(); iter != fElements.end(); ++iter)
     *iter = (*iter)->clone();
-
+  
   return *this;
 }
 
-CGICCNS HTMLElementList&
-CGICCNS HTMLElementList::add(const HTMLElement& element)
+cgicc::HTMLElementList&
+cgicc::HTMLElementList::add(const HTMLElement& element)
 { 
   fElements.push_back(element.clone());
   return *this;
 }
 
-CGICCNS HTMLElementList&
-CGICCNS HTMLElementList::add(HTMLElement *element)
+cgicc::HTMLElementList&
+cgicc::HTMLElementList::add(HTMLElement *element)
 { 
   fElements.push_back(element);
   return *this;
 }
 
 void 
-CGICCNS HTMLElementList::render(STDNS ostream& out) 	const
+cgicc::HTMLElementList::render(std::ostream& out) 	const
 {
-  STDNS vector<HTMLElement*>::const_iterator iter;
-  for(iter = fElements.begin(); iter != fElements.end(); ++iter) {
+  std::vector<HTMLElement*>::const_iterator iter;
+  for(iter = fElements.begin(); iter != fElements.end(); ++iter)
     (*iter)->render(out);
-  }
 }

@@ -1,4 +1,4 @@
-## $Id: Makefile.am,v 1.14 2002/03/17 21:24:57 sbooth Exp $
+## $Id: Makefile.am,v 1.16 2003/07/17 05:14:39 sbooth Exp $
 
 CLEANFILES = *~
 
@@ -8,29 +8,29 @@ docdir = $(prefix)/doc/$(PACKAGE)-$(VERSION)
 
 TEMPLATES = index.tmpl license.tmpl lists.tmpl bugs.tmpl demos.tmpl	\
 cgi-overview.tmpl tutorial.tmpl lib-overview.tmpl COPYING COPYING.LIB	\
-COPYING.DOC
+COPYING.DOC header.html footer.html cgicc-doc.css
 
 EXTRA_DIST = html
 
 IMAGES = cgicc.png
-SEDCMD1 = s!<title></title>!<title>GNU cgicc documentation version $(VERSION)</title>!g 
+SEDCMD1 = s/$$title/GNU cgicc documentation version $(VERSION)/g
 SEDCMD2 = s/$$(VERSION)/$(VERSION)/g
 
 all: html
 
 install-data-local:
-	$(mkinstalldirs) $(docdir)
+	$(mkinstalldirs) $(DESTDIR)$(docdir)
 	@for file in $(srcdir)/html/*; do \
 		bn="`basename $$file`"; \
-		echo " $(INSTALL_DATA) $$file $(docdir)/$$bn"; \
-	 	$(INSTALL_DATA) $$file $(docdir)/$$bn; \
+		echo " $(INSTALL_DATA) $$file $(DESTDIR)$(docdir)/$$bn"; \
+	 	$(INSTALL_DATA) $$file $(DESTDIR)$(docdir)/$$bn; \
 	done
 
 uninstall-local:
 	@for file in $(srcdir)/html/*; do \
 		bn="`basename $$file`"; \
-		echo " rm -f $(docdir)/$$bn"; \
-		rm -f $(docdir)/$$bn; \
+		echo " rm -f $(DESTDIR)$(docdir)/$$bn"; \
+		rm -f $(DESTDIR)$(docdir)/$$bn; \
 	done
 
 if MAINTAINER_MODE

@@ -1,8 +1,8 @@
 /* -*-c++-*- */
 /*
- *  $Id: HTTPRedirectHeader.h,v 1.2 2002/03/06 02:49:55 sbooth Exp $
+ *  $Id: HTTPRedirectHeader.h,v 1.4 2003/07/13 14:20:35 sbooth Exp $
  *
- *  Copyright (C) 1996 - 2002 Stephen F. Booth
+ *  Copyright (C) 1996 - 2003 Stephen F. Booth
  *
  *  This library is free software; you can redistribute it and/or
  *  modify it under the terms of the GNU Lesser General Public
@@ -35,48 +35,48 @@
 
 #include "cgicc/HTTPHeader.h"
 
-CGICC_BEGIN_NAMESPACE
+namespace cgicc {
   
-// ============================================================
-// Class HTTPRedirectHeader
-// ============================================================
-
-/*! \class HTTPRedirectHeader HTTPRedirectHeader.h cgicc/HTTPRedirectHeader.h
- * \brief Class for redirecting the client to a different URI
- *
- */
-class CGICC_API HTTPRedirectHeader : public HTTPHeader 
-{
-public:
-
-  /*! \name Constructor and Destructor */
-  //@{
-
-  /*!
-   * \brief Create a new redirection header.
-   * \param url The redirection URL.
-   */
-  HTTPRedirectHeader(const STDNS string& url);
-    
-  /*! 
-   * \brief Destructor 
+  // ============================================================
+  // Class HTTPRedirectHeader
+  // ============================================================
+  
+  /*! \class HTTPRedirectHeader HTTPRedirectHeader.h cgicc/HTTPRedirectHeader.h
+   * \brief Class for redirecting the client to a different URI
    *
    */
-  virtual ~HTTPRedirectHeader();
-  //@}
+  class CGICC_API HTTPRedirectHeader : public HTTPHeader 
+  {
+  public:
     
-  // ============================================================
-
-  /*! \name Inherited Methods */
-  //@{ 
-  virtual void 
-  render(STDNS ostream& out) 			const;
-  //@}
+    /*! \name Constructor and Destructor */
+    //@{
     
-private:
-  HTTPRedirectHeader();
-};
-
-CGICC_END_NAMESPACE
+    /*!
+     * \brief Create a new redirection header.
+     * \param url The redirection URL.
+     */
+    HTTPRedirectHeader(const std::string& url);
+    
+    /*! 
+     * \brief Destructor 
+     *
+     */
+    virtual ~HTTPRedirectHeader();
+    //@}
+    
+    // ============================================================
+    
+    /*! \name Inherited Methods */
+    //@{ 
+    virtual void 
+    render(std::ostream& out) 			const;
+    //@}
+    
+  private:
+    HTTPRedirectHeader();
+  };
+  
+} // namespace cgicc
 
 #endif /* ! _HTTPREDIRECTHEADER_H_ */

@@ -1,7 +1,7 @@
 /*
- *  $Id: HTTPRedirectHeader.cpp,v 1.2 2002/03/06 02:49:55 sbooth Exp $
+ *  $Id: HTTPRedirectHeader.cpp,v 1.4 2003/07/13 14:20:35 sbooth Exp $
  *
- *  Copyright (C) 1996 - 2002 Stephen F. Booth
+ *  Copyright (C) 1996 - 2003 Stephen F. Booth
  *
  *  This library is free software; you can redistribute it and/or
  *  modify it under the terms of the GNU Lesser General Public
@@ -27,24 +27,24 @@
 // ============================================================
 // Class HTTPRedirectHeader
 // ============================================================
-CGICCNS HTTPRedirectHeader::HTTPRedirectHeader(const STDNS string& url) 
+cgicc::HTTPRedirectHeader::HTTPRedirectHeader(const std::string& url) 
   : HTTPHeader(url)
 {}
 
-CGICCNS HTTPRedirectHeader::~HTTPRedirectHeader()
+cgicc::HTTPRedirectHeader::~HTTPRedirectHeader()
 {}
 
 void 
-CGICCNS HTTPRedirectHeader::render(STDNS ostream& out) 	const
+cgicc::HTTPRedirectHeader::render(std::ostream& out) 	const
 {
-  out << "Location: " << getData() << STDNS endl;
-
+  out << "Location: " << getData() << std::endl;
+  
   if(getCookies().empty() == false) {
-    STDNS vector<HTTPCookie>::const_iterator iter; 
+    std::vector<HTTPCookie>::const_iterator iter; 
     
     for(iter = getCookies().begin(); iter != getCookies().end(); ++iter)
-      out << *iter << STDNS endl;
+      out << *iter << std::endl;
   }
-
-  out << STDNS endl;
+  
+  out << std::endl;
 }
