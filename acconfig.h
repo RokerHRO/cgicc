@@ -1,5 +1,5 @@
 /*
- *  $Id: acconfig.h,v 1.3 1999/05/26 17:09:55 sbooth Exp $
+ *  $Id: acconfig.h,v 1.5 1999/08/09 23:38:12 sbooth Exp $
  *
  *  Copyright (C) 1996, 1997, 1998, 1999 Stephen F. Booth
  *
@@ -26,8 +26,5 @@
 /* Version of package. */
 #undef VERSION
 
-/* System Cgicc was configured for */
+/* System cgicc was configured for */
 #define HOST ""
-
-/* Whether to use namespaces */
-#define USE_NAMESPACES 1

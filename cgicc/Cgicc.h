@@ -1,5 +1,6 @@
+/* -*-c++-*- */
 /*
- *  $Id: Cgicc.hh,v 1.2 1999/06/04 00:07:36 sbooth Exp $
+ *  $Id: Cgicc.h,v 1.4 1999/08/16 18:02:40 sbooth Exp $
  *
  *  Copyright (C) 1996, 1997, 1998, 1999 Stephen F. Booth
  *
@@ -18,16 +19,17 @@
  *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-#ifndef _CGICC_HH_
-#define _CGICC_HH_ 1
+#ifndef _CGICC_H_
+#define _CGICC_H_ 1
 
 #ifdef __GNUG__
-#pragma interface
+#  pragma interface
 #endif
 
 /*
  * The GNU Cgicc library, by Stephen F. Booth. 
- * The latest version can be found at your closest GNU mirror.
+ *
+ * The latest version can be found on your closest GNU mirror site.
  *
  * Please mail bug reports to <mailto:bug-cgicc@gnu.org>
  *
@@ -43,12 +45,17 @@
 #include <vector>
 #include <string>
 
-#include "cgicc/CgiDefs.hh"
-#include "cgicc/FormEntry.hh"
-#include "cgicc/FormFile.hh"
-#include "cgicc/CgiEnvironment.hh"
+#include "cgicc/CgiDefs.h"
+#include "cgicc/FormEntry.h"
+#include "cgicc/FormFile.h"
+#include "cgicc/CgiEnvironment.h"
 
 CGICC_BEGIN_NAMESPACE
+
+#ifdef WIN32
+  template class CGICC_API STDNS vector<FormEntry>;
+  template class CGICC_API STDNS vector<FormFile>;
+#endif
   
 class MultipartHeader;
 
@@ -73,27 +80,22 @@ class MultipartHeader;
  * }
  * </PRE>
  */
-class Cgicc {
+class CGICC_API Cgicc {
 public:
-  /**@name Constructors */
-  //@{
   
   /** Constructor */
   Cgicc();
   
   /** Destructor */
   ~Cgicc();
-  //@}
   
-  /**@name Cgicc Information */
-  //@{
   
   /**
    * Get the date on which this library was compiled.
    * <P>This is a string of the form mmm dd yyyy.</P>
    * @return The compile date
    */
-  STDNS string
+  const char*
   getCompileDate() 					const;
   
   /**
@@ -101,7 +103,7 @@ public:
    * <P>This is a string of the form hh:mm:ss in 24-hour time.</P>
    * @return The compile time
    */
-  STDNS string
+  const char*
   getCompileTime() 					const;
   
   /**
@@ -109,7 +111,7 @@ public:
    * <P>The version number is a string of the form #.#.</P>
    * @return The version number
    */
-  STDNS string
+  const char*
   getVersion() 						const;
 
   /** 
@@ -117,12 +119,9 @@ public:
    * <P>The host is a string of the form processor-manufacturer-os</P>
    * @return The host triplet.
    */
-  STDNS string
+  const char*
   getHost() 						const;
-  //@}
-  
-  /**@name Form Element Access */
-  //@{
+
   
   /**
    * Query whether a checkbox is checked.
@@ -217,10 +216,7 @@ public:
   inline const STDNS vector<FormEntry>&
   getElements() 					const
     { return fFormData; }
-  //@}  
 
-  /**@name Access to uploaded files */
-  //@{
 
   /**
    * Find an uploaded file.
@@ -245,10 +241,7 @@ public:
   inline const STDNS vector<FormFile>&
   getFiles() 						const
     { return fFormFiles; }
-  //@}
-  
-  /**@name Access to the current environment */
-  //@{
+
   
   /**
    * Get the current runtime environment.
@@ -257,10 +250,7 @@ public:
   inline const CgiEnvironment&
   getEnvironment() 					const
     { return fEnvironment;}
-  //@}
-  
-  /**@name Save and Restore */
-  //@{
+
   
   /**
    * Save the current CGI environment to a file.
@@ -275,7 +265,6 @@ public:
    */
   void 
   restore(const STDNS string& filename);
-  //@}
   
 private:
   CgiEnvironment 		fEnvironment;
@@ -307,4 +296,4 @@ private:
 
 CGICC_END_NAMESPACE
 
-#endif /* ! _CGICC_HH_ */
+#endif /* ! _CGICC_H_ */

@@ -1,5 +1,5 @@
 /*
- *  $Id: MStreamable.cc,v 1.2 1999/06/04 00:07:42 sbooth Exp $
+ *  $Id: MStreamable.cpp,v 1.1 1999/08/09 18:25:44 sbooth Exp $
  *
  *  Copyright (C) 1996, 1997, 1998, 1999 Stephen F. Booth
  *
@@ -19,10 +19,10 @@
  */
 
 #ifdef __GNUG__
-#pragma implementation
+#  pragma implementation
 #endif
 
-#include "cgicc/MStreamable.hh"
+#include "cgicc/MStreamable.h"
 
 // ============================================================
 // Class MStreamable
@@ -34,5 +34,3 @@ CGICCNS operator<<(STDNS ostream& out,
   obj.render(out);
   return out; 
 }
-
-//EOF

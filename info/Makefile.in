@@ -61,6 +61,7 @@ host_alias = @host_alias@
 host_triplet = @host@
 AS = @AS@
 CC = @CC@
+CGICC_USE_NAMESPACES = @CGICC_USE_NAMESPACES@
 CXX = @CXX@
 DLLTOOL = @DLLTOOL@
 LD = @LD@
@@ -82,15 +83,16 @@ MAINTAINERCLEANFILES = cgicc-doc-texi.tar.gz cgicc-doc-info.tar.gz	cgicc-doc-dvi
 info_TEXINFOS = cgicc.texinfo
 cgicc_TEXINFOS = gpl.texinfo cgi-overview.texinfo tutorial.texinfo	library-overview.texinfo cgi-classes.texinfo http-classes.texinfo	html-classes.texinfo class-cgicc.texinfo class-cgienv.texinfo		class-formentry.texinfo class-formfile.texinfo classes-http.texinfo	classes-html.texinfo reporting-bugs.texinfo concept-index.texinfo	function-index.texinfo datatype-index.texinfo
 
-mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
+mkinstalldirs = $(SHELL) $(top_srcdir)/support/mkinstalldirs
 CONFIG_HEADER = ../cgicc/config.h
 CONFIG_CLEAN_FILES = 
 TEXI2DVI = texi2dvi
+TEXINFO_TEX = $(top_srcdir)/support/texinfo.tex
 INFO_DEPS = cgicc.info
 DVIS = cgicc.dvi
 TEXINFOS = cgicc.texinfo
-DIST_COMMON =  $(cgicc_TEXINFOS) Makefile.am Makefile.in mdate-sh \
-stamp-vti texinfo.tex version.texi
+DIST_COMMON =  $(cgicc_TEXINFOS) Makefile.am Makefile.in stamp-vti \
+version.texi
 
 
 DISTFILES = $(DIST_COMMON) $(SOURCES) $(HEADERS) $(TEXINFOS) $(EXTRA_DIST)
@@ -112,7 +114,7 @@ $(srcdir)/version.texi: @MAINTAINER_MODE_TRUE@stamp-vti
 	@:
 
 $(srcdir)/stamp-vti: cgicc.texinfo $(top_srcdir)/configure.in
-	@echo "@set UPDATED `$(SHELL) $(srcdir)/mdate-sh $(srcdir)/cgicc.texinfo`" > vti.tmp
+	@echo "@set UPDATED `$(SHELL) $(top_srcdir)/support/mdate-sh $(srcdir)/cgicc.texinfo`" > vti.tmp
 	@echo "@set EDITION $(VERSION)" >> vti.tmp
 	@echo "@set VERSION $(VERSION)" >> vti.tmp
 	@cmp -s vti.tmp $(srcdir)/version.texi \
@@ -143,7 +145,7 @@ DVIPS = dvips
 	  && $(MAKEINFO) `echo $< | sed 's,.*/,,'`
 
 .texi.dvi:
-	TEXINPUTS=.:$$TEXINPUTS \
+	TEXINPUTS=$(top_srcdir)/support/texinfo.tex:$$TEXINPUTS \
 	  MAKEINFO='$(MAKEINFO) -I $(srcdir)' $(TEXI2DVI) $<
 
 .texi:
@@ -162,7 +164,7 @@ DVIPS = dvips
 	  && $(MAKEINFO) `echo $< | sed 's,.*/,,'`
 
 .texinfo.dvi:
-	TEXINPUTS=.:$$TEXINPUTS \
+	TEXINPUTS=$(top_srcdir)/support/texinfo.tex:$$TEXINPUTS \
 	  MAKEINFO='$(MAKEINFO) -I $(srcdir)' $(TEXI2DVI) $<
 
 .txi.info:
@@ -171,7 +173,7 @@ DVIPS = dvips
 	  && $(MAKEINFO) `echo $< | sed 's,.*/,,'`
 
 .txi.dvi:
-	TEXINPUTS=.:$$TEXINPUTS \
+	TEXINPUTS=$(top_srcdir)/support/texinfo.tex:$$TEXINPUTS \
 	  MAKEINFO='$(MAKEINFO) -I $(srcdir)' $(TEXI2DVI) $<
 
 .txi:

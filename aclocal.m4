@@ -10,7 +10,7 @@ dnl but WITHOUT ANY WARRANTY, to the extent permitted by law; without
 dnl even the implied warranty of MERCHANTABILITY or FITNESS FOR A
 dnl PARTICULAR PURPOSE.
 
-dnl $Id: acinclude.m4,v 1.4 1999/05/10 19:12:43 sbooth Exp $
+dnl $Id: acinclude.m4,v 1.5 1999/08/07 00:26:35 sbooth Exp $
 
 dnl @TOP@
 
@@ -22,7 +22,7 @@ AC_DEFUN(CGICC_CHECK_LINK_STDCPP, [
 		[cgicc_cv_link_libstdcpp],
 		[	AC_LANG_SAVE
 			AC_LANG_CPLUSPLUS
-			AC_TRY_LINK([#include <iostream.h>],
+			AC_TRY_LINK([#include <iostream>],
 			cout << "foo" << endl;,
 			cgicc_cv_link_libstdcpp=no,
 			cgicc_cv_link_libstdcpp=yes)

@@ -422,8 +422,7 @@ Function Index
 
 * Menu:
 
-* add:                                   classes for HTML output.
-* add on HTMLAttributeList:              classes for HTML output.
+* add on HTMLElement:                    classes for HTML output.
 * Cgicc on Cgicc:                        class Cgicc.
 * CgiEnvironment on CgiEnvironment:      class CgiEnvironment.
 * FormEntry on FormEntry:                class FormEntry.
@@ -431,6 +430,7 @@ Function Index
 * getAccept on CgiEnvironment:           class CgiEnvironment.
 * getAttributes on HTMLElement:          classes for HTML output.
 * getAuthType on CgiEnvironment:         class CgiEnvironment.
+* getComment on HTTPCookie:              classes for HTTP headers.
 * getCompileDate on Cgicc:               class Cgicc.
 * getCompileTime on Cgicc:               class Cgicc.
 * getContentLength on CgiEnvironment:    class CgiEnvironment.
@@ -446,14 +446,15 @@ Function Index
 * getElement on Cgicc:                   class Cgicc.
 * getElementByValue on Cgicc:            class Cgicc.
 * getElements on Cgicc:                  class Cgicc.
+* getEmbedded on HTMLElement:            classes for HTML output.
 * getEnvironment on Cgicc:               class Cgicc.
-* getExpires on HTTPCookie:              classes for HTTP headers.
 * getFile on Cgicc:                      class Cgicc.
 * getFilename on FormFile:               class FormFile.
 * getFiles on Cgicc:                     class Cgicc.
 * getGatewayInterface on CgiEnvironment: class CgiEnvironment.
 * getHost on Cgicc:                      class Cgicc.
 * getIntegerValue on FormEntry:          class FormEntry.
+* getMaxAge on HTTPCookie:               classes for HTTP headers.
 * getName on FormEntry:                  class FormEntry.
 * getName on FormFile:                   class FormFile.
 * getName on HTMLElement:                classes for HTML output.
@@ -510,9 +511,12 @@ Function Index
 * queryCheckbox on Cgicc:                class Cgicc.
 * restore on Cgicc:                      class Cgicc.
 * save on Cgicc:                         class Cgicc.
+* set on HTMLElement:                    classes for HTML output.
 * setAttributes on HTMLElement:          classes for HTML output.
+* setComment on HTTPCookie:              classes for HTTP headers.
 * setDomain on HTTPCookie:               classes for HTTP headers.
-* setExpires on HTTPCookie:              classes for HTTP headers.
+* setEmbedded on HTMLElement:            classes for HTML output.
+* setMaxAge on HTTPCookie:               classes for HTTP headers.
 * setName on HTTPCookie:                 classes for HTTP headers.
 * setPath on HTTPCookie:                 classes for HTTP headers.
 * setSecure on HTTPCookie:               classes for HTTP headers.

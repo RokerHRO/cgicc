@@ -61,6 +61,7 @@ host_alias = @host_alias@
 host_triplet = @host@
 AS = @AS@
 CC = @CC@
+CGICC_USE_NAMESPACES = @CGICC_USE_NAMESPACES@
 CXX = @CXX@
 DLLTOOL = @DLLTOOL@
 LD = @LD@
@@ -77,18 +78,18 @@ VERSION = @VERSION@
 
 CLEANFILES = *~
 
-INCLUDES = -I$(top_srcdir)
+INCLUDES = -I$(top_srcdir) -I$(top_builddir)
 
 lib_LTLIBRARIES = libcgicc.la
-libcgicc_la_SOURCES = CgiEnvironment.cc CgiUtils.cc Cgicc.cc		FormEntry.cc FormFile.cc HTMLAttributes.cc HTMLDirLang.cc		HTMLElements.cc HTMLForms.cc HTMLFrames.cc HTMLGlobal.cc		HTMLGraphics.cc HTMLLinks.cc HTMLLists.cc HTMLObjects.cc		HTMLScripts.cc HTMLStyles.cc HTMLTables.cc HTMLText.cc HTTPHeaders.cc	MStreamable.cc
+libcgicc_la_SOURCES = CgiEnvironment.cpp CgiUtils.cpp Cgicc.cpp	FormEntry.cpp FormFile.cpp HTMLAttributes.cpp HTMLElements.cpp	HTTPHeaders.cpp MStreamable.cpp
 
-libcgicc_la_LDFLAGS = -version-info 0:2:0
+libcgicc_la_LDFLAGS = -version-info 1:0:0
 
-pkginclude_HEADERS = Cgicc.hh CgiDefs.hh CgiEnvironment.hh CgiUtils.hh	FormEntry.hh FormFile.hh HTMLAttributes.hh HTMLClasses.hh		HTMLDirLang.hh HTMLElements.hh HTMLForms.hh HTMLFrameClasses.hh		HTMLFrames.hh HTMLGlobal.hh HTMLGraphics.hh HTMLLinks.hh HTMLLists.hh	HTMLObjects.hh HTMLScripts.hh HTMLStyles.hh HTMLTables.hh HTMLText.hh	HTTPHeaders.hh MStreamable.hh config.h
+pkginclude_HEADERS = CgiDefs.h CgiEnvironment.h CgiUtils.h Cgicc.h	FormEntry.h FormFile.h HTMLAttributes.h HTMLClasses.h HTMLElements.h	HTMLGeneric.h HTTPHeaders.h MStreamable.h
 
-mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
+mkinstalldirs = $(SHELL) $(top_srcdir)/support/mkinstalldirs
 CONFIG_HEADER = config.h
-CONFIG_CLEAN_FILES = 
+CONFIG_CLEAN_FILES =  CgiDefs.h
 LTLIBRARIES =  $(lib_LTLIBRARIES)
 
 
@@ -98,10 +99,8 @@ LDFLAGS = @LDFLAGS@
 LIBS = @LIBS@
 libcgicc_la_LIBADD = 
 libcgicc_la_OBJECTS =  CgiEnvironment.lo CgiUtils.lo Cgicc.lo \
-FormEntry.lo FormFile.lo HTMLAttributes.lo HTMLDirLang.lo \
-HTMLElements.lo HTMLForms.lo HTMLFrames.lo HTMLGlobal.lo \
-HTMLGraphics.lo HTMLLinks.lo HTMLLists.lo HTMLObjects.lo HTMLScripts.lo \
-HTMLStyles.lo HTMLTables.lo HTMLText.lo HTTPHeaders.lo MStreamable.lo
+FormEntry.lo FormFile.lo HTMLAttributes.lo HTMLElements.lo \
+HTTPHeaders.lo MStreamable.lo
 CXXFLAGS = @CXXFLAGS@
 CXXCOMPILE = $(CXX) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS)
 LTCXXCOMPILE = $(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS)
@@ -109,7 +108,8 @@ CXXLD = $(CXX)
 CXXLINK = $(LIBTOOL) --mode=link $(CXXLD) $(AM_CXXFLAGS) $(CXXFLAGS) $(LDFLAGS) -o $@
 HEADERS =  $(pkginclude_HEADERS)
 
-DIST_COMMON =  ./stamp-h.in Makefile.am Makefile.in config.h.in
+DIST_COMMON =  ./stamp-h.in CgiDefs.h.in Makefile.am Makefile.in \
+config.h.in
 
 
 DISTFILES = $(DIST_COMMON) $(SOURCES) $(HEADERS) $(TEXINFOS) $(EXTRA_DIST)
@@ -121,7 +121,7 @@ OBJECTS = $(libcgicc_la_OBJECTS)
 
 all: all-redirect
 .SUFFIXES:
-.SUFFIXES: .S .c .cc .lo .o .s
+.SUFFIXES: .S .c .cpp .lo .o .s
 $(srcdir)/Makefile.in: @MAINTAINER_MODE_TRUE@ Makefile.am $(top_srcdir)/configure.in $(ACLOCAL_M4) 
 	cd $(top_srcdir) && $(AUTOMAKE) --gnu --include-deps cgicc/Makefile
 
@@ -157,6 +157,8 @@ distclean-hdr:
 	-rm -f config.h
 
 maintainer-clean-hdr:
+CgiDefs.h: $(top_builddir)/config.status CgiDefs.h.in
+	cd $(top_builddir) && CONFIG_FILES=$(subdir)/$@ CONFIG_HEADERS= $(SHELL) ./config.status
 
 mostlyclean-libLTLIBRARIES:
 
@@ -223,9 +225,9 @@ maintainer-clean-libtool:
 
 libcgicc.la: $(libcgicc_la_OBJECTS) $(libcgicc_la_DEPENDENCIES)
 	$(CXXLINK) -rpath $(libdir) $(libcgicc_la_LDFLAGS) $(libcgicc_la_OBJECTS) $(libcgicc_la_LIBADD) $(LIBS)
-.cc.o:
+.cpp.o:
 	$(CXXCOMPILE) -c $<
-.cc.lo:
+.cpp.lo:
 	$(LTCXXCOMPILE) -c $<
 
 install-pkgincludeHEADERS: $(pkginclude_HEADERS)
@@ -287,6 +289,24 @@ distdir: $(DISTFILES)
 	    || cp -p $$d/$$file $(distdir)/$$file || :; \
 	  fi; \
 	done
+CgiEnvironment.lo CgiEnvironment.o : CgiEnvironment.cpp CgiEnvironment.h \
+	CgiDefs.h config.h CgiUtils.h HTTPHeaders.h MStreamable.h
+CgiUtils.lo CgiUtils.o : CgiUtils.cpp CgiUtils.h CgiDefs.h config.h
+Cgicc.lo Cgicc.o : Cgicc.cpp CgiUtils.h CgiDefs.h config.h Cgicc.h \
+	FormEntry.h FormFile.h CgiEnvironment.h HTTPHeaders.h \
+	MStreamable.h
+FormEntry.lo FormEntry.o : FormEntry.cpp FormEntry.h CgiDefs.h config.h \
+	CgiUtils.h
+FormFile.lo FormFile.o : FormFile.cpp FormFile.h CgiDefs.h config.h \
+	CgiUtils.h
+HTMLAttributes.lo HTMLAttributes.o : HTMLAttributes.cpp HTMLAttributes.h \
+	CgiDefs.h config.h MStreamable.h CgiUtils.h
+HTMLElements.lo HTMLElements.o : HTMLElements.cpp HTMLElements.h \
+	CgiDefs.h config.h MStreamable.h HTMLAttributes.h
+HTTPHeaders.lo HTTPHeaders.o : HTTPHeaders.cpp HTTPHeaders.h \
+	MStreamable.h CgiDefs.h config.h CgiUtils.h
+MStreamable.lo MStreamable.o : MStreamable.cpp MStreamable.h CgiDefs.h \
+	config.h
 
 info-am:
 info: info-am

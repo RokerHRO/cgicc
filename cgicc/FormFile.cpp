@@ -1,5 +1,5 @@
 /*
- *  $Id: FormFile.cc,v 1.2 1999/06/04 00:07:37 sbooth Exp $
+ *  $Id: FormFile.cpp,v 1.1 1999/08/09 18:25:36 sbooth Exp $
  *
  *  Copyright (C) 1996, 1997, 1998, 1999 Stephen F. Booth
  *
@@ -19,11 +19,11 @@
  */
 
 #ifdef __GNUG__
-#pragma implementation
+#  pragma implementation
 #endif
 
-#include "cgicc/FormFile.hh"
-#include "cgicc/CgiUtils.hh"
+#include "cgicc/FormFile.h"
+#include "cgicc/CgiUtils.h"
 
 CGICCNS FormFile::FormFile(const STDNS string& name, 
 			   const STDNS string& filename, 
@@ -37,15 +37,6 @@ CGICCNS FormFile::FormFile(const STDNS string& name,
 
   LOG("Got file ") LOG(getFilename()) LOG(" (") LOG(getDataType())
   LOG(" / ") LOG(getDataLength()) LOGLN(" bytes)")
-}
-
-CGICCNS FormFile::~FormFile()
-{}
-
-CGICCNS FormFile::FormFile(const FormFile& file)
-{
-  // call operator=
-  *this = file;
 }
 
 bool
@@ -72,5 +63,3 @@ CGICCNS FormFile::writeToStream(STDNS ostream& out) 		const
 {
   out.write(getData().data(), getDataLength());
 }
-
-//EOF

@@ -1,5 +1,5 @@
 /*
- *  $Id: CgiEnvironment.cc,v 1.2 1999/06/04 00:07:36 sbooth Exp $
+ *  $Id: CgiEnvironment.cpp,v 1.1 1999/08/09 18:25:30 sbooth Exp $
  *
  *  Copyright (C) 1996, 1997, 1998, 1999 Stephen F. Booth
  *
@@ -19,7 +19,7 @@
  */
 
 #ifdef __GNUG__
-#pragma implementation
+#  pragma implementation
 #endif
 
 #include <new>
@@ -27,7 +27,7 @@
 #include <stdexcept>
 #include <cstdlib>
 
-#include "cgicc/CgiEnvironment.hh"
+#include "cgicc/CgiEnvironment.h"
 
 // ========== Constructor/Destructor
 
@@ -42,8 +42,8 @@ CGICCNS CgiEnvironment::CgiEnvironment()
   }
   else if(stringsAreEqual( getRequestMethod(), "post")) {
     LOGLN("POST method recognized")
-    
-    // should work, but not in egcs-1.1.2
+          
+    // should work, but not in egcs-1.1.2 or gcc-2.95
     //auto_ptr<char> temp = new char[getContentLength()];
     char *temp = new char[getContentLength()];
     STDNS cin.read(temp, getContentLength());
@@ -236,5 +236,3 @@ CGICCNS CgiEnvironment::restore(const STDNS string& filename)
   fCookies.reserve(10);
   parseCookies();
 }
-
-//EOF

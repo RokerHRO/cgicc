@@ -1,5 +1,6 @@
+/* -*-c++-*- */
 /*
- *  $Id: CgiEnvironment.hh,v 1.2 1999/06/04 00:07:36 sbooth Exp $
+ *  $Id: CgiEnvironment.h,v 1.3 1999/08/16 17:40:04 sbooth Exp $
  *
  *  Copyright (C) 1996, 1997, 1998, 1999 Stephen F. Booth
  *
@@ -18,21 +19,25 @@
  *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-#ifndef _CGIENVIRONMENT_HH_
-#define _CGIENVIRONMENT_HH_ 1
+#ifndef _CGIENVIRONMENT_H_
+#define _CGIENVIRONMENT_H_ 1
 
 #ifdef __GNUG__
-#pragma interface
+#  pragma interface
 #endif
 
 #include <vector>
 #include <string>
 
-#include "cgicc/CgiDefs.hh"
-#include "cgicc/CgiUtils.hh"
-#include "cgicc/HTTPHeaders.hh"
+#include "cgicc/CgiDefs.h"
+#include "cgicc/CgiUtils.h"
+#include "cgicc/HTTPHeaders.h"
 
 CGICC_BEGIN_NAMESPACE
+
+#ifdef WIN32
+  template class CGICC_API STDNS vector<HTTPCookie>;
+#endif
 
 // ============================================================
 // Class CgiEnvironment
@@ -42,25 +47,18 @@ CGICC_BEGIN_NAMESPACE
  * <P>To read in the environment, simply instantiate an object of this type.
  * </P>
  */
-class CgiEnvironment
+class CGICC_API CgiEnvironment
 {
 public:
   
   friend class Cgicc;
-  
-  /**@name Constructors */
-  //@{
   
   /** Read in the environment */
   CgiEnvironment();
   
   /** Destructor */
   ~CgiEnvironment();
-  //@}
-  
-  
-  /**@name Server information */
-  //@{
+
   
   /**
    * Get the name and version of the http server software.
@@ -106,11 +104,7 @@ public:
   inline unsigned long
   getServerPort() 				const
     { return fServerPort; }
-  //@}
-  
-  
-  /**@name Information on this CGI query */
-  //@{
+
   
   /**
    * Get the HTTP cookies associated with this query, if any.
@@ -196,10 +190,7 @@ public:
   inline STDNS string
   getPostData() 				const
     { return fPostData; }
-  //@}
-  
-  /**@name Server-specific */
-  //@{
+
   
   /**
    * Get the page which called this application.
@@ -209,10 +200,7 @@ public:
   inline STDNS string 
   getReferrer() 				const
     { return fReferrer; }
-  //@}
-  
-  /**@name Remote user information */
-  //@{
+
   
   /**
    * Get the hostname making this request.
@@ -278,10 +266,7 @@ public:
   inline STDNS string 
   getUserAgent() 				const
     { return fUserAgent; }
-  //@}
-  
-  /**@name ErrorDocument handling */
-  //@{
+
   
   /**
    * Get the redirect request.
@@ -313,7 +298,6 @@ public:
   inline STDNS string 
   getRedirectStatus() 				const
     { return fRedirectStatus; }
-  //@}
   
 protected:
   
@@ -369,4 +353,4 @@ private:
 
 CGICC_END_NAMESPACE
 
-#endif /* ! _CGIENVIRONMENT_HH_ */
+#endif /* ! _CGIENVIRONMENT_H_ */

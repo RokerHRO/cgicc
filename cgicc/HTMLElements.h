@@ -1,5 +1,6 @@
+/* -*-c++-*- */
 /*
- *  $Id: HTMLElements.hh,v 1.2 1999/06/04 00:07:38 sbooth Exp $
+ *  $Id: HTMLElements.h,v 1.5 1999/08/17 17:29:31 sbooth Exp $
  *
  *  Copyright (C) 1996, 1997, 1998, 1999 Stephen F. Booth
  *
@@ -18,33 +19,39 @@
  *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-#ifndef _HTMLELEMENTS_HH_
-#define _HTMLELEMENTS_HH_ 1
+#ifndef _HTMLELEMENTS_H_
+#define _HTMLELEMENTS_H_ 1
 
 #ifdef __GNUG__
-#pragma interface
+#  pragma interface
 #endif
 
 #include <string>
 
-#include "cgicc/CgiDefs.hh"
-#include "cgicc/MStreamable.hh"
-#include "cgicc/HTMLAttributes.hh"
+#include "cgicc/CgiDefs.h"
+#include "cgicc/MStreamable.h"
+#include "cgicc/HTMLAttributes.h"
 
 CGICC_BEGIN_NAMESPACE
+
+class HTMLElementList;
 
 // ============================================================
 // Class HTMLElement
 // ============================================================
-/** An abstract class representing an HTML tag. */
-class HTMLElement : public MStreamable 
+/** Class representing an HTML element. */
+class CGICC_API HTMLElement : public MStreamable 
 {
 public:
-  /**@name Constructors */
-  //@{
+
+  /** Possible types of HTMLElements */
+  enum EElementType {
+    /** Atomic element, such as HR */
+    eAtomic,
+    /** Boolean element, such as STRONG */
+    eBoolean
+  };
   
-  /** Constructor */
-  HTMLElement();
 
   /**
    * Copy constructor.
@@ -54,192 +61,233 @@ public:
 
   /** Destructor */
   virtual ~HTMLElement();
-  //@}
 
-  /**@name Accessor Functions */
-  //@{	
+
+  /**
+   * Compare two HTMLElements for equality.
+   * @param element The HTMLElement to compare to this one.
+   * @return true if the two HTMLElements are equal, false otherwise.
+   */
+  bool 
+  operator== (const HTMLElement& element) 		const;
+
+  /**
+   * Compare two HTMLElements for inequality.
+   * @param element The HTMLElement to compare to this one.
+   * @return false if the two HTMLElements are equal, true otherwise.
+   */
+  inline bool 
+  operator!= (const HTMLElement& element) 		const
+    { return ! operator==(element); }
+
+#ifdef WIN32
+  /** Dummy operator for MSVC++ */
+  inline bool
+  operator< (const HTMLAttribute& att) 			const
+  { return false; }
+#endif
+
+  /** Assignment operator */
+  HTMLElement&
+  operator= (const HTMLElement& element);
   
+
   /**
    * Get the name of this element.
    * For example, HTML or BODY.
    * @return The name of this element.
    */
-  virtual STDNS string   
+  virtual const char*
   getName() 					const = 0;
+
   
   /**
    * Get the attributes associated with this element.
-   * @return An HTMLAttributeList containing all the HTMLAttributes belonging 
-   * to this element.
+   * @return The attribute list.
    */
-  inline const HTMLAttributeList* 
+  inline const HTMLAttributeList*
   getAttributes() 				const
-    { return fAttributes; }
-  //@}
-  
-  /**@name Mutator Functions */
-  //@{
+  { return fAttributes; }
+
+  /**
+   * Get the data contained in this element, if any.
+   * @return The data contained in this element.
+   */
+  inline STDNS string
+  getData()  					const
+  { return fData; }
+
+  /**
+   * Get the HTMLElementList embedded in this element, if any.
+   * @return The embedded element list.
+   */
+  inline const HTMLElementList*
+  getEmbedded() 				const
+  { return fEmbedded; }
+
+
+  /**
+   * Set the data contained in this element.
+   * @param data The data to store in this element.
+   */
+  inline void
+  setData(const STDNS string& data)
+  { fData = data; }
+
   /**
    * Set the attributes associated with this element.
    * @param attributes The HTMLAttributeList containing the HTMLAttributes 
    * belonging to this element.
    */
-  inline void 
-  setAttributes(const HTMLAttributeList *attributes)
-    { fAttributes = attributes; }
-  //@}
-  
+  void 
+  setAttributes(const HTMLAttributeList& attributes);
+
+  /**
+   * Set the HTMLElementList associated with this element.
+   * @param elements The HTMLElementList containing the HTMLElements
+   * embedded in this element.
+   */
+  void 
+  setEmbedded(const HTMLElementList& embedded);
+
+
+  /** Get the type of this element */
+  inline EElementType
+  getType() 					const
+  { return fType; }
+
+
+  /** Clone this HTMLElement */
+  virtual HTMLElement*
+  clone() 					const = 0;
+
+
+  /** Add an embedded HTMLElement in this one */
+  HTMLElement&
+  add(const HTMLElement& element);
+
+  /** Add an embedded HTMLElement in this one */
+  HTMLElement&
+  add(HTMLElement *element);
+
+
+  /** Set an HTMLAttribute on this HTMLElement */
+  HTMLElement&
+  set(const STDNS string& name);
+
+  /** Set an HTMLAttribute on this HTMLElement */
+  HTMLElement&
+  set(const STDNS string& name,
+      const STDNS string& value);
+
+
+  /** Boolean element methods - for subclasses to override */
+
+  /** Swap the state of this boolean element */
   virtual void 
-  render(STDNS ostream& out) 			const;
+  swapState() 					const
+  {}
   
-protected:
-  HTMLElement(const HTMLAttributeList *attributes);
-  
-private:
-  const HTMLAttributeList *fAttributes;
-};
-
-// ============================================================
-// Class HTMLSimpleElement
-// ============================================================
-/**
- * A simple HTMLElement with no state.  
- * HTMLSimpleElements may be embedded within each other.
- * @see HTMLElement
- */
-class HTMLSimpleElement : public HTMLElement 
-{
-public:
-  /**@name Constructors */
-  //@{
-
-  /** Constructor */
-  HTMLSimpleElement();
-
-  /**
-   * Copy constructor.
-   * @param element The HTMLSimpleElement to copy.
-   */
-  HTMLSimpleElement(const HTMLSimpleElement& element);
-
-  /** Destructor */
-  virtual ~HTMLSimpleElement();
-  //@}
-
-  /**@name Accessor Functions */
-  //@{
-  
-  /**
-   * Get the data contained in this element, if any.
-   * For example, in the tag &lt;EM>foo&lt;/EM> the data is foo.
-   * @return The data contained in this element.
-   */
-  inline STDNS string 
-  getData()  					const
-    { return fData; }
-  
-  /**
-   * Get the HTMLSimpleElement embedded in this element, if any.
-   * @return The embedded element, or 0 if none.
-   */
-  inline const HTMLSimpleElement* 
-  getEmbedded() 				const
-    { return fEmbedded; }
-  //@}
-  
-  /**@name Mutator Functions */
-  //@{
-  
-  /**
-   * Set the data contained in this element.
-   * @param data The data to store in this element.
-   */
-  inline void 
-  setData(const STDNS string& data)
-    { fData = data; }
-  
-  /**
-   * Set the HTMLSimpleElement embedded in this one.
-   * @param embedded The HTMLSimpleElement to embed; takes precedence over all
-   * data.
-   */
-  inline void 
-  setEmbedded(const HTMLSimpleElement *embedded)
-    { fEmbedded = embedded; }
-  //@}
-  
-  virtual void 
-  render(STDNS ostream& out) 			const;
-  
-protected:
-  HTMLSimpleElement(const STDNS string& data, 
-		    const HTMLAttributeList *attributes, 
-		    const HTMLSimpleElement *embedded);
-
-
-private:
-  const HTMLSimpleElement 	*fEmbedded;
-  STDNS string 			fData;
-};
-
-// ============================================================
-// Class HTMLBooleanElement
-// ============================================================
-/**
- * An HTMLElement which maintains a boolean (on/off) state.
- * @see HTMLElement
- * @see HTMLSimpleElement
- */
-class HTMLBooleanElement : public HTMLSimpleElement 
-{
-public:
-  /**@name Constructors */
-  //@{
-
-  /** Default constructor. */
-  HTMLBooleanElement();
-
-  /**
-   * Copy constructor.
-   * @param element The HTMLBooleanElement to copy.
-   */
-  HTMLBooleanElement(const HTMLBooleanElement& element);
-
-  /** Destructor */
-  virtual ~HTMLBooleanElement();
-  //@}
-  
-  /**@name State Functions */
-  //@{
-  /** Swap the state of the element */
-  virtual void 
-  swapState() 					const = 0;
-  
-  /**
-   * Get the state of the element.
-   * @return True if the element is active, false if inactive.
-   */
+  /** Get the state of this boolean element */
   virtual bool 
-  getState() 					const = 0;
-  //@}
-  
+  getState() 					const
+  { return false; }
+
+
+  /** Render this HTMLElement */
   virtual void 
   render(STDNS ostream& out) 			const;
   
 protected:
-  HTMLBooleanElement(const STDNS string& data, 
-		     const HTMLAttributeList *attributes,
-		     const HTMLSimpleElement *embedded,
-		     bool dataSpecified);
+
+  /** Subclass ctor */
+  HTMLElement(const HTMLAttributeList *attributes,
+              const HTMLElement *embedded,
+              const STDNS string *data,
+              EElementType type);
+
+  /** For subclasses only - true if data was specified in ctor */
   inline bool
   dataSpecified() 				const
-    { return fDataSpecified; }
+  { return fDataSpecified; }
 
 private:
-  bool fDataSpecified;
+  HTMLElement() {}
 
+  HTMLAttributeList *fAttributes;
+  HTMLElementList   *fEmbedded;
+  STDNS string      fData;
+  EElementType      fType;
+  bool              fDataSpecified;
+};
+
+
+// ============================================================
+// Class HTMLElementList
+// ============================================================
+
+#ifdef WIN32
+  template class CGICC_API STDNS vector<HTMLElement*>;
+#endif
+
+/**
+ * An HTMLElementList represents any number of
+ * HTMLSimpleElements embedded in an HTMLSimpleElement.
+ * @see HTMLSimpleElement
+ */
+class CGICC_API HTMLElementList
+{
+public:
+
+  /** Create an empty HTMLElementList. */
+  HTMLElementList();
+
+  /**
+   * Create a new HTMLElementList, specifying the first element.
+   * @param head The first element of the list
+   */
+  HTMLElementList(const HTMLElement& head);
+
+  /**
+   * Copy constructor.
+   * @param list The HTMLElementList to copy.
+   */
+  HTMLElementList(const HTMLElementList& list);
+
+  /** Destructor */
+  ~HTMLElementList();
+
+
+  /** Assignment operator */
+  HTMLElementList&
+  operator= (const HTMLElementList& list);
+  
+  /** 
+   * Add an HTMLElement to the list.
+   * @param element The HTMLElement to add.
+   * @return A reference to the list.
+   */
+  HTMLElementList&
+  add(const HTMLElement& element);
+
+  /** 
+   * Add an HTMLElement to the list.
+   * @param element The HTMLElement to add.
+   * @return A reference to the list.
+   */
+  HTMLElementList&
+  add(HTMLElement *element);
+
+
+  /** Render this HTMLElementList */
+  void 
+  render(STDNS ostream& out) 				const;
+
+private:
+  STDNS vector<HTMLElement*> fElements;
+  // elements must be stored as pointers, otherwise polymorphism does not work
 };
 
 CGICC_END_NAMESPACE
 
-#endif /* ! _HTMLELEMENTS_HH_ */
+#endif /* ! _HTMLELEMENTS_H_ */

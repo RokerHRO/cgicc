@@ -1,5 +1,5 @@
 /*
- *  $Id: yourSource.cc,v 1.6 1999/06/04 17:11:13 sbooth Exp $
+ *  $Id: yourSource.cpp,v 1.3 1999/08/17 17:16:15 sbooth Exp $
  *
  *  Copyright (C) 1996, 1997, 1998, 1999 Stephen F. Booth
  *
@@ -21,18 +21,21 @@
 #include <exception>
 #include <iostream>
 
-#include "cgicc/Cgicc.hh"
-#include "cgicc/HTMLClasses.hh"
+#include "cgicc/Cgicc.h"
+#include "cgicc/HTMLClasses.h"
 
 // To use the debug logging feature, the variable gLogFile MUST be
 // defined, and it _must_ be an ofstream
 #if DEBUG
-ofstream gLogFile( "/change_this_path/Cgicc.log", ios::app );
+  ofstream gLogFile( "/change_this_path/Cgicc.log", ios::app );
 #endif
 
-#if USE_NAMESPACES
-using namespace std;
-using namespace cgicc;
+#if CGICC_USE_NAMESPACES
+  using namespace std;
+  using namespace cgicc;
+#else
+#  define div div_
+#  define select select_
 #endif
 
 int
@@ -44,7 +47,7 @@ main(int argc,
     
     // Output the HTTP headers for an HTML document, and the HTML 4.0 DTD info
     cout << HTTPHTMLHeader() << HTMLDoctype(HTMLDoctype::eStrict) << endl;
-    cout << html(add("lang", "EN").add("dir", "LTR")) << endl;
+    cout << html().set("lang", "EN").set("dir", "LTR") << endl;
 
     // Set up the page's header and title.
     cout << head() << endl;

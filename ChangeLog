@@ -1,3 +1,170 @@
+1999-08-17  Stephen F. Booth  <sbooth@saaba.lmi.net>
+
+	* configure.in: Renamed USE_NAMESPACES to CGICC_USE_NAMESPACES
+	* cgicc/CgiDefs.h.in,HTMLClasses.h: Same.
+	* demo/dns.cpp,test.cpp: Same.
+	* example/yourSource.cpp: Same
+	* cgicc/HTMLElements.h: Added add(HTMLElement*) to HTMLElement and
+	HTMLElementList.
+	* cgicc/HTMLElements.cpp: Same.
+	* cgicc/MStreamable.h: Added CGICC_API in front of friend 
+	declaration (for MSVC++ 5.0).
+	* info/classes-html.texinfo: Added documentation for new 
+	HTMLElemnt::add method.
+	* cgicc/Makefile.am: Add $(top_builddir) to includes
+
+1999-08-16  Christof Danzl  <cdanzl@cosy.sbg.ac.at>
+
+	* cgicc/FormEntry.cpp(makeString): Only increment src once
+	when a CR or LF is encountered.
+	
+1999-08-16  Stephen F. Booth  <sbooth@saaba.lmi.net>
+
+	* win/cgicc.dsp: Modified to use "Multithreaded DLL" runtime library
+	* win/dns.dsp,test.dsp,example.dsp: Modified to use "Multithreaded"
+	runtime library
+	* cgicc/CgiDefs.h.in: Enable warning 4251 in WIN32 section
+	* cgicc/CgiEnvironment.h: Added declaration for templatized member
+	* cgicc/FormEntry.h: Added dummy operator< for MSVC++
+	* cgicc/FormFile.h:  Added dummy operator< for MSVC++
+	* cgicc/HTMLAttributes.h:  Added dummy operator< for MSVC++, and 
+	declaration for templatized member
+	* cgicc/HTMLElements.cpp: Added operator==
+	* cgicc/HTMLElements.h: Added operator==, operator!=, operator<, and
+	declaration for templatized member
+	* cgicc/HTTPHeaders.cpp: Added operator==
+	* cgicc/HTTPHeaders.h: Added operator==, operator!=, operator<
+	* info/tutorial.texinfo: Remove reference to HTMLAttributeList
+	* info/classes-html.texinfo: Add description to getElements and
+	getAttributes methods.
+	* cgicc/Cgicc.h: Added declaration for templatized member
+	* cgicc/Cgicc.cpp: Removed #ifdef WIN32 copy_if section
+	* README.WIN: Added section on C4251 warnings
+
+1999-08-11  Stephen F. Booth  <sbooth@saaba.lmi.net>
+
+	* cgicc/CgiDefs.h.in: Disable warning 4251 in WIN32 section
+
+1999-08-10  Stephen F. Booth  <sbooth@ride.cupertino.ibm.com>
+
+	* info/tutorial.texinfo: Updated for new HTML generation
+	* info/classes-html.texinfo: Same
+	* demo/test.cpp: Changed code to use new HTML generation technique
+	* demo/dns.cpp: Changed code to use new HTML generation technique
+	* cgicc/HTMLClasses.h: Define div as div_ and select as select_
+	if USE_NAMESPACES is 0
+	* demo/{test.cpp,dns.cpp}: #define div div_, #define select select_ 
+	if USE_NAMESPACES is 0
+	* example/Makefile.in: Removed @DEFS@
+
+1999-08-09  Stephen F. Booth  <sbooth@saaba.lmi.net>
+
+	* configure.in: AC_INIT(Cgicc.cc) -> AC_INIT(Cgicc.cpp)
+	* cgicc/*.cc: Removed, renamed to *.cpp.  Changed #includes to 
+	reflect new names.
+	* cgicc/*.hh: Removed, renamed to *.h.  Changed #includes to
+	reflect new names.
+	* cgicc/Makefile.am: All .cc -> .cpp, .hh -> .h.  config.h is
+	no longer installed.
+	* demo/test.cc: Removed, renamed to test.cpp.  Changed #includes
+	to reflect new names.
+	* demo/dns.cc: Removed, renamed to dns.cpp.  Changed #includes
+	to reflect new names.
+	* demo/Makefile.am: All .cc -> .cpp.
+	* example/yourSource.cc: Removed, renamed to yourSource.cpp.  Changed
+	#includedes to reflect new names.
+	* example/Makefile.in: .cc -> .cpp.
+	* configure.in: Added AC_CONFIG_AUX_DIR(support).
+	* configure.in: Added AC_REVISION
+	* Makefile.am: yourSource.cc -> yourSource.cpp.
+	* cgicc/CgiDefs.h: Removed, added CgiDefs.h.in.
+	* cgicc/CgiDefs.h.in: Added USE_NAMESPACES
+	* cgicc/config.h.in: Removed USE_NAMESPACES
+	* cgicc/Makefile.am: config.h no longer installed.
+	* acconfig.h: Removed USE_NAMESPACES
+	* configure.in: No longer AC_DEFINE USE_NAMESPACES; AC_SUBST instead
+	* README.WIN: Added
+	* win/cgicc.{dsw,dsp},test.dsp,dns.dsp,example.dsp: Added
+	* Makefile.am: Added rules to dist-hook for Win32 files
+
+1999-08-06  Stephen F. Booth  <sbooth@saaba.lmi.net>
+
+	* cgicc/HTMLElements.{hh,cc}: Added add() method, to allow
+	embedded HTMLElements to be embedded after object construction.
+
+1999-08-06  Christof Danzl  <cdanzl@cosy.sbg.ac.at>
+
+	* cgicc/HTMLElements.{hh,cc}: Completely reworked for new
+	HTML generation strategy.
+	* cgicc/HTML*.{hh,cc}: Removed (see above).
+	* cgicc/HTMLClasses.hh: Completely reworked for new HTML
+	generation strategy.
+	* cgicc/HTMLGeneric.hh: New file, for new HTML generation
+	strategy.
+
+1999-08-05  Stephen F. Booth  <sbooth@saaba.lmi.net>
+
+	* configure.in: Added AC_CONFIG_AUX_DIR(support)
+
+1999-08-03  Stephen F. Booth  <sbooth@saaba.lmi.net>
+
+	* cgicc/HTMLAttributes.hh: Changed all add methods to set.
+	* cgicc/HTMLAttributes.cc: Changed all add methods to set.
+
+1999-08-02  Stephen F. Booth  <sbooth@saaba.lmi.net>
+
+	* cgicc/Cgicc.cc(copy_if): Removed prototype, moved definition
+	inside of CGICC_NAMESPACE block.
+	* Makefile.am: Added check-news, dist-zip to AUTOMAKE_OPTIONS
+
+1999-07-30  Stephen F. Booth  <sbooth@saaba.lmi.net>
+
+	* cgicc/HTTPHeaders.hh(HTTPCookie): Reworked to use cookie spec
+	per RFC 2109 (use seconds for maximum age, added comment and
+	version fields).
+	* cgicc/HTTPHeaders.hh(HTTPCookie): Removed getExpires, replaced
+	by getMaxAge.  Added getComment.
+	* cgicc/HTTPHeaders.cc(HTTPCookie): Changed ctor and render.
+	* info/classes-http.texinfo: Changed documentation for HTTPCookie
+	to reflect new cookie spec.
+
+1999-06-24  Stephen F. Booth  <sbooth@saaba.lmi.net>
+
+	* cgicc/HTMLAttributes.hh: Removed class HTMLAtomicAttribute,
+	merged with class HTMLAttribute.
+	* cgicc/HTMLAttributes.cc: Removed class HTMLAtomicAttribute,
+	merged with class HTMLAttribute.
+	* cgicc/FormEntry.hh(FormEntry, ~FormEntry, operator=): Made
+	inline
+	* cgicc/FormEntry.cc(FormEntry, ~FormEntry, operator=): Removed
+	definitions (moved to FormEntry.hh)
+	* cgicc/FormFile.hh(FormFile, ~FormFile, operator=): Made
+	inline
+	* cgicc/FormFile.cc(FormFile, ~FormFile, operator=): Removed
+	definitions (moved to FormFile.hh)
+
+1999-06-22  Stephen F. Booth  <sbooth@saaba.lmi.net>
+
+	* cgicc/CgiDefs.hh: Changed indenting of #defines
+
+1999-06-21  Stephen F. Booth  <sbooth@saaba.lmi.net>
+
+	* cgicc/Cgicc.cc(getElementByValue): Changed "true" to "false"
+	in call to findEntries() (reported by Christof Danzl).
+
+1999-06-16  Stephen F. Booth  <sbooth@saaba.lmi.net>
+
+	* cgicc/CgiUtils.cc(unescapeString): Added STDNS macro to
+	"const string& src" function parameter.
+	* example/Makfile.in: Removed SOURCES macro, changed to use
+	OBJECTS.  Rewrote compilation rule to be make-independent 
+	(use old style suffix rule).
+	* acconfig.h: Changed "Cgicc" to "cgicc"
+
+1999-06-15  Stephen F. Booth  <sbooth@saaba.lmi.net>
+
+	* demo/testform.html: Brought in line with HTML 4.0 transitional DTD.
+
 1999-06-14  Stephen F. Booth  <sbooth@saaba.lmi.net>
 
 	* cgicc/Makefile.am: Updated -version-info to 0:2:0.

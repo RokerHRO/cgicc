@@ -1,5 +1,5 @@
 /*
- *  $Id: CgiUtils.cc,v 1.2 1999/06/04 00:07:36 sbooth Exp $
+ *  $Id: CgiUtils.cpp,v 1.1 1999/08/09 18:25:31 sbooth Exp $
  *
  *  Copyright (C) 1996, 1997, 1998, 1999 Stephen F. Booth
  *
@@ -19,14 +19,14 @@
  */
 
 #ifdef __GNUG__
-#pragma implementation
+#  pragma implementation
 #endif
 
 #include <stdexcept>
 #include <cstdlib> 	// for getenv, system
 #include <cctype> 	// for toupper
 
-#include "cgicc/CgiUtils.hh"
+#include "cgicc/CgiUtils.h"
 
 // Fetch an environment variable
 STDNS string
@@ -108,7 +108,7 @@ CGICCNS hexToChar(char first,
 }
 
 STDNS string
-CGICCNS unescapeString(const string& src)
+CGICCNS unescapeString(const STDNS string& src)
 {
   STDNS string result;
   STDNS string::const_iterator iter;
@@ -179,7 +179,7 @@ CGICCNS readString(STDNS istream& in)
   
   in >> dataSize;
   in.get(); // skip ' '
-  // should work, but not in egcs-1.1.2
+  // should work, but not in egcs-1.1.2 or gcc-2.95
   //auto_ptr<char> temp = new char[dataSize];
   char *temp = new char[dataSize];
   in.read(temp, dataSize);

@@ -1,5 +1,6 @@
+/* -*-c++-*- */
 /*
- *  $Id: MStreamable.hh,v 1.2 1999/06/04 00:07:42 sbooth Exp $
+ *  $Id: MStreamable.h,v 1.3 1999/08/17 17:34:19 sbooth Exp $
  *
  *  Copyright (C) 1996, 1997, 1998, 1999 Stephen F. Booth
  *
@@ -18,18 +19,24 @@
  *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-#ifndef _MSTREAMABLE_HH_
-#define _MSTREAMABLE_HH_ 1
+#ifndef _MSTREAMABLE_H_
+#define _MSTREAMABLE_H_ 1
 
 #ifdef __GNUG__
-#pragma interface
+#  pragma interface
 #endif
 
 #include <iostream>
 
-#include "cgicc/CgiDefs.hh"
+#include "cgicc/CgiDefs.h"
 
 CGICC_BEGIN_NAMESPACE
+
+class MStreamable;
+
+/** Prototype for overloading streaming operator */
+CGICC_API STDNS ostream& 
+operator<<(STDNS ostream& out, const MStreamable& obj);
 
 // ============================================================
 // Class MStreamable
@@ -39,10 +46,11 @@ CGICC_BEGIN_NAMESPACE
  * the << operator.
  * Written in the spirit of a Java interface.
  */
-class MStreamable 
+class CGICC_API MStreamable 
 {
   
-  friend STDNS ostream& operator<<(STDNS ostream& out, const MStreamable& obj);
+  friend CGICC_API STDNS ostream& 
+  operator<<(STDNS ostream& out, const MStreamable& obj);
   
 public:
   /**
@@ -55,4 +63,4 @@ public:
   
 CGICC_END_NAMESPACE
 
-#endif /* ! _MSTREAMABLE_HH_ */
+#endif /* ! _MSTREAMABLE_H_ */

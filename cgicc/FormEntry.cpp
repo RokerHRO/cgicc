@@ -1,5 +1,5 @@
 /*
- *  $Id: FormEntry.cc,v 1.2 1999/06/04 00:07:37 sbooth Exp $
+ *  $Id: FormEntry.cpp,v 1.2 1999/08/16 18:39:37 sbooth Exp $
  *
  *  Copyright (C) 1996, 1997, 1998, 1999 Stephen F. Booth
  *
@@ -19,38 +19,16 @@
  */
 
 #ifdef __GNUG__
-#pragma implementation
+#  pragma implementation
 #endif
 
 #include <new>
 #include <cstdlib>
 
-#include "cgicc/FormEntry.hh"
-#include "cgicc/CgiUtils.hh"
+#include "cgicc/FormEntry.h"
 
 // local macro for integer maximum
 #define MAX(a, b) ((a) > (b) ? (a) : (b))
-
-CGICCNS FormEntry::FormEntry(const STDNS string& name,
-			     const STDNS string& value)
-  : fName(name),
-    fValue(value)
-{}
-
-CGICCNS FormEntry::FormEntry(const FormEntry& entry)
-{
-  // call operator=
-  *this = entry;
-}
-
-CGICCNS FormEntry::~FormEntry()
-{}
-
-bool
-CGICCNS FormEntry::operator== (const FormEntry& entry) 	const
-{
-  return stringsAreEqual(fName, entry.fName);
-}
 
 CGICCNS FormEntry& 
 CGICCNS FormEntry::operator= (const FormEntry& entry)
@@ -128,13 +106,9 @@ CGICCNS FormEntry::makeString(STDNS string::size_type maxLen,
     else {
       dst.append(1, *src);
       ++len;
+      ++src;
     }
-
-  // increment source position
-  ++src;
   }
   
   return dst;
 }
-
-//EOF

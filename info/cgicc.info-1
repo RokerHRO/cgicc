@@ -37,7 +37,7 @@ GNU Cgicc
 that facilitates the development of Common Gateway Inteface (CGI)
 applications for the World Wide Web (WWW).
 
-   This is edition 3.0.2 of the Cgicc documentation, 7 June 1999.
+   This is edition 3.1 of the Cgicc documentation, 7 June 1999.
 
 * Menu:
 
@@ -233,7 +233,7 @@ header(2).
 
    Cgicc provides several classes for outputting HTTP headers, all of
 which begin with `HTTP'.  A standard HTML document need only output a
-single header.
+single header:
 
      cout << HTTPHTMLHeader() << endl;
 
@@ -241,9 +241,10 @@ Simple HTML Output
 ==================
 
    Cgicc provides one class for every HTML tag defined in the HTML 4.0
-standard.  These classes have the same name as the HTML tags.  For
-example, in HTML, to indicate the start of a document you write <HTML>;
-this can be accomplished using Cgicc by writing
+standard in the header file `"cgicc/HTMLClasses.h"'.  These classes
+have the same name as the HTML tags.  For example, in HTML, to indicate
+the start of a document you write <HTML>; this can be accomplished
+using Cgicc by writing
 
      cout << html() << endl;
 
@@ -280,16 +281,22 @@ might look like
 This tag has four attributes: `SRC', `WIDTH', `HEIGHT', and `ALT', with
 the values `file.jpg', `100', `100', and `description', respectively.
 Attributes in HTML tags are represented by the class `HTMLAttribute',
-which essentially is a name/value pair.  Since any given `HTMLElement'
-may have any number of `HTMAttribute' objects inside it, the set of
-`HTMLAttribute' objects inside an `HTMLElement' object is represented
-using the class `HTMLAttributeList'.  To build an `HTMLElement', use
-the `add' method on `HTMLAttributeList'.  To generate the `<IMG>' tag
-given above:
+which essentially is a name/value pair. To build an `HTMLElement'
+containing `HTMLAttribute' objects, use the `set' method on
+`HTMLElement'.  To generate the `<IMG>' tag given above:
 
-     cout << img(add("SRC", "file.jpg")
-                .add("WIDTH", "100").add("HEIGHT", "100")
-                .add("ALT", "description")) << endl;
+     cout << img().set("SRC", "file.jpg")
+                  .set("WIDTH", "100").set("HEIGHT", "100")
+                  .set("ALT", "description") << endl;
+
+In a similar way, multiple `HTMLElement' objects may be embedded at the
+same level inside another `HTMLElement'.  To build an `HTMLElement'
+containing multiple embedded `HTMLElement' objects, use the `add'
+method on `HTMLElement':
+
+     cout << tr().add(td("0")).add(td("1")).add(td("2")) << endl;
+
+This produces as output `<TR><TD>0</TD><TD>1</TD><TD>2</TD></TR>'.
 
 Notes on Output
 ===============
@@ -309,7 +316,7 @@ sample code given in this chapter.
      #include <vector>
      #include <string>
      
-     #include "cgicc/Cgicc.hh"
+     #include "cgicc/Cgicc.h"
      
      using namespace std;
      using namespace cgicc;
@@ -808,19 +815,19 @@ Constructors
 Library Information
 ===================
 
- - Method on Cgicc: string getCompileDate () const
+ - Method on Cgicc: const char* getCompileDate () const
      Get the date at which the library was compiled.  The string
      returned is of the format `mmm dd yyyy'.
 
- - Method on Cgicc: string getCompileTime () const
+ - Method on Cgicc: const char* getCompileTime () const
      Get the time at which the library was compiled.  The string
      returned is of the format `hh:mm:ss' in 24-hour time.
 
- - Method on Cgicc: string getVersion () const
+ - Method on Cgicc: const char* getVersion () const
      Get the version number of Cgicc.  The string returned is of the
      format `#.#'.
 
- - Method on Cgicc: string getHost () const
+ - Method on Cgicc: const char* getHost () const
      Get the host for which Cgicc was configured.  The string returned
      is a canonical host triplet of the form
      `processor-manufacturer-os'.
@@ -1242,7 +1249,7 @@ HTTPCookie
 
    An `HTTPCookie' is a name/value pair used to store a piece of
 information about the caller using the caller's own machine.  Cookies
-are often used as a means to identify users.
+are often used as a means to identify users(1).
 
 Constructors
 ------------
@@ -1256,16 +1263,15 @@ Constructors
      at the end of the current HTTP session.
 
  - Method on HTTPCookie: void HTTPCookie (const string& NAME, const
-          string& VALUE, const string& EXPIRES, const string& PATH,
-          const string& DOMAIN, bool SECURE)
-     Creates an `HTTPCookie' with name NAME and value VALUE. The cookie
-     will expire on date EXPIRES, given in the form `Wdy, DD-Mon-YYYY
-     HH:MM:SS GMT'.  If EXPIRES is empty, the cookie will expire at the
-     end of the current HTTP session.  PATH is the subset of URIs in a
-     domain for which the cookie is valid.  Generally, PATH will be
-     `/'.  DOMAIN is the hostname for which this cookie is valid.  If
-     DOMAIN is empty, the hostname of the HTTP server which generates
-     the response will be used. SECURE indicates if this a secure
+          string& VALUE, const string& COMMENT, const string& DOMAIN,
+          unsigned long MAXAGE, const string& PATH, bool SECURE)
+     Creates an `HTTPCookie' with name NAME and value VALUE. COMMENT is
+     any textual comment to be associated with the cookie.  DOMAIN is
+     the hostname for which this cookie is valid.  If DOMAIN is empty,
+     the hostname of the HTTP server which generates the response will
+     be used.  The cookie will expire in MAXAGE seconds.  PATH is the
+     subset of URIs in a domain for which the cookie is valid.
+     Generally, PATH will be `/'.  SECURE indicates if this a secure
      cookie.
 
  - Method on HTTPCookie: void HTTPCookie (const HTTPCookie& COOKIE)
@@ -1280,17 +1286,19 @@ Accessor Methods
  - Method on HTTPCookie: string getValue () const
      Get the value of this cookie.
 
- - Method on HTTPCookie: string getExpires () const
-     Get the expiration date of the cookie, if any.  If not empty, this
-     is a string of the form `Wdy, DD-Mon-YYYY HH:MM:SS GMT'.
-
- - Method on HTTPCookie: string getPath () const
-     Get the subset of URIs in a domain for which this cookie is valid.
-     If empty, the cookie is valid for all URIs in a domain.
+ - Method on HTTPCookie: string getComment () const
+     Get the comment associated with the cookie, if any.
 
  - Method on HTTPCookie: string getDomain () const
      Get the hostname for which this cookie is valid.  If empty, the
      cookie is valid for the hostname generating the HTTP response.
+
+ - Method on HTTPCookie: unsigned long getMaxAge () const
+     Get the lifetime of the cookie, in seconds.
+
+ - Method on HTTPCookie: string getPath () const
+     Get the subset of URIs in a domain for which this cookie is valid.
+     If empty, the cookie is valid for all URIs in a domain.
 
  - Method on HTTPCookie: bool getSecure () const
      Returns `true' if this cookie is secure, `false' otherwise.
@@ -1304,16 +1312,18 @@ Mutator Methods
  - Method on HTTPCookie: void setValue (const string& VALUE)
      Set the value of this cookie to VALUE.
 
- - Method on HTTPCookie: void setExpires (const string& EXPIRES)
-     Set the expiration date of the cookie.  EXPIRES should be a string
-     of the form `Wdy, DD-Mon-YYYY HH:MM:SS GMT'.
+ - Method on HTTPCookie: void setComment (const string& COMMENT)
+     Set the comment associated with this cookie.
+
+ - Method on HTTPCookie: void setDomain (const string& DOMAIN)
+     Set the hostname for which this cookie is valid.
+
+ - Method on HTTPCookie: void setMaxAge (unsigned long MAXAGE)
+     Set the lifetime of this cookie, in seconds.
 
  - Method on HTTPCookie: void setPath (const string& PATH)
      Set the subset of URIs in a domain for which this cookie is valid
      to PATH.
-
- - Method on HTTPCookie: void setDomain (const string& DOMAIN)
-     Set the hostname for which this cookie is valid.
 
  - Method on HTTPCookie: void setSecure (bool SECURE)
      Mark this cookie as secure or unsecure.
@@ -1413,6 +1423,11 @@ HTTPAudioHeader
  - Method on HTTPAudioHeader: void HTTPAudioHeader ()
      Creates an HTTP header for data of MIME type `audio/basic'.
 
+   ---------- Footnotes ----------
+
+   (1) The technical specification for cookies may be found at
+`http://www.cis.ohio-state.edu/htbin/rfc/rfc2109.html'.
+
 
 File: cgicc.info,  Node: classes for HTML output,  Next: Reporting Bugs,  Prev: classes for HTTP headers,  Up: Top
 
@@ -1435,17 +1450,56 @@ by the subclasses.
 HTMLElement
 ===========
 
- - Method on HTMLElement: string getName () const
+ - Method on HTMLElement: const char* getName () const
      Returns the name of the HTML element.  For example `HTML' or
      `BODY'.
 
- - Method on HTMLElement: HTMLAttributeList* getAttributes () const
+ - Method on HTMLElement: const HTMLAttributeList* getAttributes ()
+          const
      Returns the `HTMLAttributeList' containing all the attributes
-     associated with this element.
+     associated with this HTML element, if any.
 
- - Method on HTMLElement: void setAttributes (const HTMLAttributeList
-          *ATTRIBUTES)
-     Set the attributes associated with this element.
+ - Method on HTMLElement: void setAttributes (const HTMLAttributeList&
+          ATTRIBUTES)
+     Set the attributes associated with this HTML element.
+
+ - Method on HTMLElement: const HTMLElementList* getEmbedded () const
+     Returns the `HTMLElementList' containing all the HTML elements
+     embedded in this one, if any.
+
+ - Method on HTMLElement: void setEmbedded (const HTMLElementList&
+          EMBEDDED)
+     Set the HTML elements embedded in this HTML element.
+
+Setting HTML Attributes
+=======================
+
+   For most real-world HTML, an `HTMLElement' will contain one or more
+embedded HTML attributes.  HTML attributes are added to `HTMLElement'
+objects via the `set' methods on `HTMLElement'.
+
+ - Method on HTMLElement: HTMLElement& set(const string& NAME)
+     Set an `HTMLAttribute' with name NAME on this HTML element.
+
+ - Method on HTMLElement: HTMLElement& set(const string& NAME, const
+          string& VALUE)
+     Set an `HTMLAttribute' with name NAME and value VALUE on this HTML
+     element.
+
+Embedding HTML Elements
+=======================
+
+   It is often desirable to embed multiple HTML elements in another at
+the same level.  HTML elements are embedded in an `HTMLElement' via the
+`add' methods on `HTMLElement'.
+
+ - Method on HTMLElement: HTMLElement& add(const HTMLElement& ELEMENT)
+     Add ELEMENT to the list of HTML elements embedded in this one.
+
+ - Method on HTMLElement: HTMLElement& add(HTMLElement *ELEMENT)
+     Add ELEMENT to the list of HTML elements embedded in this one.
+     The `HTMLElement' takes ownership of ELEMENT, which should not
+     subsequently be deleted.
 
 HTMLElement Construction
 ========================
@@ -1461,48 +1515,9 @@ class `h1', was chosen.
  - Method on h1: void h1 (const string& TEXT)
      Creates a new HTML element containing the text TEXT.
 
- - Method on h1: void h1 (const HTMLAttributeList& ATTRIBUTES)
-     Creates a new HTML element possessing the HTML attributes
-     contained in ATTRIBUTES.
-
- - Method on h1: void h1 (const HTMLSimpleElement& EMBED)
+ - Method on h1: void h1 (const HTMLElement& EMBED)
      Creates a new HTML element containing the embedded HTML element
      EMBED.
-
- - Method on h1: void h1 (const string& TEXT, const HTMLAttributeList&
-          ATTRIBUTES)
-     Creates a new HTML element containing the text TEXT, and
-     possessing the HTML attributes contained in ATTRIBUTES.
-
- - Method on h1: void h1 (const HTMLAttributeList& ATTRIBUTES, const
-          HTMLSimpleElement& EMBED)
-     Creates a new HTML element possessing the HTML attributes
-     contained in ATTRIBUTES, with the embedded HTML element EMBED.
-
-HTMLAttributeList Construction
-==============================
-
-   For most real-world HTML, an `HTMLElement' will contain one or more
-embedded HTML attributes.  HTML attributes are added to `HTMLElement'
-objects via the `add' functions.
-
- - Library Function: HTMLAttributeList add (const string& NAME)
-     Creates an `HTMLAttributeList' containing an `HTMLAtomicAttribute'
-     with name NAME.
-
- - Library Function: HTMLAttributeList add (const string& NAME, const
-          string& VALUE)
-     Creates an `HTMLAttributeList' containing an `HTMLAttribute' with
-     name NAME and value VALUE.
-
- - Method on HTMLAttributeList: HTMLAttributeList& add (const string&
-          NAME)
-     Adds an `HTMLAtomicAttribute' with name NAME to the attribute list.
-
- - Method on HTMLAttributeList: HTMLAttributeList& add (const string&
-          NAME, const string& VALUE)
-     Adds an `HTMLAttribute' with name NAME and value VALUE to the
-     attribute list.
 
 
 File: cgicc.info,  Node: Reporting Bugs,  Next: Copying,  Prev: classes for HTML output,  Up: Top

@@ -61,6 +61,7 @@ host_alias = @host_alias@
 host_triplet = @host@
 AS = @AS@
 CC = @CC@
+CGICC_USE_NAMESPACES = @CGICC_USE_NAMESPACES@
 CXX = @CXX@
 DLLTOOL = @DLLTOOL@
 LD = @LD@
@@ -81,14 +82,14 @@ EXTRA_DIST = testform.html
 
 noinst_PROGRAMS = test.cgi dns.cgi 
 
-INCLUDES = -I$(top_srcdir)
+INCLUDES = -I$(top_srcdir) -I$(top_builddir)
 
-test_cgi_SOURCES = test.cc
+test_cgi_SOURCES = test.cpp
 test_cgi_LDADD = ../cgicc/libcgicc.la
 
-dns_cgi_SOURCES = dns.cc
+dns_cgi_SOURCES = dns.cpp
 dns_cgi_LDADD = ../cgicc/libcgicc.la @LIB_NET@
-mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
+mkinstalldirs = $(SHELL) $(top_srcdir)/support/mkinstalldirs
 CONFIG_HEADER = ../cgicc/config.h
 CONFIG_CLEAN_FILES = 
 PROGRAMS =  $(noinst_PROGRAMS)
@@ -121,7 +122,7 @@ OBJECTS = $(test_cgi_OBJECTS) $(dns_cgi_OBJECTS)
 
 all: all-redirect
 .SUFFIXES:
-.SUFFIXES: .S .c .cc .lo .o .s
+.SUFFIXES: .S .c .cpp .lo .o .s
 $(srcdir)/Makefile.in: @MAINTAINER_MODE_TRUE@ Makefile.am $(top_srcdir)/configure.in $(ACLOCAL_M4) 
 	cd $(top_srcdir) && $(AUTOMAKE) --gnu --include-deps demo/Makefile
 
@@ -184,9 +185,9 @@ test.cgi: $(test_cgi_OBJECTS) $(test_cgi_DEPENDENCIES)
 dns.cgi: $(dns_cgi_OBJECTS) $(dns_cgi_DEPENDENCIES)
 	@rm -f dns.cgi
 	$(CXXLINK) $(dns_cgi_LDFLAGS) $(dns_cgi_OBJECTS) $(dns_cgi_LDADD) $(LIBS)
-.cc.o:
+.cpp.o:
 	$(CXXCOMPILE) -c $<
-.cc.lo:
+.cpp.lo:
 	$(LTCXXCOMPILE) -c $<
 
 tags: TAGS
@@ -233,6 +234,18 @@ distdir: $(DISTFILES)
 	    || cp -p $$d/$$file $(distdir)/$$file || :; \
 	  fi; \
 	done
+dns.o: dns.cpp ../cgicc/CgiDefs.h ../cgicc/config.h \
+	../cgicc/HTMLClasses.h ../cgicc/HTMLGeneric.h \
+	../cgicc/HTMLElements.h ../cgicc/MStreamable.h \
+	../cgicc/HTMLAttributes.h ../cgicc/Cgicc.h ../cgicc/FormEntry.h \
+	../cgicc/CgiUtils.h ../cgicc/FormFile.h \
+	../cgicc/CgiEnvironment.h ../cgicc/HTTPHeaders.h
+test.o: test.cpp ../cgicc/CgiDefs.h ../cgicc/config.h ../cgicc/Cgicc.h \
+	../cgicc/FormEntry.h ../cgicc/CgiUtils.h ../cgicc/FormFile.h \
+	../cgicc/CgiEnvironment.h ../cgicc/HTTPHeaders.h \
+	../cgicc/MStreamable.h ../cgicc/HTMLClasses.h \
+	../cgicc/HTMLGeneric.h ../cgicc/HTMLElements.h \
+	../cgicc/HTMLAttributes.h
 
 info-am:
 info: info-am

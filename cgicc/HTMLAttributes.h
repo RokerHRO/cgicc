@@ -1,5 +1,6 @@
+/* -*-c++-*- */
 /*
- *  $Id: HTMLAttributes.hh,v 1.2 1999/06/04 00:07:37 sbooth Exp $
+ *  $Id: HTMLAttributes.h,v 1.3 1999/08/16 17:40:04 sbooth Exp $
  *
  *  Copyright (C) 1996, 1997, 1998, 1999 Stephen F. Booth
  *
@@ -18,19 +19,19 @@
  *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-#ifndef _HTMLATTRIBUTES_HH_
-#define _HTMLATTRIBUTES_HH_ 1
+#ifndef _HTMLATTRIBUTES_H_
+#define _HTMLATTRIBUTES_H_ 1
 
 #ifdef __GNUG__
-#pragma interface
+#  pragma interface
 #endif
 
 #include <string>
 #include <iostream>
 #include <vector>
 
-#include "cgicc/CgiDefs.hh"
-#include "cgicc/MStreamable.hh"
+#include "cgicc/CgiDefs.h"
+#include "cgicc/MStreamable.h"
 
 CGICC_BEGIN_NAMESPACE
 
@@ -38,21 +39,26 @@ CGICC_BEGIN_NAMESPACE
 // Class HTMLAttribute
 // ============================================================
 /**
- * An HTMLAttribute represents a single name/value pair inside an HTML tag.
+ * An HTMLAttribute represents a either a name or a single name/value 
+ * pair inside an HTML tag.
  * For example, in the HTML code:
  * <PRE class="html">
  * &lt;A HREF="mailto:sbooth@saaba.lmi.net">Send mail&lt;/A></PRE>
  * The name/value pair <TT>(HREF, mailto:sbooth@saaba.lmi.net)</TT>
  * is an HTMLAttribute.
  */
-class HTMLAttribute : public MStreamable 
+class CGICC_API HTMLAttribute : public MStreamable 
 {
 public:
-  /**@name Constructors */
-  //@{
   
   /** Create an empty HTMLAttribute. */
   HTMLAttribute();
+  
+  /**
+   * Create an HTMLAttribute with the given name.
+   * @param name The name of the attribute.
+   */
+  HTMLAttribute(const STDNS string& name);
   
   /**
    * Create an HTMLAttribute with the given name and value.
@@ -65,16 +71,12 @@ public:
   /**
    * Copy constructor.
    * @param attribute The HTMLAttribute to copy.
-   * @exception bad_alloc
    */
   HTMLAttribute(const HTMLAttribute& attribute);
   
   /** Destructor */
   virtual ~HTMLAttribute();
-  //@}
 
-  /**@name Overloaded Operators */
-  //@{
 
   /**
    * Compare two HTMLAttributes for equality.
@@ -95,6 +97,13 @@ public:
   operator!= (const HTMLAttribute& att) 		const
     { return ! operator==(att); }
 
+#ifdef WIN32
+  /** Dummy operator for MSVC++ */
+  inline bool
+  operator< (const HTMLAttribute& att) const
+  { return false; }
+#endif
+
   /**
    * Assign one HTMLAttribute to another.
    * @param att The HTMLAttribute to copy.
@@ -103,10 +112,6 @@ public:
   HTMLAttribute& 
   operator= (const HTMLAttribute& att);
   
-  //@}
-
-  /**@name Accessor Methods */
-  //@{
   
   /**
    * Get the name of this HTMLAttribute.
@@ -123,10 +128,15 @@ public:
   inline STDNS string
   getValue() 						const
     { return fValue; }
-  //@}
-  
-  /**@name Mutator Methods */
-  //@{
+
+  /**
+   * Determine if this is an atomic HTMLAttribute.
+   * @return true if this is an atomic HTMLAttribute, false otherwise.
+   */
+  inline bool
+  isAtomic() 						const
+    { return fAtomic; }
+
   
   /**
    * Set the name of this HTMLAttribute.
@@ -139,12 +149,19 @@ public:
   /**
    * Set the value of this HTMLAttribute.
    * @param value The new value of the attribute.
-   * @exception bad_alloc
    */
   inline void 
   setValue(const STDNS string& value)
     { fValue = value; }
-  //@}
+
+  /** 
+   * Set whether this is an atomic HTMLAttribute.
+   * @param atomic Whether this is an atomic HTMLAttribute.
+   */
+  inline void
+  setAtomic(bool atomic)
+    { fAtomic = atomic; }
+
   
   /* Render this attribute */
   virtual void 
@@ -153,62 +170,26 @@ public:
 private:
   STDNS string fName;
   STDNS string fValue;
+  bool fAtomic;
 };
 
-// ============================================================
-// Class HTMLAtomicAttribute
-// ============================================================
-/**
- * An HTMLAtomicAttribute represents a special instance of HTMLAttribute.
- * For example, in the HTML code:
- * <PRE CLASS="html">&lt;IMG SRC="foo.jpg" ISMAP&gt;</PRE>
- * The keyword <EM>ISMAP</EM> is an HTMLAtomicAttribute.
- */
-class HTMLAtomicAttribute : public HTMLAttribute 
-{
-public:
-  /**@name Constructors */
-  //@{
-  
-  /** Create an empty HTMLAtomicAttribute. */
-  HTMLAtomicAttribute();
-  
-  /**
-   * Create an HTMLAtomicAttribute with the given name.
-   * @param name The name of the attribute.
-   */	
-  HTMLAtomicAttribute(const STDNS string& name);
-
-  /**
-   * Copy constructor.
-   * @param attribute The HTMLAtomicAttribute to copy.
-   */
-  HTMLAtomicAttribute(const HTMLAtomicAttribute& attribute);
-
-  /** Destructor */
-  virtual ~HTMLAtomicAttribute();
-  //@}
-  
-  /* Render this attribute */
-  virtual void 
-  render(STDNS ostream& out) 				const;
-};
 
 // ============================================================
 // Class HTMLAttributeList
 // ============================================================
+
+#ifdef WIN32
+  template class CGICC_API STDNS vector<HTMLAttribute>;
+#endif
+
 /**
  * An HTMLAttributeList represents any number of HTMLAttributes inside an 
  * HTMLElement.
  * @see HTMLAttribute
- * @see HTMLAtomicAttribute
  */
-class HTMLAttributeList 
+class CGICC_API HTMLAttributeList 
 {
 public:
-
-  /**@name Constructors */
-  //@{
 
   /** Create an empty HTMLAttributeList. */
   HTMLAttributeList();
@@ -226,35 +207,34 @@ public:
   HTMLAttributeList(const HTMLAttributeList& list);
 
   /** Destructor */
-  virtual ~HTMLAttributeList();
-  //@}
+  ~HTMLAttributeList();
 
-  /**@name List Addition */
-  //@{
+
+  /**
+   * Assign one HTMLAttributeList to another.
+   */
+  HTMLAttributeList&
+  operator= (const HTMLAttributeList &list);
   
   /** 
-   * Add an HTMLAtomicAttribute name to the list.
-   * @param name The name of the HTMLAttribute to add.
+   * Set an HTMLAtomicAttribute on an HTMLElement.
+   * @param name The name of the HTMLAttribute to set.
    * @return A reference to the list.
    */
   HTMLAttributeList& 
-  add(const STDNS string& name);
+  set(const STDNS string& name);
 
   /** 
-   * Add an HTMLAttribute name/value pair to the list.
-   * @param name The name of the HTMLAttribute to add.
-   * @param value The value of the HTMLAttribute to add.
-   * If NULL, an HTMLAtomicAttribute will be added.
+   * Set an HTMLAttribute name/value pair on an HTMLElement.
+   * @param name The name of the HTMLAttribute to set.
+   * @param value The value of the HTMLAttribute to set.
    * @return A reference to the list.
-   * @exception bad_alloc
    */
   HTMLAttributeList& 
-  add(const STDNS string& name, 
+  set(const STDNS string& name, 
       const STDNS string& value);
   
-  //@}
-
-  /* Render this attribute list */
+  /** Render this HTMLAttributeList */
   void 
   render(STDNS ostream& out) 				const;
 
@@ -266,36 +246,35 @@ private:
 // List manipulators
 // ============================================================
 /**
- * Create a new HTMLAttributeList, and add an HTMLAttribute to it.
+ * Create a new HTMLAttributeList, and set an HTMLAttribute.
  * <P>This function is usually called from within the constructor of an
  * \Ref{HTMLElement}:
  * <PRE class="code">
- * out << img(add("isindex")) << endl;
+ * out << img(set("ISINDEX")) << endl;
  * </PRE></P>
- * @param name The name of the HTMLAttribute to add.
+ * @param name The name of the HTMLAttribute to set.
  * @return A reference to the list.
  */
 inline HTMLAttributeList 
-add(const STDNS string& name)
-{ return HTMLAttributeList(HTMLAtomicAttribute(name)); }
+set(const STDNS string& name)
+{ return HTMLAttributeList(HTMLAttribute(name)); }
 
 /**
- * Create a new HTMLAttributeList, and add an HTMLAttribute to it.
+ * Create a new HTMLAttributeList, and set an HTMLAttribute.
  * <P>This function is usually called from within the constructor of an
  * \Ref{HTMLElement}:
  * <PRE class="code">
- * out << a("link text", add("href","http://www.foo.com")) << endl;
+ * out << a("link text", set("HREF","http://www.foo.com")) << endl;
  * </PRE></P>
- * @param name The name of the HTMLAttribute to add.
- * @param value The value of the HTMLAttribute to add.
- * If NULL, an HTMLAtomicAttribute will be added.
+ * @param name The name of the HTMLAttribute to set.
+ * @param value The value of the HTMLAttribute to set.
  * @return A reference to the list.
  */
 inline HTMLAttributeList 
-add(const STDNS string& name, 
+set(const STDNS string& name, 
     const STDNS string& value)
 { return HTMLAttributeList(HTMLAttribute(name, value)); }
 
 CGICC_END_NAMESPACE
 
-#endif /* ! _HTMLATTRIBUTES_HH_ */
+#endif /* ! _HTMLATTRIBUTES_H_ */

@@ -1,5 +1,5 @@
 /*
- *  $Id: Cgicc.cc,v 1.2 1999/06/04 00:07:36 sbooth Exp $
+ *  $Id: Cgicc.cpp,v 1.3 1999/08/16 18:02:39 sbooth Exp $
  *
  *  Copyright (C) 1996, 1997, 1998, 1999 Stephen F. Booth
  *
@@ -19,7 +19,7 @@
  */
 
 #ifdef __GNUG__
-#pragma implementation
+#  pragma implementation
 #endif
 
 #include <new>
@@ -33,19 +33,11 @@
 #include <time.h>
 #endif
 
-#include "cgicc/CgiUtils.hh"
-#include "cgicc/Cgicc.hh"
+#include "cgicc/CgiUtils.h"
+#include "cgicc/Cgicc.h"
 
 
 CGICC_BEGIN_NAMESPACE
-
-// Handy function missing from STL
-template<class In, class Out, class Pred>
-Out 
-copy_if(In first, 
-	In last, 
-	Out res, 
-	Pred p);
 
 // ============================================================
 // Class FE_nameCompare
@@ -99,15 +91,14 @@ private:
   STDNS string fName;
 };
 
-CGICC_END_NAMESPACE
-
-
-// Handy function missing from STL
+// ============================================================
+// Function copy_if (handy, missing from STL)
+// ============================================================
 // This code taken directly from 
 // "The C++ Programming Language, Third Edition" by Bjarne Stroustrup
 template<class In, class Out, class Pred>
 Out 
-CGICCNS copy_if(In first, 
+copy_if(In first, 
 		In last, 
 		Out res, 
 		Pred p)
@@ -119,6 +110,8 @@ CGICCNS copy_if(In first,
   }
   return res;
 }
+
+CGICC_END_NAMESPACE
 
 // ============================================================
 // Class MultipartHeader
@@ -229,19 +222,19 @@ CGICCNS Cgicc::~Cgicc()
   LOGLN("Cgicc debugging log closed.")
 }
 
-STDNS string
+const char*
 CGICCNS Cgicc::getCompileDate() 				const
 { return __DATE__; }
 
-STDNS string
+const char*
 CGICCNS Cgicc::getCompileTime() 				const
 { return __TIME__; }
 
-STDNS string
+const char*
 CGICCNS Cgicc::getVersion() 					const
 { return VERSION; }
 
-STDNS string
+const char*
 CGICCNS Cgicc::getHost() 					const
 { return HOST; }
 
@@ -315,7 +308,7 @@ bool
 CGICCNS Cgicc::getElementByValue(const STDNS string& value, 
 				 STDNS vector<FormEntry>& result) 	const
 { 
-  return findEntries(value, true, result); 
+  return findEntries(value, false, result); 
 }
 
 STDNS vector<CGICCNS FormFile>::iterator 
@@ -342,26 +335,6 @@ CGICCNS Cgicc::findEntries(const STDNS string& param,
   // empty the target vector
   result.clear();
 
-#ifdef _MSC_VER
-  // Workaround for Microsoft C++ compiler bug, which is unable to instantiate
-  // the copy_if() template functions.
-  if(byName) {
-    STDNS vector<FormEntry>::const_iterator i = fFormData.begin();
-    while(i != fFormData.end()) {
-      if(stringsAreEqual((*i).getName(), param))
-        result.push_back(*i);
-      ++i;
-    }
-  }
-  else {
-    STDNS vector<FormEntry>::const_iterator i = fFormData.begin();
-    while(i != fFormData.end()) {
-      if(stringsAreEqual((*i).getValue(), param))
-        result.push_back(*i);
-      ++i;
-    }
-  }
-#else
   if(byName)
     copy_if(fFormData.begin(), 
 	    fFormData.end(), 
@@ -372,7 +345,7 @@ CGICCNS Cgicc::findEntries(const STDNS string& param,
 	    fFormData.end(), 
 	    STDNS back_inserter(result),
 	    FE_valueCompare(param));
-#endif 
+
   return ! result.empty();
 }
 
@@ -507,13 +480,3 @@ CGICCNS Cgicc::parseMIME(const STDNS string& data)
 				  head.getContentType(), 
 				  value));
 }
-
-//EOF
-
-
-
-
-
-
-
-

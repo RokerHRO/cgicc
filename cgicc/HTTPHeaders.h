@@ -1,5 +1,6 @@
+/* -*-c++-*- */
 /*
- *  $Id: HTTPHeaders.hh,v 1.2 1999/06/04 00:07:42 sbooth Exp $
+ *  $Id: HTTPHeaders.h,v 1.3 1999/08/16 17:40:05 sbooth Exp $
  *
  *  Copyright (C) 1996, 1997, 1998, 1999 Stephen F. Booth
  *
@@ -18,17 +19,17 @@
  *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-#ifndef _HTTPHEADERS_HH_
-#define _HTTPHEADERS_HH_ 1
+#ifndef _HTTPHEADERS_H_
+#define _HTTPHEADERS_H_ 1
 
 #ifdef __GNUG__
-#pragma interface
+#  pragma interface
 #endif
 
 #include <string>
 
-#include "cgicc/MStreamable.hh"
-#include "cgicc/CgiDefs.hh"
+#include "cgicc/MStreamable.h"
+#include "cgicc/CgiDefs.h"
 
 CGICC_BEGIN_NAMESPACE
   
@@ -44,11 +45,9 @@ CGICC_BEGIN_NAMESPACE
  * <P>For more information, see <TT>\URL{http://www.w3.org/MarkUp/}</TT> and 
  * <TT>\URL{http://www.w3.org/TR/REC-html40/}</TT></P>
  */
-class HTMLDoctype : public MStreamable 
+class CGICC_API HTMLDoctype : public MStreamable 
 {
 public:
-  /**@name Enumerations */
-  //@{
     
   /** The DTD used by this document. */
   enum EDocumentType {
@@ -59,10 +58,7 @@ public:
     /** The HTML 4.0 Frameset DTD */
     eFrames
   };
-  //@}
-    
-  /**@name Constructors */
-  //@{
+
     
   /**
    * Constructor.
@@ -72,7 +68,6 @@ public:
     
   /** Destructor */
   virtual ~HTMLDoctype();
-  //@}
     
   virtual void 
   render(STDNS ostream& out) 			const;
@@ -92,11 +87,9 @@ private:
  *  out << HTTPCookie("count","1");
  * </PRE>
  */
-class HTTPCookie : public MStreamable 
+class CGICC_API HTTPCookie : public MStreamable 
 {
 public:
-  /**@name Constructors */
-  //@{
 
   /** Create a new, empty HTTPCookie. */
   HTTPCookie();
@@ -113,21 +106,22 @@ public:
    * Create a new HTTPCookie.
    * @param name The name of the cookie.
    * @param value The value of the cookie.
-   * @param expires The expiration date of the cookie in the form of
-   * Wdy, DD-Mon-YYYY HH:MM:SS GMT. If empty the cookie will expire 
-   * as soon as the session ends.
-   * @param path The subset of URLS in a domain for which the cookie is 
-   * valid, for example "/".
+   * @param comment Any comment associated with the cookie.
    * @param domain The domain for which this cookie is valid- an empty string
    * will use the hostname of the server which generated the cookie response.
-   * If specified, the domain <EM>must</EM> contain at least two periods('.'). 
+   * If specified, the domain <EM>must</EM> start with a period('.'). 
+   * @param maxAge A number of seconds defining the lifetime of this cookie.
+   * A value of <TT>0</TT> indicates the cookie expires immediately.
+   * @param path The subset of URLS in a domain for which the cookie is 
+   * valid, for example "/".
    * @param secure Specifies whether this is a secure cookie.
    */
   HTTPCookie(const STDNS string& name, 
 	     const STDNS string& value, 
-	     const STDNS string& expires, 
-	     const STDNS string& path,
+	     const STDNS string& comment, 
 	     const STDNS string& domain, 
+	     unsigned long maxAge, 
+	     const STDNS string& path,
 	     bool secure);
     
   /**
@@ -138,11 +132,33 @@ public:
     
   /** Destructor */
   virtual ~HTTPCookie();
-  //@}
-    
-  /**@name Accessor Functions */
-  //@{
-    
+
+
+
+  /** 
+   * Compare two HTTPCookies for equality.
+   * @param cookie The HTTPCookie to compare to this one
+   * @return true if the two HTTPCookies are equal, false otherwise.
+   */
+  bool 
+  operator== (const HTTPCookie& cookie) 	const;
+
+  /** 
+   * Compare two HTTPCookies for inequality.
+   * @param cookie The HTTPCookie to compare to this one
+   * @return false if the two HTTPCookies are equal, true otherwise.
+   */
+  inline bool 
+  operator != (const HTTPCookie& cookie) 	const
+  { return ! operator==(cookie); }
+
+#ifdef WIN32
+  /** Dummy operator for MSVC++ */
+  inline bool 
+  operator< (const HTTPCookie& cookie) 		const
+  { return false; }
+#endif
+
   /**
    * Get the name of this cookie.
    * @return The name of this cookie.
@@ -158,22 +174,14 @@ public:
   inline STDNS string 
   getValue() 					const
     { return fValue; }
-  
+
   /**
-   * Get the expiration date of this cookie, if any.
-   * @return The expiration date of this cookie, or "" if none.
+   * Get the comment of this cookie.
+   * @return The comment of this cookie.
    */
   inline STDNS string 
-  getExpires() 					const
-    { return fExpires; }
-    
-  /**
-   * Get the path of this cookie.
-   * @return The path of this cookie, or "" if none.
-   */
-  inline STDNS string 
-  getPath() 					const
-    { return fPath; }
+  getComment() 					const
+    { return fComment; }
   
   /**
    * Get the domain of this cookie.
@@ -182,6 +190,22 @@ public:
   inline STDNS string 
   getDomain() 					const
     { return fDomain; }
+  
+  /**
+   * Get the lifetime of this cookie, in seconds.
+   * @return The lifetime of this cookie, or 0 if none.
+   */
+  inline unsigned long
+  getMaxAge() 					const
+    { return fMaxAge; }
+    
+  /**
+   * Get the path of this cookie.
+   * @return The path of this cookie, or "" if none.
+   */
+  inline STDNS string 
+  getPath() 					const
+    { return fPath; }
     
   /**
    * Determine if this is a secure cookie.
@@ -190,11 +214,8 @@ public:
   inline bool 
   isSecure() 					const
     { return fSecure; }
-  //@}  
-    
-  /**@name Mutator Functions */
-  //@{
-    
+
+
   /**
    * Set the name of this cookie.
    * @param name The name of this cookie.
@@ -212,13 +233,28 @@ public:
     { fValue = value; }
     
   /**
-   * Set the expiration date of this cookie.
-   * @param expires The expiration date of this cookie, in the form 
-   * Wdy, DD-Mon-YYYY HH:MM:SS GMT.
+   * Set the comment of this cookie.
+   * @param comment The comment of this cookie.
    */
   inline void 
-  setExpires(const STDNS string& expires)
-    { fExpires = expires; }
+  setComment(const STDNS string& comment)
+    { fComment = comment; }
+        
+  /**
+   * Set the domain of this cookie.
+   * @param domain The domain of this cookie.
+   */
+  inline void 
+  setDomain(const STDNS string& domain)
+    { fDomain = domain; }
+
+  /**
+   * Set the lifetime of this cookie, in seconds.
+   * @param maxAge The lifetime of this cookie, in seconds. 
+   */
+  inline void 
+  setMaxAge(unsigned long maxAge)
+    { fMaxAge = maxAge; }
     
   /**
    * Set the path of this cookie.
@@ -229,43 +265,34 @@ public:
     { fPath = path; }
     
   /**
-   * Set the domain of this cookie.
-   * @param domain The domain of this cookie.
-   */
-  inline void 
-  setDomain(const STDNS string& domain)
-    { fDomain = domain; }
-    
-  /**
    * Mark this cookie as secure or unsecure.
    * @param secure Whether this is a secure cookie.
    */
   inline void 
   setSecure(bool secure)
     { fSecure = secure; }
-  //@}
     
+
   virtual void 
   render(STDNS ostream& out) 			const;
     
 private:
-  STDNS string 	fName;
-  STDNS string 	fValue;
-  STDNS string 	fExpires;
-  STDNS string 	fPath;
-  STDNS string 	fDomain;
-  bool 		fSecure;
+  STDNS string 		fName;
+  STDNS string 		fValue;
+  STDNS string 		fComment;
+  STDNS string 		fDomain;
+  unsigned long 	fMaxAge;
+  STDNS string 		fPath;
+  bool 			fSecure;
 };
   
 // ============================================================
 // Class HTTPHeader
 // ============================================================
 /** Abstract base class for all HTTP headers. */
-class HTTPHeader : public MStreamable 
+class CGICC_API HTTPHeader : public MStreamable 
 {
 public:
-  /**@name Constructors */
-  //@{
     
   /**
    * Constructor.
@@ -281,10 +308,7 @@ public:
     
   /** Destructor */
   virtual ~HTTPHeader();
-  //@}
-    
-  /**@name Header data */
-  //@{
+
     
   /**
    * Get the data contained in this HTTP header.
@@ -293,7 +317,6 @@ public:
   inline STDNS string 
   getData() 					const
     { return fData; }
-  //@}
     
   virtual void 
   render(STDNS ostream& out) 			const = 0;
@@ -308,7 +331,7 @@ private:
 // Class HTTPContentHeader
 // ============================================================
 /** HTTP header for data of a specified MIME type. */
-class HTTPContentHeader : public HTTPHeader 
+class CGICC_API HTTPContentHeader : public HTTPHeader 
 {
 public:
   /**
@@ -331,7 +354,7 @@ private:
 // Class HTTPRedirectHeader
 // ============================================================
 /** HTTP Redirection Header */
-class HTTPRedirectHeader : public HTTPHeader 
+class CGICC_API HTTPRedirectHeader : public HTTPHeader 
 {
 public:
   /**
@@ -354,7 +377,7 @@ private:
 // Class HTTPStatusHeader
 // ============================================================
 /** HTTP Status Header */
-class HTTPStatusHeader : public HTTPHeader 
+class CGICC_API HTTPStatusHeader : public HTTPHeader 
 {
 public:
   /**
@@ -389,7 +412,7 @@ private:
 // Class HTTPNPHeader
 // ============================================================
 /** HTTP No-parse Header */
-class HTTPNPHeader : public HTTPHeader 
+class CGICC_API HTTPNPHeader : public HTTPHeader 
 {
 public:
   /** Create a new No-parse header */
@@ -406,7 +429,7 @@ public:
 // Class HTTPHTMLHeader
 // ============================================================
 /** Shortcut to HTTPContentHeader for "text/html" */
-class HTTPHTMLHeader : public HTTPContentHeader 
+class CGICC_API HTTPHTMLHeader : public HTTPContentHeader 
 {
 public:
   /** Create a new "text/html" header */
@@ -420,7 +443,7 @@ public:
 // Class HTTPPlainHeader
 // ============================================================
 /** Shortcut to HTTPContentHeader for "text/plain" */
-class HTTPPlainHeader : public HTTPContentHeader 
+class CGICC_API HTTPPlainHeader : public HTTPContentHeader 
 {
 public:
   /** Create a new "text/plain" header */
@@ -434,7 +457,7 @@ public:
 // Class HTTPGIFHeader
 // ============================================================
 /** Shortcut to HTTPContentHeader for "image/gif" */
-class HTTPGIFHeader : public HTTPContentHeader 
+class CGICC_API HTTPGIFHeader : public HTTPContentHeader 
 {
 public:
   /** Create a new "image/gif" header */
@@ -448,7 +471,7 @@ public:
 // Class HTTPJPEGHeader
 // ============================================================
 /** Shortcut to HTTPContentHeader for "image/jpeg" */
-class HTTPJPEGHeader : public HTTPContentHeader 
+class CGICC_API HTTPJPEGHeader : public HTTPContentHeader 
 {
 public:
   /** Create a new "image/jpeg" header */
@@ -462,7 +485,7 @@ public:
 // Class HTTPXBMHeader
 // ============================================================
 /** Shortcut to HTTPContentHeader for "image/x-xbitmap" */
-class HTTPXBMHeader : public HTTPContentHeader 
+class CGICC_API HTTPXBMHeader : public HTTPContentHeader 
 {
 public:
   /** Create a new "image/x-xbitmap" header */
@@ -476,7 +499,7 @@ public:
 // Class HTTPAudioHeader
 // ============================================================
 /** Shortcut to HTTPContentHeader for "audio/basic" */
-class HTTPAudioHeader : public HTTPContentHeader 
+class CGICC_API HTTPAudioHeader : public HTTPContentHeader 
 {
 public:
   /** Create a new "audio/basic" header */
@@ -488,4 +511,4 @@ public:
   
 CGICC_END_NAMESPACE
 
-#endif /* ! _HTTPHEADERS_HH_ */
+#endif /* ! _HTTPHEADERS_H_ */

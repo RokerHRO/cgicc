@@ -1,5 +1,6 @@
+/* -*-c++-*- */
 /*
- *  $Id: FormFile.hh,v 1.2 1999/06/04 00:07:37 sbooth Exp $
+ *  $Id: FormFile.h,v 1.3 1999/08/16 17:40:04 sbooth Exp $
  *
  *  Copyright (C) 1996, 1997, 1998, 1999 Stephen F. Booth
  *
@@ -18,17 +19,17 @@
  *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-#ifndef _FORMFILE_HH_
-#define _FORMFILE_HH_ 1
+#ifndef _FORMFILE_H_
+#define _FORMFILE_H_ 1
 
 #ifdef __GNUG__
-#pragma interface
+#  pragma interface
 #endif
 
 #include <iostream>
 #include <string>
 
-#include "cgicc/CgiDefs.hh"
+#include "cgicc/CgiDefs.h"
 
 CGICC_BEGIN_NAMESPACE
 
@@ -42,14 +43,12 @@ CGICC_BEGIN_NAMESPACE
  * </PRE>
  * </P>
  */
-class FormFile
+class CGICC_API FormFile
 {
 public:
   
-  /**@name Constructors */
-  //@{
-  
   /** Default constructor - shouldn't be used. */
+  inline
   FormFile()
     {}
   
@@ -69,15 +68,15 @@ public:
    * Copy constructor.
    * @param file The FormFile to copy.
    */
-  FormFile(const FormFile& file);
+  inline
+  FormFile(const FormFile& file)
+    { operator=(file); }
   
   /** Destructor */
-  ~FormFile();
-  //@}
-  
-  
-  /**@name Overloaded Operators */
-  //@{
+  inline
+  ~FormFile()
+    {}
+
   
   /**
    * Compare two FormFiles for equality.
@@ -98,6 +97,13 @@ public:
   operator!= (const FormFile& file) 			const
     { return ! operator==(file); }
   
+#ifdef WIN32
+  /** Dummy operator for MSVC++ */
+  inline bool
+  operator< (const FormFile& file) 			const
+  { return false; }
+#endif
+
   /**
    * Assign one FormFile to another.
    * @param file The FormFile to copy.
@@ -106,10 +112,6 @@ public:
   FormFile& 
   operator= (const FormFile& file);
   
-  //@}
-  
-  /**@name Accessor methods */
-  //@{
   
   /**
    * Write this file data to the specified stream.
@@ -158,8 +160,6 @@ public:
   getDataLength() 				const
     { return fData.length(); }
   
-  //@}
-  
 private:
   STDNS string 	fName;
   STDNS string 	fFilename;
@@ -169,4 +169,4 @@ private:
 
 CGICC_END_NAMESPACE
 
-#endif /* ! _FORMFILE_HH_ */
+#endif /* ! _FORMFILE_H_ */

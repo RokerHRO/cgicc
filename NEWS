@@ -7,6 +7,20 @@
 
 ======================================================================
 
+        Major changes between versions 3.0.2 and 3.1
+
+* HTML generation classes reworked, thanks to Christof Danzl.
+
+* HTTPCookie reworked to comply with RFC 2109.
+
+* All add() methods relating to HTMLAttribute renamed to set().
+
+* New methods add() added to HTMLElement, to allow multiple embedded elements.
+
+* Visual C++ 6.0 project files added, in win/ subdirectory.
+
+* All .cc files renamed to .cpp, and .hh files to .h (for Win32 support).
+
         Major changes between versions 3.0.1 and 3.0.2
 
 * Renamed the src/ directory to cgicc/.

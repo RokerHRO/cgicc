@@ -1,4 +1,6 @@
-## $Id: Makefile.am,v 1.14 1999/06/03 23:06:52 sbooth Exp $
+## $Id: Makefile.am,v 1.19 1999/08/10 00:12:53 sbooth Exp $
+
+AUTOMAKE_OPTIONS = check-news dist-zip
 
 if DEMOS
 DEMO = demo
@@ -10,13 +12,28 @@ SUBDIRS = cgicc info $(DEMO)
 
 CLEANFILES = *~
 
-EXTRA_DIST = acconfig.h
+EXTRA_DIST = acconfig.h README.WIN
 
 dist-hook:
 	test -d $(distdir)/example || mkdir $(distdir)/example || exit 1
 	cp -p $(srcdir)/example/README $(distdir)/example
 	cp -p $(srcdir)/example/Makefile.in $(distdir)/example
-	cp -p $(srcdir)/example/yourSource.cc $(distdir)/example
+	cp -p $(srcdir)/example/yourSource.cpp $(distdir)/example
+	test -d $(distdir)/support || mkdir $(distdir)/support || exit 1
+	cp -p $(srcdir)/support/config.guess $(distdir)/support
+	cp -p $(srcdir)/support/config.sub $(distdir)/support
+	cp -p $(srcdir)/support/install-sh $(distdir)/support
+	cp -p $(srcdir)/support/ltconfig $(distdir)/support
+	cp -p $(srcdir)/support/ltmain.sh $(distdir)/support
+	cp -p $(srcdir)/support/mdate-sh $(distdir)/support
+	cp -p $(srcdir)/support/missing $(distdir)/support
+	cp -p $(srcdir)/support/mkinstalldirs $(distdir)/support
+	test -d $(distdir)/win || mkdir $(distdir)/win || exit 1
+	cp -p $(srcdir)/win/cgicc.dsw $(distdir)/win
+	cp -p $(srcdir)/win/cgicc.dsp $(distdir)/win
+	cp -p $(srcdir)/win/test.dsp $(distdir)/win
+	cp -p $(srcdir)/win/dns.dsp $(distdir)/win
+	cp -p $(srcdir)/win/example.dsp $(distdir)/win
 
 if MAINTAINER_MODE
 ################################################################
@@ -29,14 +46,8 @@ if MAINTAINER_MODE
 CVS = cvs
 
 ## Tag sources before making distribution, but don't make a
-## distribution if checks fail.  Also, make sure the NEWS file is
-## up-to-date.
+## distribution if checks fail.
 cvs-dist: distcheck
-	@if sed '1,9d;10q' $(srcdir)/NEWS | grep -e "$(VERSION)" > /dev/null; \
-	then :; else \
-	  echo "NEWS not updated; not releasing" 1>&2; \
-	  exit 1;				\
-	fi
 	cd $(srcdir) && \
 	 $(CVS) -q tag `echo "release-$(VERSION)" | sed 's/\./-/g'`
 	$(MAKE) dist
