@@ -1,3 +1,118 @@
+2002-01-09  Stephen F. Booth  <sbooth@gnu.org>
+
+	* README: Updated for 3.2
+	* NEWS: Updated for 3.2
+	* Makefile.am: Changed configure.in to configure.ac
+	* doc/Makefile.am: Added install-data-local target
+	* Makefile.am: Added DIST_SUBDIRS, distribute COPYING.DOC
+	* Added files COPYING.LIB and COPYING.DOC
+
+2001-09-04  Stephen F. Booth  <sbooth@gnu.org>
+
+	* cgicc/HTMLAttribute.h: Removed <vector> from #includes
+	* cgicc/HTMLElementList.h: Added <vector> to #includes
+	* cgicc/HTTPHeader.h: Added <vector> to #includes
+	* cgicc/HTTPResponseHeader.h: Added <vector> to #includes
+
+2001-09-03  Stephen F. Booth  <sbooth@gnu.org>
+
+	* cgicc/HTTPHeaders.h: Added new class HTTPResponseHeader, and
+	restructured HTTPNPHeader to be a subclass of HTTPResponseHeader
+	* cgicc/HTTPHeaders.cpp: Same as above
+	* cgicc/CgiUtils.h: Fixed debug logging for namespaces
+	* cgicc/HTTPCookie.{h,cpp}: New files (code split from HTTPHeaders)
+	* cgicc/HTTPHeaders.{h,cpp}: Removed HTTPCookie code
+	* cgicc/CgiEnvironment.cpp: Fixed includes for HTTPCookie.h
+	* cgicc/HTTPHeaders.h(HTTPHeader): Added setCookie method
+	* cgicc/HTTPHeaders.cpp: Added logic to render() for HTTPCookies
+	* cgicc/CgiEnvironment.h: Added cookie_iterator, 
+	const_cookie_iterator typedefs
+	* demo/Makefile.am: Added target cookie.cgi
+	* demo/cookie.{cpp,html}: New files
+	* demo/README: Updated for new XHTML files and cookie.cgi
+	* configure.in: Renamed to configure.ac for autoconf 2.52
+	* cgicc/HTMLAttributes.{h,cpp}: Split into four new files,
+	HTMLAttribute.{h,cpp} and HTMLAttributeList.{h,cpp}
+	* cgicc/HTMLElements.{h,cpp}: Split into four new files,
+	HTMLElement.{h,cpp} and HTMLElementList.{h,cpp}
+	* cgicc/HTMLGeneric.h: Split into two new files,
+	HTMLAtomicElement.h and HTMLBooleanElement.h
+	* cgicc/HTTPHeaders.{h,cpp}: Split into 16 new files:
+	HTMLDoctype.{h,cpp}, HTTPContentHeader.{h,cpp},
+	HTTPHTMLHeader.{h,cpp}, HTTPHeader.{h,cpp},
+	HTTPPlainHeader.{h,cpp}, HTTPRedirectHeader.{h,cpp},
+	HTTPReponseHeader.{h,cpp}, HTTPStatusHeader.{h,cpp}
+
+2001-09-02  Stephen F. Booth  <sbooth@gnu.org>
+
+	* THANKS: Fixed punctuation
+	* doc/Makefile.am: Install HTML documentation into $(prefix)/doc
+	* demo/test.cpp: Added documentation
+	* demo/upload.cpp: Added documentation
+
+2001-09-01  Stephen F. Booth  <sbooth@gnu.org>
+
+	* cgicc/CgiUtils.cpp(writeString): Fixed bug assuming string.getData()
+	was null-terminated (bug fix submitted by fine@netease.com)
+	* demo/test.cpp: Changed HTML footer
+	* demo/dns.cpp: Changed HTML footer
+	* demo/upload.cpp: Changed HTML footer
+
+2001-08-30  Stephen F. Booth  <sbooth@gnu.org>
+
+	* cgicc/CgiEnvironment.h: Added fUsingHTTPS data member
+	* cgicc/CgiEnvironment.cpp(readEnvironmentVariables): Added WIN32 
+	specific section to determing is connection is secure
+	(bug fix submitted by peter.goedtkindt@axstech.com)
+	* cgicc/CgiEnvironment.cpp(save, restore): Whether connection is
+	secure is now saved/restored
+	* THANKS: Thanks to Peter Goedtkindt
+	* Makefile.am: Removed references to example/ltmain.sh and 
+	example/ltconfig
+
+2001-07-04  Stephen F. Booth  <sbooth@gnu.org>
+
+	* cgicc/*.h: Changed license to LGPL
+	* cgicc/*.cpp: Changed license to LGPL
+	* acconfig.h: Changed license to LGPL
+	* COPYING.LIB: Added
+
+2001-07-01  Stephen F. Booth  <sbooth@gnu.org>
+
+	* cgicc/HTMLElements.h: Fix memory leak in HTMLElement assignment 
+	operator (bug fix submitted by fdegros@soreh.fr)
+	* cgicc/HTMLClasses.h: Changed tags to lowercase
+	* cgicc/HTMLAttributes.h: Removed idea of 'atomic' attributes
+	* cgicc/HTMLAttributes.cpp: Removed 'atomic' attribute
+	* cgicc/HTMLElements.cpp(render): Atomic elements now rendered
+	with a trailing / (for SGML/XML compliance)
+	* demo/test.cpp: Changed all HTML to lowercase
+	* demo/dns.cpp: Changed all HTML to lowercase
+	* demo/upload.cpp: Changed all HTML to lowercase
+
+2001-03-12  Stephen F. Booth  <sbooth@gnu.org>
+
+	* autogen: Run autogen in example/
+
+2001-03-06  Stephen F. Booth  <sbooth@gnu.org>
+
+	* configure.in: Increment version to 3.1.6
+	* cgicc/Makefile.am: Increment libtool version
+	* Makefile.am: Added MAINTAINERCLEANFILES
+	* THANKS: Thanks to Gilbert Fine
+	* demo/test.html: Updated for the times :P
+
+2001-03-05  Stephen F. Booth  <sbooth@gnu.org>
+
+	* cgicc/Cgicc.cpp: Parse content type correctly for uploaded 
+	files (bug fix submitted by fine@netease.com)
+	* cgicc/Cgicc.h: Added support for external reader functions
+	* cgicc/Cgicc.cpp: Added support for external reader functions
+	* cgicc/CgiEnvironment.h: Added support for external reader functions
+	* cgicc/CgiEnvironment.cpp: Added support for external reader functions
+	* info/class-cgicc.texinfo: Documentation for external readers
+	* info/class-cgienv.texinfo: Documentation for external readers
+
 2001-03-03  Stephen F. Booth  <sbooth@gnu.org>
 
 	* demo/README: Fixed a spelling error

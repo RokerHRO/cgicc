@@ -1,18 +1,29 @@
-## $Id: Makefile.am,v 1.24 2000/11/15 06:47:01 sbooth Exp $
+## $Id: Makefile.am,v 1.30 2002/01/09 17:16:41 sbooth Exp $
 
-AUTOMAKE_OPTIONS = check-news dist-zip #dist-bzip2
+AUTOMAKE_OPTIONS = check-news dist-zip dist-bzip2
 
 if DEMOS
-DEMO = demo
+DEMO = demo contrib
 else
 DEMO =
 endif
 
-SUBDIRS = cgicc info support $(DEMO)
+if MAINTAINER_MODE
+HTML = html
+else
+HTML =
+endif
+
+SUBDIRS = cgicc doc support $(HTML) $(DEMO)
+
+DIST_SUBDIRS = cgicc doc support $(DEMO)
 
 CLEANFILES = *~
 
-EXTRA_DIST = acconfig.h README.WIN
+MAINTAINERCLEANFILES = config.guess config.sub ltmain.sh aclocal.m4 \
+	cgicc-*.tar.gz cgicc-*.diff
+
+EXTRA_DIST = acconfig.h README.WIN COPYING.DOC
 
 dist-hook:
 	test -d $(distdir)/example || mkdir $(distdir)/example || exit 1
@@ -30,11 +41,9 @@ dist-hook:
 	cp -p $(srcdir)/example/config.guess $(distdir)/example
 	cp -p $(srcdir)/example/config.sub $(distdir)/example
 	cp -p $(srcdir)/example/configure $(distdir)/example
-	cp -p $(srcdir)/example/configure.in $(distdir)/example
+	cp -p $(srcdir)/example/configure.ac $(distdir)/example
 	cp -p $(srcdir)/example/example.cpp $(distdir)/example
 	cp -p $(srcdir)/example/install-sh $(distdir)/example
-	cp -p $(srcdir)/example/ltconfig $(distdir)/example
-	cp -p $(srcdir)/example/ltmain.sh $(distdir)/example
 	cp -p $(srcdir)/example/missing $(distdir)/example
 	cp -p $(srcdir)/example/mkinstalldirs $(distdir)/example
 	test -d $(distdir)/win || mkdir $(distdir)/win || exit 1

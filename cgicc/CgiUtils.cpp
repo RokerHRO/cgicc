@@ -1,20 +1,20 @@
 /*
- *  $Id: CgiUtils.cpp,v 1.1 1999/08/09 18:25:31 sbooth Exp $
+ *  $Id: CgiUtils.cpp,v 1.4 2001/09/05 02:18:28 sbooth Exp $
  *
- *  Copyright (C) 1996, 1997, 1998, 1999 Stephen F. Booth
+ *  Copyright (C) 1996, 1997, 1998, 1999, 2000, 2001 Stephen F. Booth
  *
- *  This program is free software; you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation; either version 2 of the License, or
- *  (at your option) any later version.
+ *  This library is free software; you can redistribute it and/or
+ *  modify it under the terms of the GNU Lesser General Public
+ *  License as published by the Free Software Foundation; either
+ *  version 2.1 of the License, or (at your option) any later version.
  *
- *  This program is distributed in the hope that it will be useful,
+ *  This library is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ *  Lesser General Public License for more details.
  *
- *  You should have received a copy of the GNU General Public License
- *  along with this program; if not, write to the Free Software
+ *  You should have received a copy of the GNU Lesser General Public
+ *  License along with this library; if not, write to the Free Software
  *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
@@ -23,6 +23,7 @@
 #endif
 
 #include <stdexcept>
+#include <memory>
 #include <cstdlib> 	// for getenv, system
 #include <cctype> 	// for toupper
 
@@ -159,7 +160,8 @@ void
 CGICCNS writeString(STDNS ostream& out, 
 		    const STDNS string& s)
 { 
-  out << s.length() << ' ' << s.data(); 
+  out << s.length() << ' ';
+  out.write(s.data(), s.length()); 
 }
 
 // write a long
@@ -175,21 +177,18 @@ STDNS string
 CGICCNS readString(STDNS istream& in)
 {
   STDNS string::size_type dataSize = 0;
-  STDNS string s;
   
   in >> dataSize;
   in.get(); // skip ' '
-  // should work, but not in egcs-1.1.2 or gcc-2.95
-  //auto_ptr<char> temp = new char[dataSize];
-  char *temp = new char[dataSize];
-  in.read(temp, dataSize);
-  if(in.gcount() != dataSize) {
-    delete [] temp;
+
+  STDNS auto_ptr<char> temp(new char[dataSize]);
+
+  in.read(temp.get(), dataSize);
+  if((STDNS string::size_type)in.gcount() != dataSize) {
     throw STDNS runtime_error("I/O error");
   }
-  s = STDNS string(temp, dataSize);
-  delete [] temp;
-  return s;
+
+  return STDNS string(temp.get(), dataSize);
 }
 
 // read a long

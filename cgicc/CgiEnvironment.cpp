@@ -1,20 +1,20 @@
 /*
- *  $Id: CgiEnvironment.cpp,v 1.4 2000/10/07 18:41:18 sbooth Exp $
+ *  $Id: CgiEnvironment.cpp,v 1.8 2001/09/05 02:18:28 sbooth Exp $
  *
- *  Copyright (C) 1996, 1997, 1998, 1999, 2000 Stephen F. Booth
+ *  Copyright (C) 1996, 1997, 1998, 1999, 2000, 2001 Stephen F. Booth
  *
- *  This program is free software; you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation; either version 2 of the License, or
- *  (at your option) any later version.
+ *  This library is free software; you can redistribute it and/or
+ *  modify it under the terms of the GNU Lesser General Public
+ *  License as published by the Free Software Foundation; either
+ *  version 2.1 of the License, or (at your option) any later version.
  *
- *  This program is distributed in the hope that it will be useful,
+ *  This library is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ *  Lesser General Public License for more details.
  *
- *  You should have received a copy of the GNU General Public License
- *  along with this program; if not, write to the Free Software
+ *  You should have received a copy of the GNU Lesser General Public
+ *  License along with this library; if not, write to the Free Software
  *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
@@ -37,7 +37,7 @@
 
 // ========== Constructor/Destructor
 
-CGICCNS CgiEnvironment::CgiEnvironment()
+CGICCNS CgiEnvironment::CgiEnvironment(reader_function_t stream_reader)
 {
   LOGLN("CgiEnvironment::CgiEnvironment")
   
@@ -52,18 +52,24 @@ CGICCNS CgiEnvironment::CgiEnvironment()
     LOGLN("GET method recognized")
   }
   else if(stringsAreEqual( getRequestMethod(), "post")) {
-    LOGLN("POST method recognized")
+    LOGLN("POST method recognized");
           
-    // should work, but not in egcs-1.1.2 or gcc-2.95
-    //auto_ptr<char> temp = new char[getContentLength()];
-    char *temp = new char[getContentLength()];
-    STDNS cin.read(temp, getContentLength());
-    if(STDNS cin.gcount() != getContentLength()) {
-      delete [] temp;
-      throw STDNS runtime_error("I/O error");
+    STDNS auto_ptr<char> temp(new char[getContentLength()]);
+
+    // use the appropriate reader function
+    if(stream_reader == NULL) {
+      STDNS cin.read(temp.get(), getContentLength());
+      if((unsigned long)STDNS cin.gcount() != getContentLength())
+	throw STDNS runtime_error("I/O error");
     }
-    fPostData = STDNS string(temp, getContentLength());
-    delete [] temp;
+    else {
+      // user specified a reader function
+      if((*stream_reader)
+	 (temp.get(), getContentLength()) != getContentLength())
+	throw STDNS runtime_error("I/O error");
+    }
+
+    fPostData = STDNS string(temp.get(), getContentLength());
   }
   
   fCookies.reserve(10);
@@ -163,6 +169,17 @@ CGICCNS CgiEnvironment::readEnvironmentVariables()
   fRedirectStatus 	= safeGetenv("REDIRECT_STATUS");
   fReferrer 		= safeGetenv("HTTP_REFERER");
   fCookie 		= safeGetenv("HTTP_COOKIE");
+
+#ifdef WIN32
+  // Win32 bug fix by Peter Goedtkindt
+  STDNS string https 	= safeGetenv("HTTPS");
+  if(stringsAreEqual(https, "on"))
+    fUsingHTTPS = true;
+  else
+    fUsingHTTPS = false;
+#else
+  fUsingHTTPS = (getenv("HTTPS") != 0);
+#endif
 }
 
 void
@@ -176,6 +193,7 @@ CGICCNS CgiEnvironment::save(const STDNS string& filename) 	const
 
   writeLong(file, getContentLength());
   writeLong(file, getServerPort());
+  writeLong(file, (unsigned long) usingHTTPS());
 
   writeString(file, getServerSoftware());
   writeString(file, getServerName());
@@ -222,6 +240,7 @@ CGICCNS CgiEnvironment::restore(const STDNS string& filename)
 
   fContentLength 	= readLong(file);
   fServerPort 		= readLong(file);
+  fUsingHTTPS 		= (bool) readLong(file);
 
   fServerSoftware 	= readString(file);
   fServerName 		= readString(file);
