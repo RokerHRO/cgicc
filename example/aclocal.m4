@@ -10,69 +10,12 @@ dnl but WITHOUT ANY WARRANTY, to the extent permitted by law; without
 dnl even the implied warranty of MERCHANTABILITY or FITNESS FOR A
 dnl PARTICULAR PURPOSE.
 
-dnl $Id: acinclude.m4,v 1.5 1999/08/07 00:26:35 sbooth Exp $
+dnl $Id: acinclude.m4,v 1.2 2000/11/15 06:33:16 sbooth Exp $
 
 dnl @TOP@
 
-dnl CGICC_CHECK_LINK_STDCPP
-AC_DEFUN(CGICC_CHECK_LINK_STDCPP, [
-	AC_REQUIRE([AC_PROG_CXX])
-	AC_CACHE_CHECK(	
-		[whether to link against libstdc++],
-		[cgicc_cv_link_libstdcpp],
-		[	AC_LANG_SAVE
-			AC_LANG_CPLUSPLUS
-			AC_TRY_LINK([#include <iostream>],
-			cout << "foo" << endl;,
-			cgicc_cv_link_libstdcpp=no,
-			cgicc_cv_link_libstdcpp=yes)
-			AC_LANG_RESTORE
-		])
-	if (test "$cgicc_cv_link_libstdcpp" = yes); then 
-		LIBS="$LIBS -lstdc++"
-	fi
-])
-
-dnl CGICC_CHECK_CPP_STL
-AC_DEFUN(CGICC_CHECK_CPP_STL, [
-	AC_REQUIRE([AC_PROG_CXX])
-	AC_CACHE_CHECK(	
-		[whether the C++ compiler ($CXX) supports STL],
-		[cgicc_cv_cpp_stl],
-		[	AC_LANG_SAVE
-			AC_LANG_CPLUSPLUS
-			AC_TRY_CPP([#include <vector> 
-std::vector<int> gInts;],
-			cgicc_cv_cpp_stl=yes,
-			cgicc_cv_cpp_stl=no)
-			AC_LANG_RESTORE
-		])
-	if (test "$cgicc_cv_cpp_stl" = no); then 
-		AC_MSG_ERROR([standard template library support required])
-	fi
-])
-
-dnl CGICC_CHECK_CPP_NAMESPACES
-AC_DEFUN(CGICC_CHECK_CPP_NAMESPACES, [
-	AC_REQUIRE([AC_PROG_CXX])
-	AC_CACHE_CHECK(	
-		[whether the C++ compiler ($CXX) supports namespaces],
-		[cgicc_cv_cpp_namespaces],
-		[	AC_LANG_SAVE
-			AC_LANG_CPLUSPLUS
-			AC_TRY_COMPILE([namespace cgicc {void foo() {} }],
-			cgicc::foo();,
-			cgicc_cv_cpp_namespaces=yes,
-			cgicc_cv_cpp_namespaces=no)
-			AC_LANG_RESTORE
-		])
-])
-
-
-
-
-
-
+dnl Include cgicc-specific macros
+builtin(include, cgicc.m4)dnl
 # Do all the work for Automake.  This macro actually does too much --
 # some checks are only needed if your package does certain things.
 # But this isn't really a big deal.
@@ -164,62 +107,6 @@ else
    AC_MSG_RESULT(missing)
 fi
 AC_SUBST($1)])
-
-# Like AC_CONFIG_HEADER, but automatically create stamp file.
-
-AC_DEFUN(AM_CONFIG_HEADER,
-[AC_PREREQ([2.12])
-AC_CONFIG_HEADER([$1])
-dnl When config.status generates a header, we must update the stamp-h file.
-dnl This file resides in the same directory as the config header
-dnl that is generated.  We must strip everything past the first ":",
-dnl and everything past the last "/".
-AC_OUTPUT_COMMANDS(changequote(<<,>>)dnl
-ifelse(patsubst(<<$1>>, <<[^ ]>>, <<>>), <<>>,
-<<test -z "<<$>>CONFIG_HEADERS" || echo timestamp > patsubst(<<$1>>, <<^\([^:]*/\)?.*>>, <<\1>>)stamp-h<<>>dnl>>,
-<<am_indx=1
-for am_file in <<$1>>; do
-  case " <<$>>CONFIG_HEADERS " in
-  *" <<$>>am_file "*<<)>>
-    echo timestamp > `echo <<$>>am_file | sed -e 's%:.*%%' -e 's%[^/]*$%%'`stamp-h$am_indx
-    ;;
-  esac
-  am_indx=`expr "<<$>>am_indx" + 1`
-done<<>>dnl>>)
-changequote([,]))])
-
-# Add --enable-maintainer-mode option to configure.
-# From Jim Meyering
-
-# serial 1
-
-AC_DEFUN(AM_MAINTAINER_MODE,
-[AC_MSG_CHECKING([whether to enable maintainer-specific portions of Makefiles])
-  dnl maintainer-mode is disabled by default
-  AC_ARG_ENABLE(maintainer-mode,
-[  --enable-maintainer-mode enable make rules and dependencies not useful
-                          (and sometimes confusing) to the casual installer],
-      USE_MAINTAINER_MODE=$enableval,
-      USE_MAINTAINER_MODE=no)
-  AC_MSG_RESULT($USE_MAINTAINER_MODE)
-  AM_CONDITIONAL(MAINTAINER_MODE, test $USE_MAINTAINER_MODE = yes)
-  MAINT=$MAINTAINER_MODE_TRUE
-  AC_SUBST(MAINT)dnl
-]
-)
-
-# Define a conditional.
-
-AC_DEFUN(AM_CONDITIONAL,
-[AC_SUBST($1_TRUE)
-AC_SUBST($1_FALSE)
-if $2; then
-  $1_TRUE=
-  $1_FALSE='#'
-else
-  $1_TRUE='#'
-  $1_FALSE=
-fi])
 
 
 # serial 40 AC_PROG_LIBTOOL

@@ -76,9 +76,9 @@ VERSION = @VERSION@
 
 CLEANFILES = *~
 
-EXTRA_DIST = testform.html
+EXTRA_DIST = test.html upload.html
 
-noinst_PROGRAMS = test.cgi dns.cgi 
+noinst_PROGRAMS = test.cgi dns.cgi upload.cgi
 
 INCLUDES = -I$(top_srcdir) -I$(top_builddir)
 
@@ -87,6 +87,9 @@ test_cgi_LDADD = ../cgicc/libcgicc.la
 
 dns_cgi_SOURCES = dns.cpp
 dns_cgi_LDADD = ../cgicc/libcgicc.la @LIB_NET@
+
+upload_cgi_SOURCES = upload.cpp
+upload_cgi_LDADD = ../cgicc/libcgicc.la
 mkinstalldirs = $(SHELL) $(top_srcdir)/support/mkinstalldirs
 CONFIG_HEADER = ../cgicc/config.h
 CONFIG_CLEAN_FILES = 
@@ -103,6 +106,9 @@ test_cgi_LDFLAGS =
 dns_cgi_OBJECTS =  dns.o
 dns_cgi_DEPENDENCIES =  ../cgicc/libcgicc.la
 dns_cgi_LDFLAGS = 
+upload_cgi_OBJECTS =  upload.o
+upload_cgi_DEPENDENCIES =  ../cgicc/libcgicc.la
+upload_cgi_LDFLAGS = 
 CXXFLAGS = @CXXFLAGS@
 CXXCOMPILE = $(CXX) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS)
 LTCXXCOMPILE = $(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS)
@@ -115,8 +121,8 @@ DISTFILES = $(DIST_COMMON) $(SOURCES) $(HEADERS) $(TEXINFOS) $(EXTRA_DIST)
 
 TAR = gtar
 GZIP_ENV = --best
-SOURCES = $(test_cgi_SOURCES) $(dns_cgi_SOURCES)
-OBJECTS = $(test_cgi_OBJECTS) $(dns_cgi_OBJECTS)
+SOURCES = $(test_cgi_SOURCES) $(dns_cgi_SOURCES) $(upload_cgi_SOURCES)
+OBJECTS = $(test_cgi_OBJECTS) $(dns_cgi_OBJECTS) $(upload_cgi_OBJECTS)
 
 all: all-redirect
 .SUFFIXES:
@@ -183,6 +189,10 @@ test.cgi: $(test_cgi_OBJECTS) $(test_cgi_DEPENDENCIES)
 dns.cgi: $(dns_cgi_OBJECTS) $(dns_cgi_DEPENDENCIES)
 	@rm -f dns.cgi
 	$(CXXLINK) $(dns_cgi_LDFLAGS) $(dns_cgi_OBJECTS) $(dns_cgi_LDADD) $(LIBS)
+
+upload.cgi: $(upload_cgi_OBJECTS) $(upload_cgi_DEPENDENCIES)
+	@rm -f upload.cgi
+	$(CXXLINK) $(upload_cgi_LDFLAGS) $(upload_cgi_OBJECTS) $(upload_cgi_LDADD) $(LIBS)
 .cpp.o:
 	$(CXXCOMPILE) -c $<
 .cpp.lo:
@@ -225,7 +235,7 @@ distdir: $(DISTFILES)
 	@for file in $(DISTFILES); do \
 	  d=$(srcdir); \
 	  if test -d $$d/$$file; then \
-	    cp -pr $$/$$file $(distdir)/$$file; \
+	    cp -pr $$d/$$file $(distdir)/$$file; \
 	  else \
 	    test -f $(distdir)/$$file \
 	    || ln $$d/$$file $(distdir)/$$file 2> /dev/null \
