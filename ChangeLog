@@ -1,3 +1,35 @@
+2000-04-10  Stephen F. Booth  <sbooth@gnu.org>
+
+	* Makefile.am: Added new dist-bzip2 target
+	* support/cgicc.spec.in: Fix typo
+	* example/Makefile.in: Use -rpath style as default
+	* example/README: Update for Makefile changes
+
+2000-04-07  Stephen F. Booth  <sbooth@gnu.org>
+
+	* cgicc/CgiEnvironment.cpp(CgiEnvironment): Use binary read mode on 
+	Win32 to prevent CR/LF conversion
+	* NEWS: Added items on multipart/form-data and Win32 CR/LF bugs
+	* configure.in: Updated version to 3.1.2
+	* cgicc/Makefile.am: Up libtool version to 2:1:1
+	* README.WIN: Removed note about MS IIS 4.0 (unnecessary)
+	* support/cgicc.spec.in: New file
+
+1999-10-05  Stephen F. Booth  <sbooth@gnu.org>
+
+	* cgicc/CgiDefs.h.in: Include "config.h", not "cgicc/config.h"
+	* example/Makefile.in: Fix -rpath opton for Linux
+
+1999-10-02  Stephen F. Booth  <sbooth@gnu.org>
+
+	* cgicc/Cgicc.cpp(parseFormInput): Fixed handling of
+ 	"multipart/form-data" to correctly extract the final item
+	(bug reported by gabe@bignet.com)
+
+1999-10-01  Stephen F. Booth  <sbooth@gnu.org>
+
+	* README.WIN: Added a note about MS IIS 4.0
+
 1999-09-30  Stephen F. Booth  <sbooth@gnu.org>
 
 	* info/Makefile.am: Added rules to generate HTML (texinfo-4.0)

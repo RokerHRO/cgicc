@@ -1,4 +1,5 @@
-This is cgicc.info, produced by makeinfo version 4.0 from cgicc.texinfo.
+This is cgicc.info, produced by Makeinfo version 3.12h from
+cgicc.texinfo.
 
 INFO-DIR-SECTION Libraries
 START-INFO-DIR-ENTRY
@@ -454,19 +455,19 @@ Function Index
 * getContentType on CgiEnvironment:      class CgiEnvironment.
 * getCookieList on CgiEnvironment:       class CgiEnvironment.
 * getCookies on CgiEnvironment:          class CgiEnvironment.
+* getDataLength on FormFile:             class FormFile.
 * getData on FormFile:                   class FormFile.
 * getData on HTTPHeader:                 classes for HTTP headers.
-* getDataLength on FormFile:             class FormFile.
 * getDataType on FormFile:               class FormFile.
 * getDomain on HTTPCookie:               classes for HTTP headers.
 * getDoubleValue on FormEntry:           class FormEntry.
-* getElement on Cgicc:                   class Cgicc.
 * getElementByValue on Cgicc:            class Cgicc.
+* getElement on Cgicc:                   class Cgicc.
 * getElements on Cgicc:                  class Cgicc.
 * getEmbedded on HTMLElement:            classes for HTML output.
 * getEnvironment on Cgicc:               class Cgicc.
-* getFile on Cgicc:                      class Cgicc.
 * getFilename on FormFile:               class FormFile.
+* getFile on Cgicc:                      class Cgicc.
 * getFiles on Cgicc:                     class Cgicc.
 * getGatewayInterface on CgiEnvironment: class CgiEnvironment.
 * getHost on Cgicc:                      class Cgicc.
@@ -476,8 +477,8 @@ Function Index
 * getName on FormFile:                   class FormFile.
 * getName on HTMLElement:                classes for HTML output.
 * getName on HTTPCookie:                 classes for HTTP headers.
-* getPath on HTTPCookie:                 classes for HTTP headers.
 * getPathInfo on CgiEnvironment:         class CgiEnvironment.
+* getPath on HTTPCookie:                 classes for HTTP headers.
 * getPathTranslated on CgiEnvironment:   class CgiEnvironment.
 * getPostData on CgiEnvironment:         class CgiEnvironment.
 * getQueryString on CgiEnvironment:      class CgiEnvironment.
@@ -517,24 +518,24 @@ Function Index
 * isEmpty on FormEntry:                  class FormEntry.
 * length on FormEntry:                   class FormEntry.
 * operator on Cgicc:                     class Cgicc.
-* operator!= on FormEntry:               class FormEntry.
-* operator!= on FormFile:                class FormFile.
 * operator* on Cgicc:                    class Cgicc.
+* operator!= on FormEntry:               class FormEntry.
 * operator* on FormEntry:                class FormEntry.
 * operator= on FormEntry:                class FormEntry.
-* operator= on FormFile:                 class FormFile.
 * operator== on FormEntry:               class FormEntry.
+* operator!= on FormFile:                class FormFile.
+* operator= on FormFile:                 class FormFile.
 * operator== on FormFile:                class FormFile.
 * queryCheckbox on Cgicc:                class Cgicc.
 * restore on Cgicc:                      class Cgicc.
 * save on Cgicc:                         class Cgicc.
-* set on HTMLElement:                    classes for HTML output.
 * setAttributes on HTMLElement:          classes for HTML output.
 * setComment on HTTPCookie:              classes for HTTP headers.
 * setDomain on HTTPCookie:               classes for HTTP headers.
 * setEmbedded on HTMLElement:            classes for HTML output.
 * setMaxAge on HTTPCookie:               classes for HTTP headers.
 * setName on HTTPCookie:                 classes for HTTP headers.
+* set on HTMLElement:                    classes for HTML output.
 * setPath on HTTPCookie:                 classes for HTTP headers.
 * setSecure on HTTPCookie:               classes for HTTP headers.
 * setValue on HTTPCookie:                classes for HTTP headers.
@@ -582,9 +583,9 @@ Data Type Index
 * fieldset:                              HTML generation classes.
 * file_iterator:                         class Cgicc.
 * form:                                  HTML generation classes.
-* form_iterator:                         class Cgicc.
 * FormEntry:                             CGI classes.
 * FormFile:                              CGI classes.
+* form_iterator:                         class Cgicc.
 * frame:                                 HTML generation classes.
 * frameset:                              HTML generation classes.
 * h1:                                    HTML generation classes.

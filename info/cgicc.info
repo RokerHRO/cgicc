@@ -1,4 +1,5 @@
-This is cgicc.info, produced by makeinfo version 4.0 from cgicc.texinfo.
+This is cgicc.info, produced by Makeinfo version 3.12h from
+cgicc.texinfo.
 
 INFO-DIR-SECTION Libraries
 START-INFO-DIR-ENTRY
@@ -28,44 +29,44 @@ translation approved by the Free Software Foundation.
 
 
 Indirect:
-cgicc.info-1: 1179
-cgicc.info-2: 50569
+cgicc.info-1: 1181
+cgicc.info-2: 50572
 
 Tag Table:
 (Indirect)
-Node: Top1179
-Node: Overview of CGI2711
-Ref: Overview of CGI-Footnote-15004
-Node: A tutorial example5138
-Ref: A tutorial example-Footnote-112946
-Ref: A tutorial example-Footnote-213049
-Ref: A tutorial example-Footnote-313163
-Node: Library overview13263
-Ref: Library overview-Footnote-114950
-Node: CGI classes15054
-Node: HTTP header classes16740
-Node: HTML generation classes19075
-Ref: HTML generation classes-Footnote-122736
-Ref: HTML generation classes-Footnote-222804
-Ref: HTML generation classes-Footnote-322872
-Ref: HTML generation classes-Footnote-422923
-Ref: HTML generation classes-Footnote-522974
-Ref: HTML generation classes-Footnote-623042
-Ref: HTML generation classes-Footnote-723093
-Ref: HTML generation classes-Footnote-823144
-Ref: HTML generation classes-Footnote-923212
-Node: class Cgicc23280
-Node: class CgiEnvironment29214
-Ref: class CgiEnvironment-Footnote-135489
-Node: class FormEntry35587
-Node: class FormFile38747
-Node: classes for HTTP headers40919
-Ref: classes for HTTP headers-Footnote-147143
-Node: classes for HTML output47263
-Node: Reporting Bugs50569
-Node: Copying51257
-Node: Concept Index70519
-Node: Function Index71117
-Node: Data Type Index77492
+Node: Top1181
+Node: Overview of CGI2713
+Ref: Overview of CGI-Footnote-15006
+Node: A tutorial example5140
+Ref: A tutorial example-Footnote-112948
+Ref: A tutorial example-Footnote-213051
+Ref: A tutorial example-Footnote-313165
+Node: Library overview13265
+Ref: Library overview-Footnote-114952
+Node: CGI classes15056
+Node: HTTP header classes16742
+Node: HTML generation classes19077
+Ref: HTML generation classes-Footnote-122738
+Ref: HTML generation classes-Footnote-222806
+Ref: HTML generation classes-Footnote-322874
+Ref: HTML generation classes-Footnote-422925
+Ref: HTML generation classes-Footnote-522976
+Ref: HTML generation classes-Footnote-623044
+Ref: HTML generation classes-Footnote-723095
+Ref: HTML generation classes-Footnote-823146
+Ref: HTML generation classes-Footnote-923214
+Node: class Cgicc23282
+Node: class CgiEnvironment29216
+Ref: class CgiEnvironment-Footnote-135491
+Node: class FormEntry35589
+Node: class FormFile38749
+Node: classes for HTTP headers40921
+Ref: classes for HTTP headers-Footnote-147145
+Node: classes for HTML output47265
+Node: Reporting Bugs50572
+Node: Copying51260
+Node: Concept Index70522
+Node: Function Index71120
+Node: Data Type Index77495
 
 End Tag Table

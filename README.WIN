@@ -18,4 +18,3 @@ compile time, the compiler cannot know whether the STL class string is
 exported, since Cgicc does not import the .DEF file.
 These warnings may be safely ignored.
 
-

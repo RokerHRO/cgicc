@@ -64,19 +64,17 @@ CC = @CC@
 CGICC_USE_NAMESPACES = @CGICC_USE_NAMESPACES@
 CXX = @CXX@
 DLLTOOL = @DLLTOOL@
-LD = @LD@
 LIBTOOL = @LIBTOOL@
 LIB_NET = @LIB_NET@
 LN_S = @LN_S@
 MAINT = @MAINT@
 MAKEINFO = @MAKEINFO@
-NM = @NM@
 OBJDUMP = @OBJDUMP@
 PACKAGE = @PACKAGE@
 RANLIB = @RANLIB@
 VERSION = @VERSION@
 
-AUTOMAKE_OPTIONS = check-news dist-zip
+AUTOMAKE_OPTIONS = check-news dist-zip dist-bzip2
 @DEMOS_TRUE@DEMO = demo
 @DEMOS_FALSE@DEMO = 
 
@@ -100,7 +98,7 @@ cgicc/config.h.in cgicc/stamp-h.in configure configure.in
 
 DISTFILES = $(DIST_COMMON) $(SOURCES) $(HEADERS) $(TEXINFOS) $(EXTRA_DIST)
 
-TAR = tar
+TAR = gtar
 GZIP_ENV = --best
 DIST_SUBDIRS =  cgicc info demo
 all: all-redirect
@@ -271,10 +269,15 @@ dist-zip: distdir
 	-chmod -R a+r $(distdir)
 	zip -rq $(distdir).zip $(distdir)
 	-rm -rf $(distdir)
+dist-bzip2: distdir
+	-chmod -R a+r $(distdir)
+	$(TAR) chf - $(distdir) | bzip2 -z > $(distdir).tar.bz2
+	-rm -rf $(distdir)
 dist-all: distdir
 	-chmod -R a+r $(distdir)
 	GZIP=$(GZIP_ENV) $(TAR) chozf $(distdir).tar.gz $(distdir)
 	zip -rq $(distdir).zip $(distdir)
+	$(TAR) chf - $(distdir) | bzip2 -z > $(distdir).tar.bz2
 	-rm -rf $(distdir)
 distdir: $(DISTFILES)
 	@if sed 15q $(srcdir)/NEWS | fgrep -e "$(VERSION)" > /dev/null; then :; else \
@@ -392,6 +395,7 @@ dist-hook:
 	cp -p $(srcdir)/support/mdate-sh $(distdir)/support
 	cp -p $(srcdir)/support/missing $(distdir)/support
 	cp -p $(srcdir)/support/mkinstalldirs $(distdir)/support
+	cp -p $(srcdir)/support/cgicc.spec.in $(distdir)/support
 	test -d $(distdir)/win || mkdir $(distdir)/win || exit 1
 	cp -p $(srcdir)/win/cgicc.dsw $(distdir)/win
 	cp -p $(srcdir)/win/cgicc.dsp $(distdir)/win

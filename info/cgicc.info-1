@@ -1,4 +1,5 @@
-This is cgicc.info, produced by makeinfo version 4.0 from cgicc.texinfo.
+This is cgicc.info, produced by Makeinfo version 3.12h from
+cgicc.texinfo.
 
 INFO-DIR-SECTION Libraries
 START-INFO-DIR-ENTRY
@@ -36,7 +37,7 @@ GNU Cgicc
 that facilitates the development of Common Gateway Inteface (CGI)
 applications for the World Wide Web (WWW).
 
-   This is edition 3.1.1 of the Cgicc documentation, 30 September 1999.
+   This is edition 3.1.2 of the Cgicc documentation, 30 September 1999.
 
 * Menu:
 
@@ -1456,7 +1457,7 @@ classes for HTML output
 tutorial example::, for more information.
 
    Cgicc provides one concrete class for each HTML element defined in
-the HTML 4.0 standard (*note HTML generation classes::).  Every class
+the HTML 4.0 standard (*note HTML generation classes::.).  Every class
 defining an HTML element is a subclass of the abstract base class
 `HTMLElement'.
 
