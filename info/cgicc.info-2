@@ -1,5 +1,4 @@
-This is Info file cgicc.info, produced by Makeinfo version 1.68 from
-the input file cgicc.texinfo.
+This is cgicc.info, produced by makeinfo version 4.0 from cgicc.texinfo.
 
 INFO-DIR-SECTION Libraries
 START-INFO-DIR-ENTRY
@@ -26,6 +25,24 @@ notice identical to this one.
 manual into another language, under the above conditions for modified
 versions, except that this permission notice may be stated in a
 translation approved by the Free Software Foundation.
+
+
+File: cgicc.info,  Node: Reporting Bugs,  Next: Copying,  Prev: classes for HTML output,  Up: Top
+
+Reporting Bugs
+**************
+
+   There is a mailing list for reporting bugs, <bug-cgicc@gnu.org>, to
+enable the developers to track submitted bug reports.
+
+   If you think you have found a bug in Cgicc, then you should send as
+complete a report as possible to this list. Ideally, you should include
+the text you get by running `config.guess', the text you see when you
+run `configure', and if you can, a patch made with `diff -u5' which
+fixes the problem.
+
+   If you wish to subscribe to this list, send empty mail with a
+`Subject:' line of `subscribe' to <bug-cgicc-request@gnu.org>.
 
 
 File: cgicc.info,  Node: Copying,  Next: Concept Index,  Prev: Reporting Bugs,  Up: Top
@@ -345,8 +362,8 @@ to attach them to the start of each source file to most effectively
 convey the exclusion of warranty; and each file should have at least the
 "copyright" line and a pointer to where the full notice is found.
 
-     *one line to give the program's name and a brief idea of what it does.*
-     Copyright (C) <year>  *name of author*
+     _one line to give the program's name and a brief idea of what it does._
+     Copyright (C) <year>  _name of author_
      
      This program is free software; you can redistribute it and/or modify it
      under the terms of the GNU General Public License as published by the
@@ -388,7 +405,7 @@ if necessary.  Here is a sample; alter the names:
      `Gnomovision' (which makes passes at compilers) written by James
      Hacker.
      
-     *signature of Ty Coon*, 1 April 1989
+     _signature of Ty Coon_, 1 April 1989
      Ty Coon, President of Vice
 
    This General Public License does not permit incorporating your
@@ -521,6 +538,7 @@ Function Index
 * setPath on HTTPCookie:                 classes for HTTP headers.
 * setSecure on HTTPCookie:               classes for HTTP headers.
 * setValue on HTTPCookie:                classes for HTTP headers.
+* usingHTTPS on CgiEnvironment:          class CgiEnvironment.
 * writeToStream on FormFile:             class FormFile.
 
 
@@ -552,6 +570,8 @@ Data Type Index
 * col:                                   HTML generation classes.
 * colgroup:                              HTML generation classes.
 * comment:                               HTML generation classes.
+* const_file_iterator:                   class Cgicc.
+* const_form_iterator:                   class Cgicc.
 * dd:                                    HTML generation classes.
 * del:                                   HTML generation classes.
 * dfn:                                   HTML generation classes.
@@ -560,7 +580,9 @@ Data Type Index
 * dt:                                    HTML generation classes.
 * em:                                    HTML generation classes.
 * fieldset:                              HTML generation classes.
+* file_iterator:                         class Cgicc.
 * form:                                  HTML generation classes.
+* form_iterator:                         class Cgicc.
 * FormEntry:                             CGI classes.
 * FormFile:                              CGI classes.
 * frame:                                 HTML generation classes.

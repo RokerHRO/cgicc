@@ -1,5 +1,4 @@
-This is Info file cgicc.info, produced by Makeinfo version 1.68 from
-the input file cgicc.texinfo.
+This is cgicc.info, produced by makeinfo version 4.0 from cgicc.texinfo.
 
 INFO-DIR-SECTION Libraries
 START-INFO-DIR-ENTRY
@@ -37,7 +36,7 @@ GNU Cgicc
 that facilitates the development of Common Gateway Inteface (CGI)
 applications for the World Wide Web (WWW).
 
-   This is edition 3.1 of the Cgicc documentation, 7 June 1999.
+   This is edition 3.1.1 of the Cgicc documentation, 30 September 1999.
 
 * Menu:
 
@@ -116,7 +115,7 @@ and a CGI script communicate in four major ways:
    ---------- Footnotes ----------
 
    (1) The official specification for the Common Gateway Interface may
-be found at `http://hoohoo.ncsa.uiuc.edu/cgi/interface.html'.
+be found at <http://hoohoo.ncsa.uiuc.edu/cgi/interface.html>.
 
 
 File: cgicc.info,  Node: A tutorial example,  Next: Library overview,  Prev: Overview of CGI,  Up: Top
@@ -187,9 +186,9 @@ strings, integers, and doubles.  In the hypothetical form mentioned
 above, a user would enter their name, age, and sex.  Regardless of the
 type of value, the data is accessed via `FormEntry'(1).  You obtain
 `FormEntry' objects via `Cgicc''s `getElement' methods, all of which
-return standard-library iterators:
+return typedefs of standard-library iterators:
 
-     vector<FormEntry>::iterator name = cgi.getElement("name");
+     form_iterator name = cgi.getElement("name");
 
 If the item is not found, the iterator will refer to an invalid element,
 and should not be dereferenced using `operator*' or `operator->'.
@@ -336,7 +335,7 @@ sample code given in this chapter.
            cout << body() << endl;
      
            // Print out the submitted element
-           vector<FormEntry>::iterator name = cgi.getElement("name");
+           form_iterator name = cgi.getElement("name");
            if(name != cgi.getElements().end()) {
               cout << "Your name: " << **name << endl;
            }
@@ -355,10 +354,10 @@ sample code given in this chapter.
 accessed via the class `FormFile'.
 
    (2) The full HTTP 1.1 specification may be found in RFC 2068 at
-`http://www.w3.org/Protocols/rfc2068/rfc2068'
+<http://www.w3.org/Protocols/rfc2068/rfc2068>
 
    (3) For a definitive list, see the HTML 4.0 specification at
-`http://www.w3.org/TR/REC-html40/'
+<http://www.w3.org/TR/REC-html40/>
 
 
 File: cgicc.info,  Node: Library overview,  Next: CGI classes,  Prev: A tutorial example,  Up: Top
@@ -402,10 +401,12 @@ Library overview
 
                *Note HTML generation classes::, for details.
 
+
+
    ---------- Footnotes ----------
 
    (1) For a complete description see the HTML 4.0 specification at
-`http://www.w3.org/TR/REC-html40/'
+<http://www.w3.org/TR/REC-html40/>
 
 
 File: cgicc.info,  Node: CGI classes,  Next: HTTP header classes,  Prev: Library overview,  Up: Top
@@ -835,33 +836,47 @@ Library Information
 Form Element Access
 ===================
 
+ - Data Type: form_iterator vector<FormEntry>::iterator
+     A standard template library iterator referring to a FormEntry
+     object.
+
+ - Data Type: const_form_iterator vector<FormEntry>::const_iterator
+     A standard template library iterator referring to a constant
+     FormEntry object.
+
+ - Data Type: file_iterator vector<FormFile>::iterator
+     A standard template library iterator referring to a FormFile
+     object.
+
+ - Data Type: const_file_iterator vector<FormFile>::const_iterator
+     A standard template library iterator referring to a constant
+     FormFile object.
+
  - Method on Cgicc: bool queryCheckbox (const string& ELEMENTNAME) const
      Returns `true' if a checkbox with name ELEMENTNAME is checked,
      `false' otherwise.
 
- - Method on Cgicc: vector<FormEntry>::iterator operator[] (const
-          string& NAME)
+ - Method on Cgicc: form_iterator operator[] (const string& NAME)
      Find a radio button in a radio group, or a selected list item with
      element name NAME. If an element with name NAME is not found, the
      returned iterator will be set to the value returned by
      `getElements().end()'.
 
- - Method on Cgicc: vector<FormEntry>::const_iterator operator[] (const
-          string& NAME) const
+ - Method on Cgicc: const_form_iterator operator[] (const string& NAME)
+          const
      Find a radio button in a radio group, or a selected list item with
      element name NAME. If an element with name NAME is not found, the
      returned iterator will be set to the value returned by
      `getElements().end()'.
 
- - Method on Cgicc: vector<FormEntry>::iterator getElement (const
-          string& NAME)
+ - Method on Cgicc: form_iterator getElement (const string& NAME)
      Find a radio button in a radio group, or a selected list item with
      element name NAME. If an element with name NAME is not found, the
      returned iterator will be set to the value returned by
      `getElements().end()'.
 
- - Method on Cgicc: vector<FormEntry>::const_iterator getElement (const
-          string& NAME) const
+ - Method on Cgicc: const_form_iterator getElement (const string& NAME)
+          const
      Find a radio button in a radio group, or a selected list item with
      element name NAME. If an element with name NAME is not found, the
      returned iterator will be set to the value returned by
@@ -873,15 +888,15 @@ Form Element Access
      with element name NAME.  Returns `true' if any items with name
      NAME were found, `false' otherwise.
 
- - Method on Cgicc: vector<FormEntry>::iterator getElementByValue
-          (const string& VALUE)
+ - Method on Cgicc: form_iterator getElementByValue (const string&
+          VALUE)
      Find a radio button in a radio group, or a selected list item with
      element value VALUE. If an element with value VALUE is not found,
      the returned iterator will be set to the value returned by
      `getElements().end()'.
 
- - Method on Cgicc: vector<FormEntry>::const_iterator getElementByValue
-          (const string& NAME) const
+ - Method on Cgicc: const_form_iterator getElementByValue (const
+          string& NAME) const
      Find a radio button in a radio group, or a selected list item with
      element value VALUE. If an element with value VALUE is not found,
      the returned iterator will be set to the value returned by
@@ -902,14 +917,13 @@ Form Element Access
 Uploaded File Access
 ====================
 
- - Method on Cgicc: vector<FormFile>::iterator getFile (const string&
-          NAME)
+ - Method on Cgicc: file_iterator getFile (const string& NAME)
      Find an uploaded file with element name NAME.  If a file belonging
      to element name NAME is not found, the returned iterator will be
      set to the value returned by `getFiles().end()'.
 
- - Method on Cgicc: vector<FormFile>::const_iterator getFile (const
-          string& NAME) const
+ - Method on Cgicc: const_file_iterator getFile (const string& NAME)
+          const
      Find an uploaded file with element name NAME.  If a file belonging
      to element name NAME is not found, the returned iterator will be
      set to the value returned by `getFiles().end()'.
@@ -960,7 +974,7 @@ Server Information
 
  - Method on CgiEnvironment: string getServerName () const
      Get the hostname, DNS name, or IP address of the HTTP server.
-     This is *not* a URL; for example, `www.gnu.org'.
+     This is _not_ a URL; for example, `www.gnu.org'.
 
  - Method on CgiEnvironment: string getGatewayInterface () const
      Get the name and version of the gateway interface.  This is usually
@@ -973,6 +987,10 @@ Server Information
  - Method on CgiEnvironment: unsigned long getServerPort () const
      Get the port number on the server to which this request was sent.
      This will usually be 80.
+
+ - Method on CgiEnvironment: bool usingHTTPS () const
+     Returns `true' if this is a secure request using the HTTPS
+     protocol, `false' otherwise.
 
 CGI Query Information
 =====================
@@ -1054,7 +1072,7 @@ Remote User Information
  - Method on CgiEnvironment: string getRemoteIdent () const
      Get the remote user name retrieved from the server.  This is only
      applicable if the server supports RFC 931 (obsoleted by RFC 1431)
-     identification (1).  This should *only* be used for logging
+     identification (1).  This should _only_ be used for logging
      purposes.
 
  - Method on CgiEnvironment: string getAccept () const
@@ -1069,7 +1087,7 @@ ErrorDocument Handling
 ======================
 
    (For a tutorial on ErrorDocument handling, see
-`http://hoohoo.ncsa.uiuc.edu/cgi/ErrorCGI.html')
+<http://hoohoo.ncsa.uiuc.edu/cgi/ErrorCGI.html>)
 
  - Method on CgiEnvironment: string getRedirectRequest () const
      Get the redirect request.  This will only be valid if you are
@@ -1089,7 +1107,7 @@ ErrorDocument Handling
    ---------- Footnotes ----------
 
    (1) RFC 1431 may be found at
-`http://info.internet.isi.edu:80/in-notes/rfc/files/rfc1413.txt'
+<http://info.internet.isi.edu:80/in-notes/rfc/files/rfc1413.txt>
 
 
 File: cgicc.info,  Node: class FormEntry,  Next: class FormFile,  Prev: class CgiEnvironment,  Up: Top
@@ -1426,7 +1444,7 @@ HTTPAudioHeader
    ---------- Footnotes ----------
 
    (1) The technical specification for cookies may be found at
-`http://www.cis.ohio-state.edu/htbin/rfc/rfc2109.html'.
+<http://www.cis.ohio-state.edu/htbin/rfc/rfc2109.html>.
 
 
 File: cgicc.info,  Node: classes for HTML output,  Next: Reporting Bugs,  Prev: classes for HTTP headers,  Up: Top
@@ -1438,7 +1456,7 @@ classes for HTML output
 tutorial example::, for more information.
 
    Cgicc provides one concrete class for each HTML element defined in
-the HTML 4.0 standard (*note HTML generation classes::.).  Every class
+the HTML 4.0 standard (*note HTML generation classes::).  Every class
 defining an HTML element is a subclass of the abstract base class
 `HTMLElement'.
 
@@ -1518,22 +1536,4 @@ class `h1', was chosen.
  - Method on h1: void h1 (const HTMLElement& EMBED)
      Creates a new HTML element containing the embedded HTML element
      EMBED.
-
-
-File: cgicc.info,  Node: Reporting Bugs,  Next: Copying,  Prev: classes for HTML output,  Up: Top
-
-Reporting Bugs
-**************
-
-   There is a mailing list for reporting bugs, <bug-cgicc@gnu.org>, to
-enable the developers to track submitted bug reports.
-
-   If you think you have found a bug in Cgicc, then you should send as
-complete a report as possible to this list. Ideally, you should include
-the text you get by running `config.guess', the text you see when you
-run `configure', and if you can, a patch made with `diff -u5' which
-fixes the problem.
-
-   If you wish to subscribe to this list, send empty mail with a
-`Subject:' line of `subscribe' to <bug-cgicc-request@gnu.org>.
 

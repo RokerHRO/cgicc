@@ -76,16 +76,25 @@ PACKAGE = @PACKAGE@
 RANLIB = @RANLIB@
 VERSION = @VERSION@
 
-CLEANFILES = *~
-MAINTAINERCLEANFILES = cgicc-doc-texi.tar.gz cgicc-doc-info.tar.gz	cgicc-doc-dvi.tar.gz
+CLEANFILES = $(HTMLS) *~
+MAINTAINERCLEANFILES = cgicc-doc-texi.tar.gz cgicc-doc-info.tar.gz	cgicc-doc-dvi.tar.gz cgicc-doc-html.tar.gz
 
 
 info_TEXINFOS = cgicc.texinfo
 cgicc_TEXINFOS = gpl.texinfo cgi-overview.texinfo tutorial.texinfo	library-overview.texinfo cgi-classes.texinfo http-classes.texinfo	html-classes.texinfo class-cgicc.texinfo class-cgienv.texinfo		class-formentry.texinfo class-formfile.texinfo classes-http.texinfo	classes-html.texinfo reporting-bugs.texinfo concept-index.texinfo	function-index.texinfo datatype-index.texinfo
 
+
+HTMLS = cgicc.html
+
+SUFFIXES = .html
 mkinstalldirs = $(SHELL) $(top_srcdir)/support/mkinstalldirs
 CONFIG_HEADER = ../cgicc/config.h
 CONFIG_CLEAN_FILES = 
+CFLAGS = @CFLAGS@
+COMPILE = $(CC) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
+LTCOMPILE = $(LIBTOOL) --mode=compile $(CC) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
+CCLD = $(CC)
+LINK = $(LIBTOOL) --mode=link $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(LDFLAGS) -o $@
 TEXI2DVI = texi2dvi
 TEXINFO_TEX = $(top_srcdir)/support/texinfo.tex
 INFO_DEPS = cgicc.info
@@ -101,7 +110,7 @@ TAR = tar
 GZIP_ENV = --best
 all: all-redirect
 .SUFFIXES:
-.SUFFIXES: .dvi .info .ps .texi .texinfo .txi
+.SUFFIXES: .dvi .html .info .ps .texi .texinfo .txi
 $(srcdir)/Makefile.in: @MAINTAINER_MODE_TRUE@ Makefile.am $(top_srcdir)/configure.in $(ACLOCAL_M4) 
 	cd $(top_srcdir) && $(AUTOMAKE) --gnu --include-deps info/Makefile
 
@@ -336,10 +345,17 @@ uninstall-am uninstall all-redirect all-am all installdirs \
 mostlyclean-generic distclean-generic clean-generic \
 maintainer-clean-generic clean mostlyclean distclean maintainer-clean
 
+html: $(HTMLS)
+
+.texi.html:
+	cd $(srcdir) && $(MAKEINFO) --html $<
+
+.texinfo.html:
+	cd $(srcdir) && $(MAKEINFO) --html $<
 
 ################################################################
 
-@MAINTAINER_MODE_TRUE@doc-gz: doc-texi-gz doc-info-gz doc-dvi-gz
+@MAINTAINER_MODE_TRUE@doc-gz: doc-texi-gz doc-info-gz doc-dvi-gz doc-html-gz
 
 @MAINTAINER_MODE_TRUE@doc-texi-gz: 
 @MAINTAINER_MODE_TRUE@	-rm -f cgicc-doc-texi.tar.gz
@@ -352,6 +368,10 @@ maintainer-clean-generic clean mostlyclean distclean maintainer-clean
 @MAINTAINER_MODE_TRUE@doc-dvi-gz: dvi
 @MAINTAINER_MODE_TRUE@	-rm -f cgicc-doc-dvi.tar.gz
 @MAINTAINER_MODE_TRUE@	GZIP=$(GZIP_ENV) $(TAR) chozf cgicc-doc-dvi.tar.gz $(DVIS)
+
+@MAINTAINER_MODE_TRUE@doc-html-gz: html
+@MAINTAINER_MODE_TRUE@	-rm -f cgicc-doc-html.tar.gz
+@MAINTAINER_MODE_TRUE@	GZIP=$(GZIP_ENV) $(TAR) chozf cgicc-doc-html.tar.gz $(HTMLS)
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.

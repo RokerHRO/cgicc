@@ -1,3 +1,51 @@
+1999-09-30  Stephen F. Booth  <sbooth@gnu.org>
+
+	* info/Makefile.am: Added rules to generate HTML (texinfo-4.0)
+	* cgicc/Cgicc.h: Added typedefs for iterators
+	([const_]form_iterator, [const_]file_iterator)
+	* cgicc/Cgicc.cpp: Use above typedefs
+	* demo/test.cpp: Use typedefs, as above
+	* demo/dns.cpp: Use typedefs, as above
+	* info/class-cgicc.texinfo: Added documentation for iterator typedefs.
+	* info/tutorial.texinfo: Updated example to use iterator typedefs.
+	* info/cgicc.texinfo: Use @ifnottex instead of @ifinfo
+	* NEWS: Added item on iterators
+
+1999-09-27  Stephen F. Booth  <sbooth@gnu.org>
+
+	* demo/test.cpp: Changed "Remote Setdress" -> "Remote Address" in
+	HTML output.
+
+1999-09-22  Stephen F. Booth  <sbooth@gnu.org>
+
+	* cgicc/HTMLClasses.h: Added definition of link_, to be used
+	when namespaces are not in use (reported by flavpol@tin.it)
+	* demo/test.cpp: Add #define link link_ when namespaces not in use
+	* demo/dns.cpp: Add #define link link_ when namespaces not in use
+
+1999-08-31  Stephen F. Booth  <sbooth@saaba.lmi.net>
+
+	* configure.in: Automatically enable warnings for gcc
+	* cgicc/CgiEnvironment.h: Added usingHTTPS() method
+	* demo/test.cpp(dumpEnvironment): Added display for usingHTTPS()
+	* info/class-cgienv.texinfo: Added doc for usingHTTPS
+	* cgicc/Makefile.am: Up libtool version to 2:0:1
+
+1999-08-20  Stephen F. Booth  <sbooth@saaba.lmi.net>
+
+	* cgicc/MStreamable.h: Added empty ctor and dtor
+	* cgicc/HTMLAttributes.cpp(HTMLAttribute::HTMLAttribute): Explicitly
+	initialize MStreamable
+	* cgicc/HTTPHeaders.cpp:(HTTPCookie::HTTPCookie): Explicitly
+	initialize MStreamable
+	* cgicc/HTTPHeaders.cpp(HTTPHeader::HTTPHeader): Explicitly 
+	initialize MStreamable
+	* cgicc/HTMLElements.cpp(HTMLElement::HTMLElement): Explicitly
+	initialize MStreamable
+	* cgicc/CgiEnvironment.h: Added method usingHTTPS()
+	* demo/test.cpp(main): Comment out argc, argv
+	* demo/dns.cpp(main): Comment out argc, argv
+
 1999-08-17  Stephen F. Booth  <sbooth@saaba.lmi.net>
 
 	* configure.in: Renamed USE_NAMESPACES to CGICC_USE_NAMESPACES

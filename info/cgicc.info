@@ -1,5 +1,4 @@
-This is Info file cgicc.info, produced by Makeinfo version 1.68 from
-the input file cgicc.texinfo.
+This is cgicc.info, produced by makeinfo version 4.0 from cgicc.texinfo.
 
 INFO-DIR-SECTION Libraries
 START-INFO-DIR-ENTRY
@@ -29,28 +28,44 @@ translation approved by the Free Software Foundation.
 
 
 Indirect:
-cgicc.info-1: 1205
-cgicc.info-2: 50691
+cgicc.info-1: 1179
+cgicc.info-2: 50569
 
 Tag Table:
 (Indirect)
-Node: Top1205
-Node: Overview of CGI2729
-Node: A tutorial example5156
-Node: Library overview13297
-Node: CGI classes15086
-Node: HTTP header classes16772
-Node: HTML generation classes19107
-Node: class Cgicc23312
-Node: class CgiEnvironment28800
-Node: class FormEntry35020
-Node: class FormFile38180
-Node: classes for HTTP headers40352
-Node: classes for HTML output46696
-Node: Reporting Bugs50003
-Node: Copying50691
-Node: Concept Index69953
-Node: Function Index70551
-Node: Data Type Index76863
+Node: Top1179
+Node: Overview of CGI2711
+Ref: Overview of CGI-Footnote-15004
+Node: A tutorial example5138
+Ref: A tutorial example-Footnote-112946
+Ref: A tutorial example-Footnote-213049
+Ref: A tutorial example-Footnote-313163
+Node: Library overview13263
+Ref: Library overview-Footnote-114950
+Node: CGI classes15054
+Node: HTTP header classes16740
+Node: HTML generation classes19075
+Ref: HTML generation classes-Footnote-122736
+Ref: HTML generation classes-Footnote-222804
+Ref: HTML generation classes-Footnote-322872
+Ref: HTML generation classes-Footnote-422923
+Ref: HTML generation classes-Footnote-522974
+Ref: HTML generation classes-Footnote-623042
+Ref: HTML generation classes-Footnote-723093
+Ref: HTML generation classes-Footnote-823144
+Ref: HTML generation classes-Footnote-923212
+Node: class Cgicc23280
+Node: class CgiEnvironment29214
+Ref: class CgiEnvironment-Footnote-135489
+Node: class FormEntry35587
+Node: class FormFile38747
+Node: classes for HTTP headers40919
+Ref: classes for HTTP headers-Footnote-147143
+Node: classes for HTML output47263
+Node: Reporting Bugs50569
+Node: Copying51257
+Node: Concept Index70519
+Node: Function Index71117
+Node: Data Type Index77492
 
 End Tag Table
