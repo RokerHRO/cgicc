@@ -1,3 +1,52 @@
+2000-10-15  Stephen F. Booth  <sbooth@gnu.org>
+
+	* example/yourSource.cpp: Changed instances of 'Cgicc' to 'cgicc'
+	* demo/test.cpp: 'Cgicc' -> 'cgicc'
+	* demo/dns.cpp: 'Cgicc' -> 'cgicc'
+	* demo/testform.html: Updated e-mail address
+	* info/version.texi: Updated for 3.1.4
+	* README: 'Cgicc' -> 'cgicc'
+	* README.WIN: 'Cgicc' -> 'cgicc'
+	* AUTHORS: 'Cgicc' -> 'cgicc'
+	* NEWS: 'Cgicc' -> 'cgicc'
+	* Makefile.am: Removed reference to .spec file
+
+2000-10-07  Stephen F. Booth  <sbooth@gnu.org>
+
+	* demo/dns.cpp: Updated URL
+	* demo/test.cpp: Updated URL
+	* demo/testform.html: Updated URL
+	* demo/dns.cpp: Changed various instances of 'Cgicc' to 'cgicc'
+	* demo/test.cpp: Changed various instances of 'Cgicc' to 'cgicc'
+	* demo/testform.html: Changed various instances of 'Cgicc' to 'cgicc'
+	* info/cgi-classes.texinfo: Changed various instances of 'Cgicc' to 
+	'cgicc'
+	* info/cgicc.texinfo: Changed various instances of 'Cgicc' to 'cgicc'
+	* info/class-cgicc.texinfo: Changed various instances of 'Cgicc' to 
+	'cgicc'
+	* info/classes-html.texinfo: Changed various instances of 'Cgicc' to
+	'cgicc'
+	* info/html-classes.texinfo: Changed various instances of 'Cgicc' to
+	'cgicc'
+	* info/library-overview.texinfo: Changed various instances of 'Cgicc' 
+	to 'cgicc'
+	* info/tutorial.texinfo: Changed various instances of 'Cgicc' to 
+	'cgicc'
+	* support/cgicc.spec.in: Removed
+	* configure.in: Removed reference to cgicc.spec, version to 3.1.4
+	* cgicc/Makefile.am: Updated libtool version
+	* cgicc/HTMLAttributes.h: Updated copyright and mail info
+
+2000-09-21  Stephen F. Booth  <sbooth@gnu.org>
+
+	* demo/dns.cpp: Fix for http servers not running on port 80
+	(reported by qconnell@medic.up.ac.za)
+	* cgicc/HTMLElements.cpp: Changed 'for' for code symmetry
+	* cgicc/CgiEnvironment.cpp: Skip leading whitespace in cookie names
+	(reported by chaanho@netian.com)
+	* example/Makefile.in: Use "-Wl,--rpath" for linux
+	(reported by mail@jbrisbin.net)
+
 2000-07-02  Stephen F. Booth  <sbooth@gnu.org>
 
 	* cgicc/HTMLElements.h: Fix operator< for HTMLElement

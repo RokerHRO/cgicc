@@ -395,7 +395,6 @@ dist-hook:
 	cp -p $(srcdir)/support/mdate-sh $(distdir)/support
 	cp -p $(srcdir)/support/missing $(distdir)/support
 	cp -p $(srcdir)/support/mkinstalldirs $(distdir)/support
-	cp -p $(srcdir)/support/cgicc.spec.in $(distdir)/support
 	test -d $(distdir)/win || mkdir $(distdir)/win || exit 1
 	cp -p $(srcdir)/win/cgicc.dsw $(distdir)/win
 	cp -p $(srcdir)/win/cgicc.dsp $(distdir)/win

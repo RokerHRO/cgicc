@@ -41,7 +41,7 @@
 #  endif
 
 #  define HOST "Win32"
-#  define VERSION "3.1.3"
+#  define VERSION "3.1.4"
 
 #else
 #  define CGICC_USE_NAMESPACES 1

@@ -3,13 +3,13 @@ cgicc.texinfo.
 
 INFO-DIR-SECTION Libraries
 START-INFO-DIR-ENTRY
-* Cgicc: (cgicc).                 A C++ library for writing CGI
+* cgicc: (cgicc).                 A C++ library for writing CGI
                                   applications.
 END-INFO-DIR-ENTRY
 
-   GNU Cgicc is a C++ library for developing CGI applications.
+   GNU cgicc is a C++ library for developing CGI applications.
 
-   Copyright (C) 1996, 1997, 1998, 1999 Stephen F. Booth
+   Copyright (C) 1996, 1997, 1998, 1999, 2000 Stephen F. Booth
 
    Permission is granted to make and distribute verbatim copies of this
 manual provided the copyright notice and this permission notice are

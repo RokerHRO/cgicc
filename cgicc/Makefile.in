@@ -81,7 +81,7 @@ INCLUDES = -I$(top_srcdir) -I$(top_builddir)
 lib_LTLIBRARIES = libcgicc.la
 libcgicc_la_SOURCES = CgiEnvironment.cpp CgiUtils.cpp Cgicc.cpp	FormEntry.cpp FormFile.cpp HTMLAttributes.cpp HTMLElements.cpp	HTTPHeaders.cpp MStreamable.cpp
 
-libcgicc_la_LDFLAGS = -version-info 2:2:1
+libcgicc_la_LDFLAGS = -version-info 2:3:1
 
 pkginclude_HEADERS = CgiDefs.h CgiEnvironment.h CgiUtils.h Cgicc.h	FormEntry.h FormFile.h HTMLAttributes.h HTMLClasses.h HTMLElements.h	HTMLGeneric.h HTTPHeaders.h MStreamable.h
 
@@ -287,24 +287,6 @@ distdir: $(DISTFILES)
 	    || cp -p $$d/$$file $(distdir)/$$file || :; \
 	  fi; \
 	done
-Cgicc.lo Cgicc.o : Cgicc.cpp CgiUtils.h CgiDefs.h config.h Cgicc.h \
-	FormEntry.h FormFile.h CgiEnvironment.h HTTPHeaders.h \
-	MStreamable.h
-CgiEnvironment.lo CgiEnvironment.o : CgiEnvironment.cpp CgiEnvironment.h \
-	CgiDefs.h config.h CgiUtils.h HTTPHeaders.h MStreamable.h
-CgiUtils.lo CgiUtils.o : CgiUtils.cpp CgiUtils.h CgiDefs.h config.h
-FormEntry.lo FormEntry.o : FormEntry.cpp FormEntry.h CgiDefs.h config.h \
-	CgiUtils.h
-FormFile.lo FormFile.o : FormFile.cpp FormFile.h CgiDefs.h config.h \
-	CgiUtils.h
-HTMLAttributes.lo HTMLAttributes.o : HTMLAttributes.cpp HTMLAttributes.h \
-	CgiDefs.h config.h MStreamable.h CgiUtils.h
-HTMLElements.lo HTMLElements.o : HTMLElements.cpp HTMLElements.h \
-	CgiDefs.h config.h MStreamable.h HTMLAttributes.h
-HTTPHeaders.lo HTTPHeaders.o : HTTPHeaders.cpp HTTPHeaders.h \
-	MStreamable.h CgiDefs.h config.h CgiUtils.h
-MStreamable.lo MStreamable.o : MStreamable.cpp MStreamable.h CgiDefs.h \
-	config.h
 
 info-am:
 info: info-am

@@ -232,18 +232,6 @@ distdir: $(DISTFILES)
 	    || cp -p $$d/$$file $(distdir)/$$file || :; \
 	  fi; \
 	done
-dns.o: dns.cpp ../cgicc/CgiDefs.h ../cgicc/config.h \
-	../cgicc/HTMLClasses.h ../cgicc/HTMLGeneric.h \
-	../cgicc/HTMLElements.h ../cgicc/MStreamable.h \
-	../cgicc/HTMLAttributes.h ../cgicc/Cgicc.h ../cgicc/FormEntry.h \
-	../cgicc/CgiUtils.h ../cgicc/FormFile.h \
-	../cgicc/CgiEnvironment.h ../cgicc/HTTPHeaders.h
-test.o: test.cpp ../cgicc/CgiDefs.h ../cgicc/config.h ../cgicc/Cgicc.h \
-	../cgicc/FormEntry.h ../cgicc/CgiUtils.h ../cgicc/FormFile.h \
-	../cgicc/CgiEnvironment.h ../cgicc/HTTPHeaders.h \
-	../cgicc/MStreamable.h ../cgicc/HTMLClasses.h \
-	../cgicc/HTMLGeneric.h ../cgicc/HTMLElements.h \
-	../cgicc/HTMLAttributes.h
 
 info-am:
 info: info-am
