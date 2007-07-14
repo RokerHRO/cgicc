@@ -1,13 +1,15 @@
-/* -*-c++-*- */
+/* -*-mode:c++; c-file-style: "gnu";-*- */
 /*
- *  $Id: Cgicc.h,v 1.13 2003/07/13 14:20:35 sbooth Exp $
+ *  $Id: Cgicc.h,v 1.18 2007/07/02 18:48:17 sebdiaz Exp $
  *
- *  Copyright (C) 1996 - 2003 Stephen F. Booth
+ *  Copyright (C) 1996 - 2004 Stephen F. Booth <sbooth@gnu.org>
+ *                       2007 Sebastien DIAZ <sebastien.diaz@gmail.com>
+ *  Part of the GNU cgicc library, http://www.gnu.org/software/cgicc
  *
  *  This library is free software; you can redistribute it and/or
  *  modify it under the terms of the GNU Lesser General Public
  *  License as published by the Free Software Foundation; either
- *  version 2.1 of the License, or (at your option) any later version.
+ *  version 3 of the License, or (at your option) any later version.
  *
  *  This library is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -16,7 +18,7 @@
  *
  *  You should have received a copy of the GNU Lesser General Public
  *  License along with this library; if not, write to the Free Software
- *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ *  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110, USA
  */
 
 #ifndef _CGICC_H_
@@ -103,7 +105,7 @@ namespace cgicc {
     
     // ============================================================
     
-    /*! \name Constructor and Destructor */
+    /*! \name Constructors and Destructor */
     //@{
     
     /*! 
@@ -117,6 +119,17 @@ namespace cgicc {
      */
     Cgicc(CgiInput *input = 0);
     
+    /*!
+     * \brief Copy constructor.
+     *
+     * Sets the values of this Cgicc to those of \c cgi.
+     * \param env The Cgicc to copy.
+     */
+    inline
+    Cgicc(const Cgicc& cgi)
+      : fEnvironment(cgi.fEnvironment)
+    { operator=(cgi); }
+
     /*! 
      * \brief Destructor 
      *
@@ -125,6 +138,51 @@ namespace cgicc {
     ~Cgicc();
     //@}
     
+    // ============================================================
+    
+    /*! \name Overloaded Operators */
+    //@{
+    
+    /*!
+     * \brief Compare two Cgiccs for equality.
+     *
+     * Cgiccs are equal if they represent the same environment.
+     * \param cgi The Cgicc to compare to this one.
+     * \return \c true if the two Cgiccs are equal, \c false otherwise.
+     */
+    inline bool 
+    operator== (const Cgicc& cgi) 		const
+    { return this->fEnvironment == cgi.fEnvironment; }
+    
+    /*!
+     * \brief Compare two Cgiccs for inequality.
+     *
+     * Cgiccs are equal if they represent the same environment.
+     * \param cgi The Cgicc to compare to this one.
+     * \return \c false if the two Cgiccs are equal, \c true otherwise.
+     */
+    inline bool
+    operator!= (const Cgicc& cgi) 		const
+    { return ! operator==(cgi); }
+    
+#ifdef WIN32
+    /* Dummy operator for MSVC++ */
+    inline bool
+    operator< (const Cgicc& cgi) 		const
+    { return false; }
+#endif
+    
+    /*!
+     * \brief Assign one Cgicc to another.  
+     *
+     * Sets the environment in this Cgicc to that of \c cgi.
+     * \param cgi The Cgicc to copy.
+     * \return A reference to this.
+     */
+    Cgicc& 
+    operator= (const Cgicc& cgi);
+    //@}
+
     // ============================================================
     
     /*! \name Library Information 
@@ -194,6 +252,15 @@ namespace cgicc {
     inline form_iterator 
     operator[] (const std::string& name)
     { return getElement(name); }
+
+    /*!
+     * \brief Find a radio button in a radio group, or a selected list item.
+     *
+     * \param name The name of the radio button or list item to find.
+     * \return The desired element, or an empty string if not found.
+     */
+    std::string
+    operator() (const std::string& name) 		const;
     
     /*!
      * \brief Find a radio button in a radio group, or a selected list item.
@@ -356,7 +423,7 @@ namespace cgicc {
     CgiEnvironment 		fEnvironment;
     std::vector<FormEntry> 	fFormData;
     std::vector<FormFile> 	fFormFiles;
-    
+
     // Convert query string into a list of FormEntries
     void 
     parseFormInput(const std::string& data);

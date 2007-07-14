@@ -1,21 +1,24 @@
+/* -*-mode:c++; c-file-style: "gnu";-*- */
 /*
- *  $Id: upload.cpp,v 1.7 2003/07/13 14:22:57 sbooth Exp $
+ *  $Id: upload.cpp,v 1.13 2007/07/02 18:48:19 sebdiaz Exp $
  *
- *  Copyright (C) 1996 - 2003 Stephen F. Booth
+ *  Copyright (C) 1996 - 2004 Stephen F. Booth <sbooth@gnu.org>
+ *                       2007 Sebastien DIAZ <sebastien.diaz@gmail.com>
+ *  Part of the GNU cgicc library, http://www.gnu.org/software/cgicc
  *
- *  This program is free software; you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation; either version 2 of the License, or
- *  (at your option) any later version.
+ *  This library is free software; you can redistribute it and/or
+ *  modify it under the terms of the GNU Lesser General Public
+ *  License as published by the Free Software Foundation; either
+ *  version 3 of the License, or (at your option) any later version.
  *
- *  This program is distributed in the hope that it will be useful,
+ *  This library is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ *  Lesser General Public License for more details.
  *
- *  You should have received a copy of the GNU General Public License
- *  along with this program; if not, write to the Free Software
- *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ *  You should have received a copy of the GNU Lesser General Public
+ *  License along with this library; if not, write to the Free Software
+ *  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110, USA 
  */
 
 /*! \file upload.cpp
@@ -37,7 +40,7 @@
 #include "cgicc/HTTPHTMLHeader.h"
 #include "cgicc/HTMLClasses.h"
 
-#if HAVE_UNAME
+#if HAVE_SYS_UTSNAME_H
 #  include <sys/utsname.h>
 #endif
 
@@ -45,14 +48,39 @@
 #  include <sys/time.h>
 #endif
 
-// To use logging, the variable gLogFile MUST be defined, and it _must_
-// be an ofstream
-#if DEBUG
-  std::ofstream gLogFile( "/change_this_path/cgicc.log", std::ios::app );
-#endif
+#include "styles.h"
 
 using namespace std;
 using namespace cgicc;
+
+// Print the form for this CGI
+void
+printForm(const Cgicc& cgi)
+{
+  cout << "<form method=\"post\" action=\"" 
+       << cgi.getEnvironment().getScriptName() 
+       << "\" enctype=\"multipart/form-data\">" << endl;
+    
+  cout << "<table>" << endl;
+
+  cout << "<tr><td class=\"title\">Send a file</td>"
+       << "<td class=\"form\">"
+       << "<input type=\"file\" name=\"userfile\" accept=\"text/plain\" />"
+       << "</td></tr>" << endl;
+
+  cout << "<tr><td class=\"title\">Upload Redirection</td>"
+       << "<td class=\"form\">"
+       << "<input type=\"checkbox\" name=\"redirect\" />"
+       << "Bounce uploaded file back to browser"
+       << "</td></tr>" << endl;
+
+  cout << "</table>" << endl;
+
+  cout << "<div class=\"center\"><p>"
+       << "<input type=\"submit\" name=\"submit\" value=\"Send the file\" />"
+       << "<input type=\"reset\" value=\"Nevermind\" />"
+       << "</p></div></form>" << endl;
+}
 
 // Main Street, USA
 int
@@ -67,6 +95,19 @@ main(int /*argc*/,
 
     // Create a new Cgicc object containing all the CGI data
     Cgicc cgi;
+
+    // Redirect output, if desired
+    if(cgi.queryCheckbox("redirect")) {
+      const_file_iterator file = cgi.getFile("userfile");
+
+      // Only redirect a valid file
+      if(file != cgi.getFiles().end()) {
+	cout << HTTPContentHeader(file->getDataType());
+	file->writeToStream(cout);
+
+	return EXIT_SUCCESS;
+      }
+    }
     
     // Output the HTTP headers for an HTML document, and the HTML 4.0 DTD info
     cout << HTTPHTMLHeader() << HTMLDoctype(HTMLDoctype::eStrict) << endl;
@@ -78,34 +119,11 @@ main(int /*argc*/,
 
     // Output the style sheet portion of the header
     cout << style() << comment() << endl;
-    cout << "body { color: black; background-color: white; }" << endl;
-    cout << "hr.half { width: 60%; align: center; }" << endl;
-    cout << "span.red, strong.red { color: red; }" << endl;
-    cout << "div.smaller { font-size: small; }" << endl;
-    cout << "div.notice { border: solid thin; padding: 1em; margin: 1em 0; "
-	 << "background: #ddd; }" << endl;
-    cout << "span.blue { color: blue; }" << endl;
-    cout << "col.title { color: white; background-color: black; ";
-    cout << "font-weight: bold; text-align: center; }" << endl;
-    cout << "col.data { background-color: #ddd; text-align: left; }" << endl;
-    cout << "td.data, TR.data { background-color: #ddd; text-align: left; }"
-	 << endl;
-    cout << "td.grayspecial { background-color: #ddd; text-align: left; }"
-	 << endl;
-    cout << "td.ltgray, tr.ltgray { background-color: #ddd; }" << endl;
-    cout << "td.dkgray, tr.dkgray { background-color: #bbb; }" << endl;
-    cout << "col.black, td.black, td.title, tr.title { color: white; " 
-	 << "background-color: black; font-weight: bold; text-align: center; }"
-	 << endl;
-    cout << "col.gray, td.gray { background-color: #ddd; text-align: center; }"
-	 << endl;
-    cout << "table.cgi { left-margin: auto; right-margin: auto; width: 90%; }"
-	 << endl;
-
+    cout << styles;
     cout << comment() << style() << endl;
 
     cout << title() << "GNU cgicc v" << cgi.getVersion() 
-	 << " File Upload Test Results" << title() << endl;
+	 << " File Upload Test" << title() << endl;
 
     cout << head() << endl;
     
@@ -113,9 +131,9 @@ main(int /*argc*/,
     cout << body() << endl;
 
     cout << h1() << "GNU cgi" << span("cc").set("class","red")
-	 << " v"<< cgi.getVersion() << " File Upload Test Results" 
+	 << " v"<< cgi.getVersion() << " File Upload Test" 
 	 << h1() << endl;
-    
+
     // Get a pointer to the environment
     const CgiEnvironment& env = cgi.getEnvironment();
     
@@ -127,62 +145,39 @@ main(int /*argc*/,
 	 << '(' << env.getRemoteAddr() << ")!" << h4() << endl;  
     
     // Show the uploaded file
-    cout << h2("File Uploaded via FormFile") << endl;
-  
     const_file_iterator file;
     file = cgi.getFile("userfile");
 				
     if(file != cgi.getFiles().end()) {
-      cout << cgicc::div().set("align","center") << endl;
-    
-      cout << table().set("border","0").set("rules","none").set("frame","void")
-	.set("cellspacing","2").set("cellpadding","2")
-	.set("class","cgi") << endl;
-      cout << colgroup().set("span","2") << endl;
-      cout << col().set("align","center").set("class","title").set("span","1") 
-	   << endl;
-      cout << col().set("align","left").set("class","data").set("span","1") 
-	   << endl;
-      cout << colgroup() << endl;
+
+      cout << table() << endl;
       
       cout << tr() << td("Name").set("class","title")
-	   << td((*file).getName()).set("class","data") << tr() << endl;
+	   << td(file->getName()).set("class","data") << tr() << endl;
       
       cout << tr() << td("Data Type").set("class","title")
-	   << td((*file).getDataType()).set("class","data") << tr() << endl;
+	   << td(file->getDataType()).set("class","data") << tr() << endl;
       
       cout << tr() << td("Filename").set("class","title") 
-	   << td((*file).getFilename()).set("class","data") << tr() << endl;
+	   << td(file->getFilename()).set("class","data") << tr() << endl;
+
       cout << tr() << td("Data Length").set("class","title") 
-	   << td().set("class","data") << (*file).getDataLength() 
+	   << td().set("class","data") << file->getDataLength() 
 	   << td() << tr() << endl;
       
       cout << tr() << td("File Data").set("class","title")
 	   << td().set("class","data") << pre();
-      (*file).writeToStream(cout);
-
-      /*
-	To write the contents of the file to a file "foo" on disk:
-
-	ofstream foo("foo");
-	(*file).writeToStream(foo);
-       */
-      
+      file->writeToStream(cout);
       cout << pre() << td() << tr() << endl;
       
-      cout << table() << cgicc::div() << endl;
-    }
-    else {
-      cout << p() << cgicc::div().set("class", "notice") << endl;
-      cout << "No file was uploaded." << endl << cgicc::div() << p() << endl;
+      cout << table() << endl;
     }
 
-    // Now print out a footer with some fun info
-    cout << p() << cgicc::div().set("align","center");
-    cout << a("Back to form").set("href", cgi.getEnvironment().getReferrer()) 
-	 << endl;
-    cout << cgicc::div() << br() << hr(set("class","half")) << endl;
-    
+    // Print out the form to do it again
+    cout << br() << endl;
+    printForm(cgi);
+    cout << hr().set("class", "half") << endl;
+
     // Information on cgicc
     cout << cgicc::div().set("align","center").set("class","smaller") << endl;
     cout << "GNU cgi" << span("cc").set("class","red") << " v";
@@ -210,7 +205,7 @@ main(int /*argc*/,
       + (end.tv_usec - start.tv_usec);
 
     cout << br() << "Total time for request = " << us << " us";
-    cout << " (" << (double) (us/1000000.0) << " s)";
+    cout << " (" << static_cast<double>(us/1000000.0) << " s)";
 #endif
 
     // End of document

@@ -1,13 +1,15 @@
 #! /bin/sh
 
 ##
-##  $Id: cgicc-config.in,v 1.6 2003/07/13 14:26:21 sbooth Exp $
+##  $Id: cgicc-config.in,v 1.9 2007/07/02 18:48:19 sebdiaz Exp $
 ##
-##  Copyright (C) 2000 - 2003 Stephen F. Booth
+##  Copyright (C) 1996 - 2004 Stephen F. Booth <sbooth@gnu.org>
+##                2007 Sébastien DIAZ <sebastien.diaz@gmail.com>
+##  Part of the GNU cgicc library, http://www.cgicc.org
 ##
 ##  This program is free software; you can redistribute it and/or modify
 ##  it under the terms of the GNU General Public License as published by
-##  the Free Software Foundation; either version 2 of the License, or
+##  the Free Software Foundation; either version 3 of the License, or
 ##  (at your option) any later version.
 ##
 ##  This program is distributed in the hope that it will be useful,
@@ -17,13 +19,14 @@
 ##
 ##  You should have received a copy of the GNU General Public License
 ##  along with this program; if not, write to the Free Software
-##  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+##  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110, USA 
 ##
 
-prefix=@prefix@
-exec_prefix=@exec_prefix@
-includedir=@includedir@
-libdir=@libdir@
+prefix="@prefix@"
+exec_prefix="@exec_prefix@"
+includedir="@includedir@"
+libdir="@libdir@"
+cxxflags="@CXXFLAGS@"
 
 ## Usage info
 usage()
@@ -35,6 +38,7 @@ Options:
     --exec-prefix  Display architecture-dependent installation dir
     --includedir   Display header file installation dir
     --libdir       Display object-code installation dir
+    --cxxflags     Display C++ compiler flags
     --host         Display host information
     --version      Display version information
     --help         Display this message
@@ -66,6 +70,9 @@ while test $# -gt 0; do
 
 	## Header file dir
 	--includedir)  echo "$includedir" && exit 0 ;;
+
+	## C++ compiler flags
+	--cxxflags)  echo "$cxxflags" && exit 0 ;;
 
 	## Host information
 	--host)        echo "@host@" && exit 0 ;;	    

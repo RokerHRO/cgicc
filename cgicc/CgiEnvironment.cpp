@@ -1,12 +1,15 @@
+/* -*-mode:c++; c-file-style: "gnu";-*- */
 /*
- *  $Id: CgiEnvironment.cpp,v 1.17 2003/07/13 14:20:35 sbooth Exp $
+ *  $Id: CgiEnvironment.cpp,v 1.24 2007/07/02 18:48:17 sebdiaz Exp $
  *
- *  Copyright (C) 1996 - 2003 Stephen F. Booth
+ *  Copyright (C) 1996 - 2004 Stephen F. Booth <sbooth@gnu.org>
+ *                       2007 Sebastien DIAZ <sebastien.diaz@gmail.com>
+ *  Part of the GNU cgicc library, http://www.gnu.org/software/cgicc
  *
  *  This library is free software; you can redistribute it and/or
  *  modify it under the terms of the GNU Lesser General Public
  *  License as published by the Free Software Foundation; either
- *  version 2.1 of the License, or (at your option) any later version.
+ *  version 3 of the License, or (at your option) any later version.
  *
  *  This library is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -15,7 +18,8 @@
  *
  *  You should have received a copy of the GNU Lesser General Public
  *  License along with this library; if not, write to the Free Software
- *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ *  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110, USA
+ *
  */
 
 #ifdef __GNUG__
@@ -29,9 +33,9 @@
 #include <cctype>
 
 #ifdef WIN32
-# include <io.h>
-# include <fcntl.h>
-# include <stdio.h>
+#  include <io.h>
+#  include <fcntl.h>
+#  include <stdio.h>
 #endif
 
 #include "cgicc/CgiEnvironment.h"
@@ -40,49 +44,42 @@
 
 cgicc::CgiEnvironment::CgiEnvironment(CgiInput *input)
 {
-  LOGLN("CgiEnvironment::CgiEnvironment")
-  
   // Create a local CgiInput object for us to use
   // In the vast majority of cases, this will be used
   // For FastCGI applications it won't but the performance hit of
   // an empty inline constructor is negligible
   CgiInput local_input;
 
-  if(input == 0)
+  if(0 == input)
     readEnvironmentVariables(&local_input);
   else
     readEnvironmentVariables(input);
 
   // On Win32, use binary read to avoid CRLF conversion
 #ifdef WIN32
-# ifdef __BORLANDC__
-    setmode(_fileno(stdin), O_BINARY);
-# else
-    _setmode(_fileno(stdin), _O_BINARY);
-# endif
+#  ifdef __BORLANDC__
+  setmode(_fileno(stdin), O_BINARY);
+#  else
+  _setmode(_fileno(stdin), _O_BINARY);
+#  endif
 #endif
-  
-  if(stringsAreEqual(getRequestMethod(), "get")) {
-    LOGLN("GET method recognized")
-  }
-  else if(stringsAreEqual(getRequestMethod(), "post")) {
-    LOGLN("POST method recognized");
-          
+     
+  if(stringsAreEqual(fRequestMethod, "post")) {
     // Don't use auto_ptr, but vector instead
     // Bug reported by shinra@j10n.org
-    std::vector<char> data(getContentLength());
+    std::vector<char> data(fContentLength);
     
     // If input is 0, use the default implementation of CgiInput
-    if(input == 0) {
-      if(local_input.read(&data[0],getContentLength()) != getContentLength())
+    if(0 == input) {
+      if(local_input.read(&data[0],fContentLength) != fContentLength)
 	throw std::runtime_error("I/O error");
     }
     else {
-      if(input->read(&data[0], getContentLength()) != getContentLength())
+      if(input->read(&data[0], fContentLength) != fContentLength)
 	throw std::runtime_error("I/O error");
     }
 
-    fPostData = std::string(&data[0], getContentLength());
+    fPostData = std::string(&data[0], fContentLength);
   }
   
   fCookies.reserve(10);
@@ -90,16 +87,87 @@ cgicc::CgiEnvironment::CgiEnvironment(CgiInput *input)
 }
 
 cgicc::CgiEnvironment::~CgiEnvironment()
+{}
+
+// Overloaded operators
+bool 
+cgicc::CgiEnvironment::operator== (const CgiEnvironment& env) 		const
 {
-  LOGLN("CgiEnvironment::~CgiEnvironment")
+  bool result;
+  
+  result =  fServerPort 	== env.fServerPort;
+  result &= fContentLength 	== env.fContentLength;
+  result &= fUsingHTTPS 	== env.fUsingHTTPS;
+  result &= fServerSoftware 	== env.fServerSoftware;
+  result &= fServerName 	== env.fServerName;
+  result &= fGatewayInterface 	== env.fGatewayInterface;
+  result &= fServerProtocol 	== env.fServerProtocol;
+  result &= fRequestMethod 	== env.fRequestMethod;
+  result &= fPathInfo 		== env.fPathInfo;
+  result &= fPathTranslated 	== env.fPathTranslated;
+  result &= fScriptName 	== env.fScriptName;
+  result &= fQueryString 	== env.fQueryString;
+  result &= fRemoteHost 	== env.fRemoteHost;
+  result &= fRemoteAddr 	== env.fRemoteAddr;
+  result &= fAuthType 		== env.fAuthType;
+  result &= fRemoteUser 	== env.fRemoteUser;
+  result &= fRemoteIdent 	== env.fRemoteIdent;
+  result &= fContentType 	== env.fContentType;
+  result &= fAccept 		== env.fAccept;
+  result &= fUserAgent 		== env.fUserAgent;
+  result &= fPostData 		== env.fPostData;
+  result &= fRedirectRequest 	== env.fRedirectRequest;
+  result &= fRedirectURL 	== env.fRedirectURL;
+  result &= fRedirectStatus 	== env.fRedirectStatus;
+  result &= fReferrer 		== env.fReferrer;
+  result &= fCookie 		== env.fCookie;
+
+  return result;
+}
+
+cgicc::CgiEnvironment& 
+cgicc::CgiEnvironment::operator= (const CgiEnvironment& env)
+{
+  fServerPort 		= env.fServerPort;
+  fContentLength 	= env.fContentLength;
+  fUsingHTTPS 		= env.fUsingHTTPS;
+  fServerSoftware 	= env.fServerSoftware;
+  fServerName 		= env.fServerName;
+  fGatewayInterface 	= env.fGatewayInterface;
+  fServerProtocol 	= env.fServerProtocol;
+  fRequestMethod 	= env.fRequestMethod;
+  fPathInfo 		= env.fPathInfo;
+  fPathTranslated 	= env.fPathTranslated;
+  fScriptName 		= env.fScriptName;
+  fQueryString 		= env.fQueryString;
+  fRemoteHost 		= env.fRemoteHost;
+  fRemoteAddr 		= env.fRemoteAddr;
+  fAuthType 		= env.fAuthType;
+  fRemoteUser 		= env.fRemoteUser;
+  fRemoteIdent 		= env.fRemoteIdent;
+  fContentType 		= env.fContentType;
+  fAccept 		= env.fAccept;
+  fUserAgent 		= env.fUserAgent;
+  fPostData 		= env.fPostData;
+  fRedirectRequest 	= env.fRedirectRequest;
+  fRedirectURL 		= env.fRedirectURL;
+  fRedirectStatus 	= env.fRedirectStatus;
+  fReferrer 		= env.fReferrer;
+  fCookie 		= env.fCookie;
+
+  fCookies.clear();
+  fCookies.reserve(env.fCookies.size());
+  parseCookies();
+
+  return *this;
 }
 
 void
 cgicc::CgiEnvironment::parseCookies()
 {
-  std::string data = getCookies();
+  std::string data = fCookie;
 
-  if(! data.empty()) {
+  if(false == data.empty()) {
     std::string::size_type pos;
     std::string::size_type oldPos = 0;
 
@@ -108,7 +176,7 @@ cgicc::CgiEnvironment::parseCookies()
       pos = data.find(";", oldPos);
 
       // if no ';' was found, the rest of the string is a single cookie
-      if(pos == std::string::npos) {
+      if(std::string::npos == pos) {
 	parseCookie(data.substr(oldPos));
 	return;
       }
@@ -130,7 +198,7 @@ cgicc::CgiEnvironment::parseCookie(const std::string& data)
   std::string::size_type pos = data.find("=", 0);
 
   // if no '=' was found, return
-  if(pos == std::string::npos)
+  if(std::string::npos == pos)
     return;
 
   // skip leading whitespace - " \f\n\r\t\v"
@@ -138,7 +206,7 @@ cgicc::CgiEnvironment::parseCookie(const std::string& data)
   std::string::const_iterator data_iter;
   
   for(data_iter = data.begin(); data_iter != data.end(); ++data_iter,++wscount)
-    if(std::isspace(*data_iter) == 0)
+    if(0 == std::isspace(*data_iter))
       break;			
   
   // Per RFC 2091, do not unescape the data (thanks to afm@othello.ch)
@@ -191,48 +259,47 @@ cgicc::CgiEnvironment::readEnvironmentVariables(CgiInput *input)
   else
     fUsingHTTPS = false;
 #else
-  fUsingHTTPS = (getenv("HTTPS") != 0);
+  fUsingHTTPS = (0 != getenv("HTTPS"));
 #endif
 }
 
 void
 cgicc::CgiEnvironment::save(const std::string& filename) 	const
 {
-  LOGLN("CgiEnvironment::save")
   std::ofstream file( filename.c_str(), std::ios::out );
 
   if( ! file )
     throw std::runtime_error("I/O error");
 
-  writeLong(file, getContentLength());
-  writeLong(file, getServerPort());
+  writeLong(file, fContentLength);
+  writeLong(file, fServerPort);
   writeLong(file, (unsigned long) usingHTTPS());
 
-  writeString(file, getServerSoftware());
-  writeString(file, getServerName());
-  writeString(file, getGatewayInterface());
-  writeString(file, getServerProtocol());
-  writeString(file, getRequestMethod());
-  writeString(file, getPathInfo());
-  writeString(file, getPathTranslated());
-  writeString(file, getScriptName());
-  writeString(file, getQueryString());
-  writeString(file, getRemoteHost());
-  writeString(file, getRemoteAddr());
-  writeString(file, getAuthType());
-  writeString(file, getRemoteUser());
-  writeString(file, getRemoteIdent());
-  writeString(file, getContentType());
-  writeString(file, getAccept());
-  writeString(file, getUserAgent());
-  writeString(file, getRedirectRequest());
-  writeString(file, getRedirectURL());
-  writeString(file, getRedirectStatus());
-  writeString(file, getReferrer());
-  writeString(file, getCookies());
+  writeString(file, fServerSoftware);
+  writeString(file, fServerName);
+  writeString(file, fGatewayInterface);
+  writeString(file, fServerProtocol);
+  writeString(file, fRequestMethod);
+  writeString(file, fPathInfo);
+  writeString(file, fPathTranslated);
+  writeString(file, fScriptName);
+  writeString(file, fQueryString);
+  writeString(file, fRemoteHost);
+  writeString(file, fRemoteAddr);
+  writeString(file, fAuthType);
+  writeString(file, fRemoteUser);
+  writeString(file, fRemoteIdent);
+  writeString(file, fContentType);
+  writeString(file, fAccept);
+  writeString(file, fUserAgent);
+  writeString(file, fRedirectRequest);
+  writeString(file, fRedirectURL);
+  writeString(file, fRedirectStatus);
+  writeString(file, fReferrer);
+  writeString(file, fCookie);
   
-  if(stringsAreEqual(getRequestMethod(), "post"))
-    writeString(file, getPostData());
+  if(stringsAreEqual(fRequestMethod, "post"))
+    writeString(file, fPostData);
 
   if(file.bad() || file.fail())
     throw std::runtime_error("I/O error");
@@ -243,7 +310,6 @@ cgicc::CgiEnvironment::save(const std::string& filename) 	const
 void
 cgicc::CgiEnvironment::restore(const std::string& filename)
 {
-  LOGLN("CgiEnvironment::restore()")
   std::ifstream file( filename.c_str(), std::ios::in );
 
   if( ! file )
@@ -278,7 +344,7 @@ cgicc::CgiEnvironment::restore(const std::string& filename)
   fReferrer 		= readString(file);
   fCookie 		= readString(file);
   
-  if(stringsAreEqual(getRequestMethod(), "post"))
+  if(stringsAreEqual(fRequestMethod, "post"))
     fPostData = readString(file);
 
   file.close();

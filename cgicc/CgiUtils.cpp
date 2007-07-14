@@ -1,12 +1,15 @@
+/* -*-mode:c++; c-file-style: "gnu";-*- */
 /*
- *  $Id: CgiUtils.cpp,v 1.13 2004/06/12 15:24:31 sbooth Exp $
+ *  $Id: CgiUtils.cpp,v 1.19 2007/07/02 18:48:17 sebdiaz Exp $
  *
- *  Copyright (C) 1996 - 2004 Stephen F. Booth
+ *  Copyright (C) 1996 - 2004 Stephen F. Booth <sbooth@gnu.org>
+ *                       2007 Sebastien DIAZ <sebastien.diaz@gmail.com>
+ *  Part of the GNU cgicc library, http://www.gnu.org/software/cgicc
  *
  *  This library is free software; you can redistribute it and/or
  *  modify it under the terms of the GNU Lesser General Public
  *  License as published by the Free Software Foundation; either
- *  version 2.1 of the License, or (at your option) any later version.
+ *  version 3 of the License, or (at your option) any later version.
  *
  *  This library is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -15,7 +18,7 @@
  *
  *  You should have received a copy of the GNU Lesser General Public
  *  License along with this library; if not, write to the Free Software
- *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ *  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110, USA 
  */
 
 #ifdef __GNUG__
@@ -126,10 +129,10 @@ cgicc::hexToChar(char first,
    query         = *uric
    uric          = reserved | unreserved | escaped
    reserved      = ";" | "/" | "?" | ":" | "@" | "&" | "=" | "+" |
-                   "$" | ","
+   "$" | ","
    unreserved    = alphanum | mark
    mark          = "-" | "_" | "." | "!" | "~" | "*" | "'" |
-                   "(" | ")"
+   "(" | ")"
    escaped = "%" hex hex */
  
 std::string
@@ -183,17 +186,17 @@ cgicc::form_urldecode(const std::string& src)
       result.append(1, ' ');
       break;
     case '%':
-	// Don't assume well-formed input
-	if(std::distance(iter, src.end()) >= 2
-	   && std::isxdigit(*(iter + 1)) && std::isxdigit(*(iter + 2))) {
-	    c = *++iter;
-	    result.append(1, hexToChar(c, *++iter));
-	}
-	// Just pass the % through untouched
-	else {
-	    result.append(1, '%');
-	}
-	break;
+      // Don't assume well-formed input
+      if(std::distance(iter, src.end()) >= 2
+	 && std::isxdigit(*(iter + 1)) && std::isxdigit(*(iter + 2))) {
+	c = *++iter;
+	result.append(1, hexToChar(c, *++iter));
+      }
+      // Just pass the % through untouched
+      else {
+	result.append(1, '%');
+      }
+      break;
     
     default:
       result.append(1, *iter);
@@ -211,13 +214,13 @@ cgicc::extractBetween(const std::string& data,
 		      const std::string& separator2)
 {
   std::string result;
-  unsigned int start, limit;
+  std::string::size_type start, limit;
   
   start = data.find(separator1, 0);
-  if(start != std::string::npos) {
+  if(std::string::npos != start) {
     start += separator1.length();
     limit = data.find(separator2, start);
-    if(limit != std::string::npos)
+    if(std::string::npos != limit)
       result = data.substr(start, limit - start);
   }
   
@@ -251,8 +254,8 @@ cgicc::readString(std::istream& in)
   in.get(); // skip ' '
   
   // Avoid allocation of a zero-length vector
-  if(dataSize == 0) {
-    return std::string("");
+  if(0 == dataSize) {
+    return std::string();
   }
 
   // Don't use auto_ptr, but vector instead
@@ -260,7 +263,7 @@ cgicc::readString(std::istream& in)
   std::vector<char> temp(dataSize);
 
   in.read(&temp[0], dataSize);
-  if((std::string::size_type)in.gcount() != dataSize) {
+  if(static_cast<std::string::size_type>(in.gcount()) != dataSize) {
     throw std::runtime_error("I/O error");
   }
 
@@ -277,4 +280,3 @@ cgicc::readLong(std::istream& in)
   in.get(); // skip ' '
   return l;
 }
-

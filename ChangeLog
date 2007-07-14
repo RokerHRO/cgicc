@@ -1,3 +1,48 @@
+2007-07-15  Sebastien DIAZ  <sebastien.diaz@gmail.com>
+
+	* demo/cardgame.cpp: A new demo based on a card game with persistance data,AI,Scoring, ...
+
+
+2007-07-02  Sebastien DIAZ  <sebastien.diaz@gmail.com>
+
+	* all source: Change the license LGPL to the version 3
+
+
+2004-11-06  Stephen F. Booth  <sbooth@gnu.org>
+
+	* cgicc/CgiUtils.cpp: Fixed bug in extractBetween, now use
+	size_type (bug reported by slava@perlx.com)
+	* THANKS: added Vyacheslav Ignatyuk
+
+2004-06-29  Stephen F. Booth  <sbooth@gnu.org>
+
+	* cgicc/Cgicc.cpp: Parse both GET and POST data if present
+	* demo/*.cpp: Demos made into stand-alone applications
+	* cgicc/Cgicc.cpp: Improved form data parsing efficiency
+	* cgicc/Cgicc.cpp: Removed parsePair
+
+2004-06-27  Stephen F. Booth  <sbooth@gnu.org>
+
+	* demo/upload.{html,cpp}:Added content redirection for uploads
+
+2004-06-26  Stephen F. Booth  <sbooth@gnu.org>
+
+	* cgicc/Cgicc.{h,cpp}: Added operator() (const std::string&) for
+	easier form element access
+	* cgicc/Cgicc.{h,cpp}: Added copy constructor and overloaded
+	comparison and assignment operators
+	* cgicc/CgiEnvironment.{h,cpp}: Added copy constructor and
+	overloaded comparison and assignment operators
+
+2004-06-21  Stephen F. Booth  <sbooth@gnu.org>
+
+	* configure.ac: Removed maintainer mode
+	* Makefile.am: New gpg targets
+	* doc/gnu-head-sm.jpg: New file
+	* doc/Makefile.am: Removed maintainer mode
+	* doc/index.tmpl: New header
+	* doc/cgicc-doc.css: New styles
+
 2004-06-19  Stephen F. Booth  <sbooth@gnu.org>
 
 	* cgicc/Makefile.am: Updated libtool version info

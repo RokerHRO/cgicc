@@ -1,13 +1,15 @@
-/* -*-c++-*- */
+/* -*-mode:c++; c-file-style: "gnu";-*- */
 /*
- *  $Id: CgiEnvironment.h,v 1.15 2003/07/17 05:16:03 sbooth Exp $
+ *  $Id: CgiEnvironment.h,v 1.19 2007/07/02 18:48:17 sebdiaz Exp $
  *
- *  Copyright (C) 1996 - 2003 Stephen F. Booth
+ *  Copyright (C) 1996 - 2004 Stephen F. Booth <sbooth@gnu.org>
+ *                       2007 Sebastien DIAZ <sebastien.diaz@gmail.com>
+ *  Part of the GNU cgicc library, http://www.gnu.org/software/cgicc
  *
  *  This library is free software; you can redistribute it and/or
  *  modify it under the terms of the GNU Lesser General Public
  *  License as published by the Free Software Foundation; either
- *  version 2.1 of the License, or (at your option) any later version.
+ *  version 3 of the License, or (at your option) any later version.
  *
  *  This library is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -16,7 +18,7 @@
  *
  *  You should have received a copy of the GNU Lesser General Public
  *  License along with this library; if not, write to the Free Software
- *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ *  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110, USA
  */
 
 #ifndef _CGIENVIRONMENT_H_
@@ -79,7 +81,7 @@ namespace cgicc {
     
     // ============================================================
     
-    /*! \name Constructor and Destructor */
+    /*! \name Constructors and Destructor */
     //@{
     
     /*! 
@@ -99,6 +101,16 @@ namespace cgicc {
     CgiEnvironment(CgiInput *input);
     
     /*!
+     * \brief Copy constructor.
+     *
+     * Sets the values of this CgiEnvironment to those of \c env.
+     * \param env The CgiEnvironment to copy.
+     */
+    inline
+    CgiEnvironment(const CgiEnvironment& env)
+    { operator=(env); }
+
+    /*!
      * \brief Destructor 
      *
      * Delete this CgiEnvironment object
@@ -106,6 +118,50 @@ namespace cgicc {
     ~CgiEnvironment();
     //@}
     
+    // ============================================================
+    
+    /*! \name Overloaded Operators */
+    //@{
+    
+    /*!
+     * \brief Compare two CgiEnvironments for equality.
+     *
+     * CgiEnvironments are equal if they have the same environment variables.
+     * \param env The CgiEnvironment to compare to this one.
+     * \return \c true if the two CgiEnvironments are equal, \c false otherwise.
+     */
+    bool 
+    operator== (const CgiEnvironment& env) 		const;
+    
+    /*!
+     * \brief Compare two CgiEnvironments for inequality.
+     *
+     * CgiEnvironments are equal if they have the same environment variables.
+     * \param env The CgiEnvironment to compare to this one.
+     * \return \c false if the two CgiEnvironments are equal, \c true otherwise.
+     */
+    inline bool
+    operator!= (const CgiEnvironment& env) 		const
+    { return ! operator==(env); }
+    
+#ifdef WIN32
+    /* Dummy operator for MSVC++ */
+    inline bool
+    operator< (const CgiEnvironment& env) 		const
+    { return false; }
+#endif
+    
+    /*!
+     * \brief Assign one CgiEnvironment to another.  
+     *
+     * Sets the environment variables in this CgiEnvironment to those of \c env.
+     * \param env The CgiEnvironment to copy.
+     * \return A reference to this.
+     */
+    CgiEnvironment& 
+    operator= (const CgiEnvironment& env);
+    //@}
+
     // ============================================================
     
     /*! \name Server Information

@@ -1,12 +1,15 @@
+/* -*-mode:c++; c-file-style: "gnu";-*- */
 /*
- *  $Id: HTTPCookie.cpp,v 1.5 2003/07/13 14:20:35 sbooth Exp $
+ *  $Id: HTTPCookie.cpp,v 1.10 2007/07/02 18:48:18 sebdiaz Exp $
  *
- *  Copyright (C) 1996 - 2003 Stephen F. Booth
+ *  Copyright (C) 1996 - 2004 Stephen F. Booth <sbooth@gnu.org>
+ *                       2007 Sebastien DIAZ <sebastien.diaz@gmail.com>
+ *  Part of the GNU cgicc library, http://www.gnu.org/software/cgicc
  *
  *  This library is free software; you can redistribute it and/or
  *  modify it under the terms of the GNU Lesser General Public
  *  License as published by the Free Software Foundation; either
- *  version 2.1 of the License, or (at your option) any later version.
+ *  version 3 of the License, or (at your option) any later version.
  *
  *  This library is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -15,7 +18,7 @@
  *
  *  You should have received a copy of the GNU Lesser General Public
  *  License along with this library; if not, write to the Free Software
- *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ *  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110, USA 
  */
 
 #ifdef __GNUG__
@@ -59,13 +62,13 @@ cgicc::HTTPCookie::HTTPCookie(const std::string& name,
 
 cgicc::HTTPCookie::HTTPCookie(const HTTPCookie& cookie)
   : MStreamable(),
-    fName(cookie.getName()), 
-    fValue(cookie.getValue()), 
-    fComment(cookie.getComment()),
-    fDomain(cookie.getDomain()), 
-    fMaxAge(cookie.getMaxAge()),
-    fPath(cookie.getPath()), 
-    fSecure(cookie.isSecure())
+    fName(cookie.fName), 
+    fValue(cookie.fValue), 
+    fComment(cookie.fComment),
+    fDomain(cookie.fDomain), 
+    fMaxAge(cookie.fMaxAge),
+    fPath(cookie.fPath), 
+    fSecure(cookie.fSecure)
 {}
 
 cgicc::HTTPCookie::~HTTPCookie()
@@ -86,16 +89,16 @@ cgicc::HTTPCookie::operator== (const HTTPCookie& cookie) const
 void 
 cgicc::HTTPCookie::render(std::ostream& out) 	const
 {
-  out << "Set-Cookie:" << getName() << '=' << getValue();
-  if(fComment.empty() == false)
+  out << "Set-Cookie:" << fName << '=' << fValue;
+  if(false == fComment.empty())
     out << "; Comment=" << fComment;
-  if(fDomain.empty() == false)
+  if(false == fDomain.empty())
     out << "; Domain=" << fDomain;
-  if(fMaxAge != 0)
+  if(0 != fMaxAge)
     out << "; Max-Age=" << fMaxAge;
-  if(fPath.empty() == false)
+  if(false == fPath.empty())
     out << "; Path=" << fPath;
-  if(fSecure == true)
+  if(true == fSecure)
     out << "; Secure";
   
   out << "; Version=1";

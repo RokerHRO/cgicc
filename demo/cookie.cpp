@@ -1,21 +1,24 @@
+/* -*-mode:c++; c-file-style: "gnu";-*- */
 /*
- *  $Id: cookie.cpp,v 1.5 2003/07/13 14:22:57 sbooth Exp $
+ *  $Id: cookie.cpp,v 1.10 2007/07/02 18:48:19 sebdiaz Exp $
  *
- *  Copyright (C) 1996 - 2003 Stephen F. Booth
+ *  Copyright (C) 1996 - 2004 Stephen F. Booth <sbooth@gnu.org>
+ *                       2007 Sebastien DIAZ <sebastien.diaz@gmail.com>
+ *  Part of the GNU cgicc library, http://www.gnu.org/software/cgicc
  *
- *  This program is free software; you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation; either version 2 of the License, or
- *  (at your option) any later version.
+ *  This library is free software; you can redistribute it and/or
+ *  modify it under the terms of the GNU Lesser General Public
+ *  License as published by the Free Software Foundation; either
+ *  version 3 of the License, or (at your option) any later version.
  *
- *  This program is distributed in the hope that it will be useful,
+ *  This library is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ *  Lesser General Public License for more details.
  *
- *  You should have received a copy of the GNU General Public License
- *  along with this program; if not, write to the Free Software
- *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ *  You should have received a copy of the GNU Lesser General Public
+ *  License along with this library; if not, write to the Free Software
+ *  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110, USA 
  */
 
 /*! \file cookie.cpp
@@ -36,7 +39,7 @@
 #include "cgicc/HTTPHTMLHeader.h"
 #include "cgicc/HTMLClasses.h"
 
-#if HAVE_UNAME
+#if HAVE_SYS_UTSNAME_H
 #  include <sys/utsname.h>
 #endif
 
@@ -44,14 +47,37 @@
 #  include <sys/time.h>
 #endif
 
-// To use logging, the variable gLogFile MUST be defined, and it _must_
-// be an ofstream
-#if DEBUG
-  std::ofstream gLogFile( "/change_this_path/cgicc.log", std::ios::app );
-#endif
+#include "styles.h"
 
 using namespace std;
 using namespace cgicc;
+
+// Print the form for this CGI
+void
+printForm(const Cgicc& cgi)
+{
+  cout << "<form method=\"post\" action=\"" 
+       << cgi.getEnvironment().getScriptName() << "\">" << endl;
+    
+  cout << "<table>" << endl;
+
+  cout << "<tr><td class=\"title\">Cookie Name</td>"
+       << "<td class=\"form\">"
+       << "<input type=\"text\" name=\"name\" />"
+       << "</td></tr>" << endl;
+
+  cout << "<tr><td class=\"title\">Cookie Value</td>"
+       << "<td class=\"form\">"
+       << "<input type=\"text\" name=\"value\" />"
+       << "</td></tr>" << endl;
+
+  cout << "</table>" << endl;
+
+  cout << "<div class=\"center\"><p>"
+       << "<input type=\"submit\" name=\"submit\" value=\"Set the cookie\" />"
+       << "<input type=\"reset\" value=\"Nevermind\" />"
+       << "</p></div></form>" << endl;
+}
 
 // Main Street, USA
 int
@@ -90,34 +116,11 @@ main(int /*argc*/,
 
     // Output the style sheet portion of the header
     cout << style() << comment() << endl;
-    cout << "body { color: black; background-color: white; }" << endl;
-    cout << "hr.half { width: 60%; align: center; }" << endl;
-    cout << "span.red, strong.red { color: red; }" << endl;
-    cout << "div.smaller { font-size: small; }" << endl;
-    cout << "div.notice { border: solid thin; padding: 1em; margin: 1em 0; "
-	 << "background: #ddd; }" << endl;
-    cout << "span.blue { color: blue; }" << endl;
-    cout << "col.title { color: white; background-color: black; ";
-    cout << "font-weight: bold; text-align: center; }" << endl;
-    cout << "col.data { background-color: #ddd; text-align: left; }" << endl;
-    cout << "td.data, TR.data { background-color: #ddd; text-align: left; }"
-	 << endl;
-    cout << "td.grayspecial { background-color: #ddd; text-align: left; }"
-	 << endl;
-    cout << "td.ltgray, tr.ltgray { background-color: #ddd; }" << endl;
-    cout << "td.dkgray, tr.dkgray { background-color: #bbb; }" << endl;
-    cout << "col.black, td.black, td.title, tr.title { color: white; " 
-	 << "background-color: black; font-weight: bold; text-align: center; }"
-	 << endl;
-    cout << "col.gray, td.gray { background-color: #ddd; text-align: center; }"
-	 << endl;
-    cout << "table.cgi { left-margin: auto; right-margin: auto; width: 90%; }"
-	 << endl;
-
+    cout << styles;
     cout << comment() << style() << endl;
 
     cout << title() << "GNU cgicc v" << cgi.getVersion() 
-	 << " HTTPCookie Results" << title() << endl;
+	 << " HTTPCookie" << title() << endl;
 
     cout << head() << endl;
     
@@ -151,15 +154,7 @@ main(int /*argc*/,
   
     cout << cgicc::div().set("align","center") << endl;
     
-    cout << table().set("border","0").set("rules","none").set("frame","void")
-      .set("cellspacing","2").set("cellpadding","2")
-      .set("class","cgi") << endl;
-    cout << colgroup().set("span","2") << endl;
-    cout << col().set("align","center").set("class","title").set("span","1") 
-	 << endl;
-    cout << col().set("align","left").set("class","data").set("span","1") 
-	 << endl;
-    cout << colgroup() << endl;
+    cout << table() << endl;
     
     cout << tr() << td("HTTPCookie").set("class","title")
 	 << td(env.getCookies()).set("class","data") << tr() << endl;
@@ -172,13 +167,8 @@ main(int /*argc*/,
   
     cout << cgicc::div().set("align","center") << endl;
   
-    cout << table().set("border","0").set("rules","none").set("frame","void")
-      .set("cellspacing","2").set("cellpadding","2")
-      .set("class","cgi") << endl;
-    cout << colgroup().set("span","2") << endl;
-    cout << col().set("align","center").set("span","2") << endl;
-    cout << colgroup() << endl;
-    
+    cout << table() << endl;
+
     cout << tr().set("class","title") << td("Cookie Name") 
 	 << td("Cookie Value") << tr() << endl;
     
@@ -193,11 +183,10 @@ main(int /*argc*/,
     cout << table() << cgicc::div() << endl;
     
 
-    // Now print out a footer with some fun info
-    cout << p() << cgicc::div().set("align","center");
-    cout << a("Back to form").set("href", cgi.getEnvironment().getReferrer()) 
-	 << endl;
-    cout << cgicc::div() << br() << hr(set("class","half")) << endl;
+    // Print out the form to do it again
+    cout << br() << endl;
+    printForm(cgi);
+    cout << hr().set("class", "half") << endl;
     
     // Information on cgicc
     cout << cgicc::div().set("align","center").set("class","smaller") << endl;
@@ -226,7 +215,7 @@ main(int /*argc*/,
       + (end.tv_usec - start.tv_usec);
 
     cout << br() << "Total time for request = " << us << " us";
-    cout << " (" << (double) (us/1000000.0) << " s)";
+    cout << " (" << static_cast<double>(us/1000000.0) << " s)";
 #endif
 
     // End of document
