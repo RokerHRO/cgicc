@@ -54,14 +54,21 @@ am__strip_dir = `echo $$p | sed -e 's|^.*/||'`;
 am__installdirs = "$(DESTDIR)$(libdir)" "$(DESTDIR)$(pkgincludedir)"
 libLTLIBRARIES_INSTALL = $(INSTALL)
 LTLIBRARIES = $(lib_LTLIBRARIES)
-libcgicc_la_LIBADD =
-am_libcgicc_la_OBJECTS = CgiEnvironment.lo CgiInput.lo CgiUtils.lo \
-	Cgicc.lo FormEntry.lo FormFile.lo HTMLAttribute.lo \
-	HTMLAttributeList.lo HTMLDoctype.lo HTMLElement.lo \
-	HTMLElementList.lo HTTPContentHeader.lo HTTPCookie.lo \
-	HTTPHTMLHeader.lo HTTPHeader.lo HTTPPlainHeader.lo \
-	HTTPRedirectHeader.lo HTTPResponseHeader.lo \
-	HTTPStatusHeader.lo MStreamable.lo
+libcgicc_la_DEPENDENCIES =
+am_libcgicc_la_OBJECTS = libcgicc_la-CgiEnvironment.lo \
+	libcgicc_la-CgiInput.lo libcgicc_la-CgiUtils.lo \
+	libcgicc_la-Cgicc.lo libcgicc_la-FormEntry.lo \
+	libcgicc_la-FormFile.lo libcgicc_la-HTMLAttribute.lo \
+	libcgicc_la-HTMLAttributeList.lo libcgicc_la-HTMLDoctype.lo \
+	libcgicc_la-HTMLElement.lo libcgicc_la-HTMLElementList.lo \
+	libcgicc_la-HTTPContentHeader.lo libcgicc_la-HTTPCookie.lo \
+	libcgicc_la-HTTPHTMLHeader.lo libcgicc_la-HTTPHeader.lo \
+	libcgicc_la-HTTPPlainHeader.lo \
+	libcgicc_la-HTTPRedirectHeader.lo \
+	libcgicc_la-HTTPResponseHeader.lo \
+	libcgicc_la-HTTPStatusHeader.lo libcgicc_la-MStreamable.lo \
+	libcgicc_la-HTTPXHTMLHeader.lo libcgicc_la-XHTMLDoctype.lo \
+	libcgicc_la-XMLPI.lo
 libcgicc_la_OBJECTS = $(am_libcgicc_la_OBJECTS)
 libcgicc_la_LINK = $(LIBTOOL) --tag=CXX $(AM_LIBTOOLFLAGS) \
 	$(LIBTOOLFLAGS) --mode=link $(CXXLD) $(AM_CXXFLAGS) \
@@ -204,16 +211,20 @@ HTMLAttributeList.cpp HTMLDoctype.cpp HTMLElement.cpp			\
 HTMLElementList.cpp HTTPContentHeader.cpp HTTPCookie.cpp		\
 HTTPHTMLHeader.cpp HTTPHeader.cpp HTTPPlainHeader.cpp			\
 HTTPRedirectHeader.cpp HTTPResponseHeader.cpp HTTPStatusHeader.cpp	\
-MStreamable.cpp
+MStreamable.cpp \
+HTTPXHTMLHeader.cpp XHTMLDoctype.cpp XMLPI.cpp
 
-libcgicc_la_LDFLAGS = -version-info 5:2:0
+libcgicc_la_LDFLAGS = -lstdc++  -version-info 5:2:0 @GNUCAP_LDFLAGS@  
 pkginclude_HEADERS = CgiDefs.h CgiEnvironment.h CgiInput.h CgiUtils.h	\
 Cgicc.h FormEntry.h FormFile.h HTMLAtomicElement.h HTMLAttribute.h	\
 HTMLAttributeList.h HTMLBooleanElement.h HTMLClasses.h HTMLDoctype.h	\
 HTMLElement.h HTMLElementList.h HTTPContentHeader.h HTTPCookie.h	\
 HTTPHTMLHeader.h HTTPHeader.h HTTPPlainHeader.h HTTPRedirectHeader.h	\
-HTTPResponseHeader.h HTTPStatusHeader.h MStreamable.h
+HTTPResponseHeader.h HTTPStatusHeader.h MStreamable.h \
+HTTPXHTMLHeader.h XHTMLDoctype.h XMLDeclaration.h XMLPI.h
 
+libcgicc_la_CPPFLAGS = -x c++ 
+libcgicc_la_LIBADD = 
 all: config.h
 	$(MAKE) $(AM_MAKEFLAGS) all-am
 
@@ -303,26 +314,29 @@ mostlyclean-compile:
 distclean-compile:
 	-rm -f *.tab.c
 
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/CgiEnvironment.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/CgiInput.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/CgiUtils.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/Cgicc.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/FormEntry.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/FormFile.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/HTMLAttribute.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/HTMLAttributeList.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/HTMLDoctype.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/HTMLElement.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/HTMLElementList.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/HTTPContentHeader.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/HTTPCookie.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/HTTPHTMLHeader.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/HTTPHeader.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/HTTPPlainHeader.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/HTTPRedirectHeader.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/HTTPResponseHeader.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/HTTPStatusHeader.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/MStreamable.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libcgicc_la-CgiEnvironment.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libcgicc_la-CgiInput.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libcgicc_la-CgiUtils.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libcgicc_la-Cgicc.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libcgicc_la-FormEntry.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libcgicc_la-FormFile.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libcgicc_la-HTMLAttribute.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libcgicc_la-HTMLAttributeList.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libcgicc_la-HTMLDoctype.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libcgicc_la-HTMLElement.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libcgicc_la-HTMLElementList.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libcgicc_la-HTTPContentHeader.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libcgicc_la-HTTPCookie.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libcgicc_la-HTTPHTMLHeader.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libcgicc_la-HTTPHeader.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libcgicc_la-HTTPPlainHeader.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libcgicc_la-HTTPRedirectHeader.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libcgicc_la-HTTPResponseHeader.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libcgicc_la-HTTPStatusHeader.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libcgicc_la-HTTPXHTMLHeader.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libcgicc_la-MStreamable.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libcgicc_la-XHTMLDoctype.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libcgicc_la-XMLPI.Plo@am__quote@
 
 .cpp.o:
 @am__fastdepCXX_TRUE@	$(CXXCOMPILE) -MT $@ -MD -MP -MF $(DEPDIR)/$*.Tpo -c -o $@ $<
@@ -344,6 +358,167 @@ distclean-compile:
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='$<' object='$@' libtool=yes @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(LTCXXCOMPILE) -c -o $@ $<
+
+libcgicc_la-CgiEnvironment.lo: CgiEnvironment.cpp
+@am__fastdepCXX_TRUE@	$(LIBTOOL) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libcgicc_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT libcgicc_la-CgiEnvironment.lo -MD -MP -MF $(DEPDIR)/libcgicc_la-CgiEnvironment.Tpo -c -o libcgicc_la-CgiEnvironment.lo `test -f 'CgiEnvironment.cpp' || echo '$(srcdir)/'`CgiEnvironment.cpp
+@am__fastdepCXX_TRUE@	mv -f $(DEPDIR)/libcgicc_la-CgiEnvironment.Tpo $(DEPDIR)/libcgicc_la-CgiEnvironment.Plo
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='CgiEnvironment.cpp' object='libcgicc_la-CgiEnvironment.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(LIBTOOL) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libcgicc_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o libcgicc_la-CgiEnvironment.lo `test -f 'CgiEnvironment.cpp' || echo '$(srcdir)/'`CgiEnvironment.cpp
+
+libcgicc_la-CgiInput.lo: CgiInput.cpp
+@am__fastdepCXX_TRUE@	$(LIBTOOL) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libcgicc_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT libcgicc_la-CgiInput.lo -MD -MP -MF $(DEPDIR)/libcgicc_la-CgiInput.Tpo -c -o libcgicc_la-CgiInput.lo `test -f 'CgiInput.cpp' || echo '$(srcdir)/'`CgiInput.cpp
+@am__fastdepCXX_TRUE@	mv -f $(DEPDIR)/libcgicc_la-CgiInput.Tpo $(DEPDIR)/libcgicc_la-CgiInput.Plo
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='CgiInput.cpp' object='libcgicc_la-CgiInput.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(LIBTOOL) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libcgicc_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o libcgicc_la-CgiInput.lo `test -f 'CgiInput.cpp' || echo '$(srcdir)/'`CgiInput.cpp
+
+libcgicc_la-CgiUtils.lo: CgiUtils.cpp
+@am__fastdepCXX_TRUE@	$(LIBTOOL) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libcgicc_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT libcgicc_la-CgiUtils.lo -MD -MP -MF $(DEPDIR)/libcgicc_la-CgiUtils.Tpo -c -o libcgicc_la-CgiUtils.lo `test -f 'CgiUtils.cpp' || echo '$(srcdir)/'`CgiUtils.cpp
+@am__fastdepCXX_TRUE@	mv -f $(DEPDIR)/libcgicc_la-CgiUtils.Tpo $(DEPDIR)/libcgicc_la-CgiUtils.Plo
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='CgiUtils.cpp' object='libcgicc_la-CgiUtils.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(LIBTOOL) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libcgicc_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o libcgicc_la-CgiUtils.lo `test -f 'CgiUtils.cpp' || echo '$(srcdir)/'`CgiUtils.cpp
+
+libcgicc_la-Cgicc.lo: Cgicc.cpp
+@am__fastdepCXX_TRUE@	$(LIBTOOL) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libcgicc_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT libcgicc_la-Cgicc.lo -MD -MP -MF $(DEPDIR)/libcgicc_la-Cgicc.Tpo -c -o libcgicc_la-Cgicc.lo `test -f 'Cgicc.cpp' || echo '$(srcdir)/'`Cgicc.cpp
+@am__fastdepCXX_TRUE@	mv -f $(DEPDIR)/libcgicc_la-Cgicc.Tpo $(DEPDIR)/libcgicc_la-Cgicc.Plo
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='Cgicc.cpp' object='libcgicc_la-Cgicc.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(LIBTOOL) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libcgicc_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o libcgicc_la-Cgicc.lo `test -f 'Cgicc.cpp' || echo '$(srcdir)/'`Cgicc.cpp
+
+libcgicc_la-FormEntry.lo: FormEntry.cpp
+@am__fastdepCXX_TRUE@	$(LIBTOOL) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libcgicc_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT libcgicc_la-FormEntry.lo -MD -MP -MF $(DEPDIR)/libcgicc_la-FormEntry.Tpo -c -o libcgicc_la-FormEntry.lo `test -f 'FormEntry.cpp' || echo '$(srcdir)/'`FormEntry.cpp
+@am__fastdepCXX_TRUE@	mv -f $(DEPDIR)/libcgicc_la-FormEntry.Tpo $(DEPDIR)/libcgicc_la-FormEntry.Plo
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='FormEntry.cpp' object='libcgicc_la-FormEntry.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(LIBTOOL) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libcgicc_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o libcgicc_la-FormEntry.lo `test -f 'FormEntry.cpp' || echo '$(srcdir)/'`FormEntry.cpp
+
+libcgicc_la-FormFile.lo: FormFile.cpp
+@am__fastdepCXX_TRUE@	$(LIBTOOL) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libcgicc_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT libcgicc_la-FormFile.lo -MD -MP -MF $(DEPDIR)/libcgicc_la-FormFile.Tpo -c -o libcgicc_la-FormFile.lo `test -f 'FormFile.cpp' || echo '$(srcdir)/'`FormFile.cpp
+@am__fastdepCXX_TRUE@	mv -f $(DEPDIR)/libcgicc_la-FormFile.Tpo $(DEPDIR)/libcgicc_la-FormFile.Plo
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='FormFile.cpp' object='libcgicc_la-FormFile.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(LIBTOOL) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libcgicc_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o libcgicc_la-FormFile.lo `test -f 'FormFile.cpp' || echo '$(srcdir)/'`FormFile.cpp
+
+libcgicc_la-HTMLAttribute.lo: HTMLAttribute.cpp
+@am__fastdepCXX_TRUE@	$(LIBTOOL) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libcgicc_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT libcgicc_la-HTMLAttribute.lo -MD -MP -MF $(DEPDIR)/libcgicc_la-HTMLAttribute.Tpo -c -o libcgicc_la-HTMLAttribute.lo `test -f 'HTMLAttribute.cpp' || echo '$(srcdir)/'`HTMLAttribute.cpp
+@am__fastdepCXX_TRUE@	mv -f $(DEPDIR)/libcgicc_la-HTMLAttribute.Tpo $(DEPDIR)/libcgicc_la-HTMLAttribute.Plo
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='HTMLAttribute.cpp' object='libcgicc_la-HTMLAttribute.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(LIBTOOL) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libcgicc_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o libcgicc_la-HTMLAttribute.lo `test -f 'HTMLAttribute.cpp' || echo '$(srcdir)/'`HTMLAttribute.cpp
+
+libcgicc_la-HTMLAttributeList.lo: HTMLAttributeList.cpp
+@am__fastdepCXX_TRUE@	$(LIBTOOL) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libcgicc_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT libcgicc_la-HTMLAttributeList.lo -MD -MP -MF $(DEPDIR)/libcgicc_la-HTMLAttributeList.Tpo -c -o libcgicc_la-HTMLAttributeList.lo `test -f 'HTMLAttributeList.cpp' || echo '$(srcdir)/'`HTMLAttributeList.cpp
+@am__fastdepCXX_TRUE@	mv -f $(DEPDIR)/libcgicc_la-HTMLAttributeList.Tpo $(DEPDIR)/libcgicc_la-HTMLAttributeList.Plo
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='HTMLAttributeList.cpp' object='libcgicc_la-HTMLAttributeList.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(LIBTOOL) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libcgicc_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o libcgicc_la-HTMLAttributeList.lo `test -f 'HTMLAttributeList.cpp' || echo '$(srcdir)/'`HTMLAttributeList.cpp
+
+libcgicc_la-HTMLDoctype.lo: HTMLDoctype.cpp
+@am__fastdepCXX_TRUE@	$(LIBTOOL) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libcgicc_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT libcgicc_la-HTMLDoctype.lo -MD -MP -MF $(DEPDIR)/libcgicc_la-HTMLDoctype.Tpo -c -o libcgicc_la-HTMLDoctype.lo `test -f 'HTMLDoctype.cpp' || echo '$(srcdir)/'`HTMLDoctype.cpp
+@am__fastdepCXX_TRUE@	mv -f $(DEPDIR)/libcgicc_la-HTMLDoctype.Tpo $(DEPDIR)/libcgicc_la-HTMLDoctype.Plo
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='HTMLDoctype.cpp' object='libcgicc_la-HTMLDoctype.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(LIBTOOL) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libcgicc_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o libcgicc_la-HTMLDoctype.lo `test -f 'HTMLDoctype.cpp' || echo '$(srcdir)/'`HTMLDoctype.cpp
+
+libcgicc_la-HTMLElement.lo: HTMLElement.cpp
+@am__fastdepCXX_TRUE@	$(LIBTOOL) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libcgicc_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT libcgicc_la-HTMLElement.lo -MD -MP -MF $(DEPDIR)/libcgicc_la-HTMLElement.Tpo -c -o libcgicc_la-HTMLElement.lo `test -f 'HTMLElement.cpp' || echo '$(srcdir)/'`HTMLElement.cpp
+@am__fastdepCXX_TRUE@	mv -f $(DEPDIR)/libcgicc_la-HTMLElement.Tpo $(DEPDIR)/libcgicc_la-HTMLElement.Plo
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='HTMLElement.cpp' object='libcgicc_la-HTMLElement.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(LIBTOOL) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libcgicc_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o libcgicc_la-HTMLElement.lo `test -f 'HTMLElement.cpp' || echo '$(srcdir)/'`HTMLElement.cpp
+
+libcgicc_la-HTMLElementList.lo: HTMLElementList.cpp
+@am__fastdepCXX_TRUE@	$(LIBTOOL) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libcgicc_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT libcgicc_la-HTMLElementList.lo -MD -MP -MF $(DEPDIR)/libcgicc_la-HTMLElementList.Tpo -c -o libcgicc_la-HTMLElementList.lo `test -f 'HTMLElementList.cpp' || echo '$(srcdir)/'`HTMLElementList.cpp
+@am__fastdepCXX_TRUE@	mv -f $(DEPDIR)/libcgicc_la-HTMLElementList.Tpo $(DEPDIR)/libcgicc_la-HTMLElementList.Plo
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='HTMLElementList.cpp' object='libcgicc_la-HTMLElementList.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(LIBTOOL) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libcgicc_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o libcgicc_la-HTMLElementList.lo `test -f 'HTMLElementList.cpp' || echo '$(srcdir)/'`HTMLElementList.cpp
+
+libcgicc_la-HTTPContentHeader.lo: HTTPContentHeader.cpp
+@am__fastdepCXX_TRUE@	$(LIBTOOL) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libcgicc_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT libcgicc_la-HTTPContentHeader.lo -MD -MP -MF $(DEPDIR)/libcgicc_la-HTTPContentHeader.Tpo -c -o libcgicc_la-HTTPContentHeader.lo `test -f 'HTTPContentHeader.cpp' || echo '$(srcdir)/'`HTTPContentHeader.cpp
+@am__fastdepCXX_TRUE@	mv -f $(DEPDIR)/libcgicc_la-HTTPContentHeader.Tpo $(DEPDIR)/libcgicc_la-HTTPContentHeader.Plo
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='HTTPContentHeader.cpp' object='libcgicc_la-HTTPContentHeader.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(LIBTOOL) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libcgicc_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o libcgicc_la-HTTPContentHeader.lo `test -f 'HTTPContentHeader.cpp' || echo '$(srcdir)/'`HTTPContentHeader.cpp
+
+libcgicc_la-HTTPCookie.lo: HTTPCookie.cpp
+@am__fastdepCXX_TRUE@	$(LIBTOOL) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libcgicc_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT libcgicc_la-HTTPCookie.lo -MD -MP -MF $(DEPDIR)/libcgicc_la-HTTPCookie.Tpo -c -o libcgicc_la-HTTPCookie.lo `test -f 'HTTPCookie.cpp' || echo '$(srcdir)/'`HTTPCookie.cpp
+@am__fastdepCXX_TRUE@	mv -f $(DEPDIR)/libcgicc_la-HTTPCookie.Tpo $(DEPDIR)/libcgicc_la-HTTPCookie.Plo
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='HTTPCookie.cpp' object='libcgicc_la-HTTPCookie.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(LIBTOOL) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libcgicc_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o libcgicc_la-HTTPCookie.lo `test -f 'HTTPCookie.cpp' || echo '$(srcdir)/'`HTTPCookie.cpp
+
+libcgicc_la-HTTPHTMLHeader.lo: HTTPHTMLHeader.cpp
+@am__fastdepCXX_TRUE@	$(LIBTOOL) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libcgicc_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT libcgicc_la-HTTPHTMLHeader.lo -MD -MP -MF $(DEPDIR)/libcgicc_la-HTTPHTMLHeader.Tpo -c -o libcgicc_la-HTTPHTMLHeader.lo `test -f 'HTTPHTMLHeader.cpp' || echo '$(srcdir)/'`HTTPHTMLHeader.cpp
+@am__fastdepCXX_TRUE@	mv -f $(DEPDIR)/libcgicc_la-HTTPHTMLHeader.Tpo $(DEPDIR)/libcgicc_la-HTTPHTMLHeader.Plo
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='HTTPHTMLHeader.cpp' object='libcgicc_la-HTTPHTMLHeader.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(LIBTOOL) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libcgicc_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o libcgicc_la-HTTPHTMLHeader.lo `test -f 'HTTPHTMLHeader.cpp' || echo '$(srcdir)/'`HTTPHTMLHeader.cpp
+
+libcgicc_la-HTTPHeader.lo: HTTPHeader.cpp
+@am__fastdepCXX_TRUE@	$(LIBTOOL) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libcgicc_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT libcgicc_la-HTTPHeader.lo -MD -MP -MF $(DEPDIR)/libcgicc_la-HTTPHeader.Tpo -c -o libcgicc_la-HTTPHeader.lo `test -f 'HTTPHeader.cpp' || echo '$(srcdir)/'`HTTPHeader.cpp
+@am__fastdepCXX_TRUE@	mv -f $(DEPDIR)/libcgicc_la-HTTPHeader.Tpo $(DEPDIR)/libcgicc_la-HTTPHeader.Plo
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='HTTPHeader.cpp' object='libcgicc_la-HTTPHeader.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(LIBTOOL) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libcgicc_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o libcgicc_la-HTTPHeader.lo `test -f 'HTTPHeader.cpp' || echo '$(srcdir)/'`HTTPHeader.cpp
+
+libcgicc_la-HTTPPlainHeader.lo: HTTPPlainHeader.cpp
+@am__fastdepCXX_TRUE@	$(LIBTOOL) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libcgicc_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT libcgicc_la-HTTPPlainHeader.lo -MD -MP -MF $(DEPDIR)/libcgicc_la-HTTPPlainHeader.Tpo -c -o libcgicc_la-HTTPPlainHeader.lo `test -f 'HTTPPlainHeader.cpp' || echo '$(srcdir)/'`HTTPPlainHeader.cpp
+@am__fastdepCXX_TRUE@	mv -f $(DEPDIR)/libcgicc_la-HTTPPlainHeader.Tpo $(DEPDIR)/libcgicc_la-HTTPPlainHeader.Plo
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='HTTPPlainHeader.cpp' object='libcgicc_la-HTTPPlainHeader.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(LIBTOOL) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libcgicc_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o libcgicc_la-HTTPPlainHeader.lo `test -f 'HTTPPlainHeader.cpp' || echo '$(srcdir)/'`HTTPPlainHeader.cpp
+
+libcgicc_la-HTTPRedirectHeader.lo: HTTPRedirectHeader.cpp
+@am__fastdepCXX_TRUE@	$(LIBTOOL) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libcgicc_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT libcgicc_la-HTTPRedirectHeader.lo -MD -MP -MF $(DEPDIR)/libcgicc_la-HTTPRedirectHeader.Tpo -c -o libcgicc_la-HTTPRedirectHeader.lo `test -f 'HTTPRedirectHeader.cpp' || echo '$(srcdir)/'`HTTPRedirectHeader.cpp
+@am__fastdepCXX_TRUE@	mv -f $(DEPDIR)/libcgicc_la-HTTPRedirectHeader.Tpo $(DEPDIR)/libcgicc_la-HTTPRedirectHeader.Plo
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='HTTPRedirectHeader.cpp' object='libcgicc_la-HTTPRedirectHeader.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(LIBTOOL) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libcgicc_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o libcgicc_la-HTTPRedirectHeader.lo `test -f 'HTTPRedirectHeader.cpp' || echo '$(srcdir)/'`HTTPRedirectHeader.cpp
+
+libcgicc_la-HTTPResponseHeader.lo: HTTPResponseHeader.cpp
+@am__fastdepCXX_TRUE@	$(LIBTOOL) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libcgicc_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT libcgicc_la-HTTPResponseHeader.lo -MD -MP -MF $(DEPDIR)/libcgicc_la-HTTPResponseHeader.Tpo -c -o libcgicc_la-HTTPResponseHeader.lo `test -f 'HTTPResponseHeader.cpp' || echo '$(srcdir)/'`HTTPResponseHeader.cpp
+@am__fastdepCXX_TRUE@	mv -f $(DEPDIR)/libcgicc_la-HTTPResponseHeader.Tpo $(DEPDIR)/libcgicc_la-HTTPResponseHeader.Plo
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='HTTPResponseHeader.cpp' object='libcgicc_la-HTTPResponseHeader.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(LIBTOOL) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libcgicc_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o libcgicc_la-HTTPResponseHeader.lo `test -f 'HTTPResponseHeader.cpp' || echo '$(srcdir)/'`HTTPResponseHeader.cpp
+
+libcgicc_la-HTTPStatusHeader.lo: HTTPStatusHeader.cpp
+@am__fastdepCXX_TRUE@	$(LIBTOOL) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libcgicc_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT libcgicc_la-HTTPStatusHeader.lo -MD -MP -MF $(DEPDIR)/libcgicc_la-HTTPStatusHeader.Tpo -c -o libcgicc_la-HTTPStatusHeader.lo `test -f 'HTTPStatusHeader.cpp' || echo '$(srcdir)/'`HTTPStatusHeader.cpp
+@am__fastdepCXX_TRUE@	mv -f $(DEPDIR)/libcgicc_la-HTTPStatusHeader.Tpo $(DEPDIR)/libcgicc_la-HTTPStatusHeader.Plo
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='HTTPStatusHeader.cpp' object='libcgicc_la-HTTPStatusHeader.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(LIBTOOL) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libcgicc_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o libcgicc_la-HTTPStatusHeader.lo `test -f 'HTTPStatusHeader.cpp' || echo '$(srcdir)/'`HTTPStatusHeader.cpp
+
+libcgicc_la-MStreamable.lo: MStreamable.cpp
+@am__fastdepCXX_TRUE@	$(LIBTOOL) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libcgicc_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT libcgicc_la-MStreamable.lo -MD -MP -MF $(DEPDIR)/libcgicc_la-MStreamable.Tpo -c -o libcgicc_la-MStreamable.lo `test -f 'MStreamable.cpp' || echo '$(srcdir)/'`MStreamable.cpp
+@am__fastdepCXX_TRUE@	mv -f $(DEPDIR)/libcgicc_la-MStreamable.Tpo $(DEPDIR)/libcgicc_la-MStreamable.Plo
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='MStreamable.cpp' object='libcgicc_la-MStreamable.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(LIBTOOL) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libcgicc_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o libcgicc_la-MStreamable.lo `test -f 'MStreamable.cpp' || echo '$(srcdir)/'`MStreamable.cpp
+
+libcgicc_la-HTTPXHTMLHeader.lo: HTTPXHTMLHeader.cpp
+@am__fastdepCXX_TRUE@	$(LIBTOOL) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libcgicc_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT libcgicc_la-HTTPXHTMLHeader.lo -MD -MP -MF $(DEPDIR)/libcgicc_la-HTTPXHTMLHeader.Tpo -c -o libcgicc_la-HTTPXHTMLHeader.lo `test -f 'HTTPXHTMLHeader.cpp' || echo '$(srcdir)/'`HTTPXHTMLHeader.cpp
+@am__fastdepCXX_TRUE@	mv -f $(DEPDIR)/libcgicc_la-HTTPXHTMLHeader.Tpo $(DEPDIR)/libcgicc_la-HTTPXHTMLHeader.Plo
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='HTTPXHTMLHeader.cpp' object='libcgicc_la-HTTPXHTMLHeader.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(LIBTOOL) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libcgicc_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o libcgicc_la-HTTPXHTMLHeader.lo `test -f 'HTTPXHTMLHeader.cpp' || echo '$(srcdir)/'`HTTPXHTMLHeader.cpp
+
+libcgicc_la-XHTMLDoctype.lo: XHTMLDoctype.cpp
+@am__fastdepCXX_TRUE@	$(LIBTOOL) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libcgicc_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT libcgicc_la-XHTMLDoctype.lo -MD -MP -MF $(DEPDIR)/libcgicc_la-XHTMLDoctype.Tpo -c -o libcgicc_la-XHTMLDoctype.lo `test -f 'XHTMLDoctype.cpp' || echo '$(srcdir)/'`XHTMLDoctype.cpp
+@am__fastdepCXX_TRUE@	mv -f $(DEPDIR)/libcgicc_la-XHTMLDoctype.Tpo $(DEPDIR)/libcgicc_la-XHTMLDoctype.Plo
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='XHTMLDoctype.cpp' object='libcgicc_la-XHTMLDoctype.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(LIBTOOL) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libcgicc_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o libcgicc_la-XHTMLDoctype.lo `test -f 'XHTMLDoctype.cpp' || echo '$(srcdir)/'`XHTMLDoctype.cpp
+
+libcgicc_la-XMLPI.lo: XMLPI.cpp
+@am__fastdepCXX_TRUE@	$(LIBTOOL) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libcgicc_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT libcgicc_la-XMLPI.lo -MD -MP -MF $(DEPDIR)/libcgicc_la-XMLPI.Tpo -c -o libcgicc_la-XMLPI.lo `test -f 'XMLPI.cpp' || echo '$(srcdir)/'`XMLPI.cpp
+@am__fastdepCXX_TRUE@	mv -f $(DEPDIR)/libcgicc_la-XMLPI.Tpo $(DEPDIR)/libcgicc_la-XMLPI.Plo
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='XMLPI.cpp' object='libcgicc_la-XMLPI.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(LIBTOOL) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libcgicc_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o libcgicc_la-XMLPI.lo `test -f 'XMLPI.cpp' || echo '$(srcdir)/'`XMLPI.cpp
 
 mostlyclean-libtool:
 	-rm -f *.lo

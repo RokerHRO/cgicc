@@ -1,3 +1,16 @@
+2008-01-19  Sebastien DIAZ  <sebastien.diaz@gmail.com>
+
+	* cgicc/CgiUtils.h: Just little change
+	* cgicc/HTTPXHTMLHeader.cpp,cgicc/HTTPXHTMLHeader.h,cgicc/XHTMLDoctype.cpp,
+	and cgicc/XHTMLDoctype.h, cgicc/XMLDeclaration.h, XMLPI.cpp
+	and   XMLPI.h : Add the XHTML support from David Roberts work
+	* cgicc/Makefile.am: Change for darwin (apple) test .
+	* example/Config.h.in: an empty file just for autogen
+	* example/acinclude.m4: more usable make
+	* example/autogen: enhance making work
+	* example/configure.ac: enhance the making system
+	
+
 2007-07-15  Sebastien DIAZ  <sebastien.diaz@gmail.com>
 
 	* demo/cardgame.cpp: A new demo based on a card game with persistance data,AI,Scoring, ...
