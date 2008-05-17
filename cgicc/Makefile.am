@@ -1,6 +1,8 @@
-## $Id: Makefile.am,v 1.23 2008/01/19 15:43:57 sebdiaz Exp $
+## $Id: Makefile.am,v 1.25 2008/05/18 19:42:41 sebdiaz Exp $
 
 CLEANFILES = *~
+
+ACLOCAL_AMFLAGS= -I m4 -I .
 
 INCLUDES = -I$(top_srcdir) -I$(top_builddir)
 
@@ -14,7 +16,7 @@ HTTPRedirectHeader.cpp HTTPResponseHeader.cpp HTTPStatusHeader.cpp	\
 MStreamable.cpp \
 HTTPXHTMLHeader.cpp XHTMLDoctype.cpp XMLPI.cpp
 
-libcgicc_la_LDFLAGS = -lstdc++  -version-info 5:2:0 @GNUCAP_LDFLAGS@  
+libcgicc_la_LDFLAGS = -lstdc++  -version-info 5:2:0   
 
 pkginclude_HEADERS = CgiDefs.h CgiEnvironment.h CgiInput.h CgiUtils.h	\
 Cgicc.h FormEntry.h FormFile.h HTMLAtomicElement.h HTMLAttribute.h	\
