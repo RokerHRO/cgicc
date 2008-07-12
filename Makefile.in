@@ -13,6 +13,7 @@
 # PARTICULAR PURPOSE.
 
 @SET_MAKE@
+
 srcdir = @srcdir@
 top_srcdir = @top_srcdir@
 VPATH = @srcdir@
@@ -57,6 +58,15 @@ RECURSIVE_TARGETS = all-recursive check-recursive dvi-recursive \
 	install-recursive installcheck-recursive installdirs-recursive \
 	pdf-recursive ps-recursive uninstall-info-recursive \
 	uninstall-recursive
+am__vpath_adj_setup = srcdirstrip=`echo "$(srcdir)" | sed 's|.|.|g'`;
+am__vpath_adj = case $$p in \
+    $(srcdir)/*) f=`echo "$$p" | sed "s|^$$srcdirstrip/||"`;; \
+    *) f=$$p;; \
+  esac;
+am__strip_dir = `echo $$p | sed -e 's|^.*/||'`;
+am__installdirs = "$(DESTDIR)$(aclocaldir)"
+aclocalDATA_INSTALL = $(INSTALL_DATA)
+DATA = $(aclocal_DATA)
 ETAGS = etags
 CTAGS = ctags
 DIST_SUBDIRS = cgicc doc support demo contrib
@@ -183,11 +193,13 @@ target_alias = @target_alias@
 AUTOMAKE_OPTIONS = check-news dist-bzip2
 @DEMOS_FALSE@DEMO = 
 @DEMOS_TRUE@DEMO = demo contrib
-ACLOCAL_AMFLAGS = -I m4 --install
+ACLOCAL_AMFLAGS = 
 SUBDIRS = cgicc doc support $(DEMO)
 CLEANFILES = *~
 MAINTAINERCLEANFILES = aclocal.m4 cgicc-*.tar.*
 EXTRA_DIST = BUGS README.WIN COPYING.DOC example win
+aclocaldir = $(datadir)/aclocal
+aclocal_DATA = example/cgicc.m4
 CVS = cvs
 GPG = gpg
 MD5 = md5sum
@@ -239,6 +251,23 @@ clean-libtool:
 distclean-libtool:
 	-rm -f libtool
 uninstall-info-am:
+install-aclocalDATA: $(aclocal_DATA)
+	@$(NORMAL_INSTALL)
+	test -z "$(aclocaldir)" || $(mkdir_p) "$(DESTDIR)$(aclocaldir)"
+	@list='$(aclocal_DATA)'; for p in $$list; do \
+	  if test -f "$$p"; then d=; else d="$(srcdir)/"; fi; \
+	  f=$(am__strip_dir) \
+	  echo " $(aclocalDATA_INSTALL) '$$d$$p' '$(DESTDIR)$(aclocaldir)/$$f'"; \
+	  $(aclocalDATA_INSTALL) "$$d$$p" "$(DESTDIR)$(aclocaldir)/$$f"; \
+	done
+
+uninstall-aclocalDATA:
+	@$(NORMAL_UNINSTALL)
+	@list='$(aclocal_DATA)'; for p in $$list; do \
+	  f=$(am__strip_dir) \
+	  echo " rm -f '$(DESTDIR)$(aclocaldir)/$$f'"; \
+	  rm -f "$(DESTDIR)$(aclocaldir)/$$f"; \
+	done
 
 # This directory's subdirectories are mostly independent; you can cd
 # into them and run `make' without going through this Makefile.
@@ -525,9 +554,12 @@ distcleancheck: distclean
 	       exit 1; } >&2
 check-am: all-am
 check: check-recursive
-all-am: Makefile
+all-am: Makefile $(DATA)
 installdirs: installdirs-recursive
 installdirs-am:
+	for dir in "$(DESTDIR)$(aclocaldir)"; do \
+	  test -z "$$dir" || $(mkdir_p) "$$dir"; \
+	done
 install: install-recursive
 install-exec: install-exec-recursive
 install-data: install-data-recursive
@@ -574,9 +606,7 @@ info: info-recursive
 
 info-am:
 
-install-data-am:
-	@$(NORMAL_INSTALL)
-	$(MAKE) $(AM_MAKEFLAGS) install-data-hook
+install-data-am: install-aclocalDATA
 
 install-exec-am:
 
@@ -604,7 +634,7 @@ ps: ps-recursive
 
 ps-am:
 
-uninstall-am: uninstall-info-am
+uninstall-am: uninstall-aclocalDATA uninstall-info-am
 
 uninstall-info: uninstall-info-recursive
 
@@ -614,14 +644,15 @@ uninstall-info: uninstall-info-recursive
 	dist-hook dist-shar dist-tarZ dist-zip distcheck distclean \
 	distclean-generic distclean-libtool distclean-recursive \
 	distclean-tags distcleancheck distdir distuninstallcheck dvi \
-	dvi-am html html-am info info-am install install-am \
-	install-data install-data-am install-data-hook install-exec \
+	dvi-am html html-am info info-am install install-aclocalDATA \
+	install-am install-data install-data-am install-exec \
 	install-exec-am install-info install-info-am install-man \
 	install-strip installcheck installcheck-am installdirs \
 	installdirs-am maintainer-clean maintainer-clean-generic \
 	maintainer-clean-recursive mostlyclean mostlyclean-generic \
 	mostlyclean-libtool mostlyclean-recursive pdf pdf-am ps ps-am \
-	tags tags-recursive uninstall uninstall-am uninstall-info-am
+	tags tags-recursive uninstall uninstall-aclocalDATA \
+	uninstall-am uninstall-info-am
 
 
 dist-hook:
@@ -629,9 +660,6 @@ dist-hook:
 	rm -rf $(distdir)/example/CVS
 	rm -f $(distdir)/example/autogen
 	rm -rf $(distdir)/win/CVS
-
-install-data-hook:
-	$(INSTALL_DATA) example/cgicc.m4 /usr/share/aclocal
 cvs-dist: distcheck
 	cd $(srcdir) && \
 	 $(CVS) -q tag `echo "release-$(VERSION)" | sed 's/\./-/g'`
