@@ -9,10 +9,10 @@ echo "== Running autoheader =="
 autoheader
 
 echo "== Running libtoolize =="
-libtoolize --force
+libtoolize
 
 echo "== Running automake =="
-automake -f -c --add-missing
+automake --add-missing
 
 echo "== Running autoconf =="
 autoconf

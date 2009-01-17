@@ -60,6 +60,12 @@ namespace cgicc {
      */
     HTTPRedirectHeader(const std::string& url);
     
+	    /*!
+     * \brief Create a new redirection header with redirect status.
+     * \param url The redirection URL.
+     * \param permanent The status permanent or temporary
+     */
+    HTTPRedirectHeader(const std::string& url,bool permanent);
     /*! 
      * \brief Destructor 
      *
@@ -77,6 +83,7 @@ namespace cgicc {
     
   private:
     HTTPRedirectHeader();
+	int fStatus;
   };
   
 } // namespace cgicc

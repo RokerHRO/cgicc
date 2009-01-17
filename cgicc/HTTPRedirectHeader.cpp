@@ -31,8 +31,14 @@
 // Class HTTPRedirectHeader
 // ============================================================
 cgicc::HTTPRedirectHeader::HTTPRedirectHeader(const std::string& url) 
+    : HTTPHeader(url) , fStatus(-1)
+ {}
+ 
+cgicc::HTTPRedirectHeader::HTTPRedirectHeader(const std::string& url,bool permanent) 
   : HTTPHeader(url)
-{}
+{
+  fStatus = permanent ? 301 : 302;
+}
 
 cgicc::HTTPRedirectHeader::~HTTPRedirectHeader()
 {}
@@ -40,6 +46,10 @@ cgicc::HTTPRedirectHeader::~HTTPRedirectHeader()
 void 
 cgicc::HTTPRedirectHeader::render(std::ostream& out) 	const
 {
+  if(fStatus == 301)
+    out << "Status: 301 Moved Permanently" << std::endl;
+  else if(fStatus == 302)
+    out << "Status: 302 Found" << std::endl;
   out << "Location: " << getData() << std::endl;
   
   if(false == getCookies().empty()) {

@@ -6,16 +6,16 @@ echo "== Creating support dir =="
 test -d support || mkdir support
  
 echo "== Running aclocal =="
-aclocal 
+aclocal -I m4 --install
 
 echo "== Running autoheader =="
 autoheader
 
 echo "== Running libtoolize =="
-libtoolize --force
+libtoolize
 
 echo "== Running automake =="
-automake -f --copy --add-missing
+automake --add-missing
 
 echo "== Running autoconf =="
 autoconf
