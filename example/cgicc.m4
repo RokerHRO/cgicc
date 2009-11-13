@@ -1,5 +1,5 @@
 dnl
-dnl $Id: cgicc.m4,v 1.9 2007/07/02 18:48:19 sebdiaz Exp $
+dnl $Id: cgicc.m4,v 1.10 2009/01/18 13:58:25 sebdiaz Exp $
 dnl
 dnl Copyright (C) 2000 - 2004 Stephen F. Booth
 dnl                      2007 Sebastien DIAZ <sebastien.diaz@gmail.com>

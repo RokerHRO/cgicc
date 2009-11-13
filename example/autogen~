@@ -2,25 +2,17 @@
 
 ## Simple script to automate common automake-related tasks
 
-echo "== Creating support dir =="
-test -d support || mkdir support
- 
 echo "== Running aclocal =="
-aclocal -I m4 --install
+aclocal
 
 echo "== Running autoheader =="
 autoheader
 
 echo "== Running libtoolize =="
-libtoolize -f -i -c
+libtoolize
 
 echo "== Running automake =="
-automake --add-missing -c -f
+automake --add-missing
 
 echo "== Running autoconf =="
 autoconf
-
-echo "==> example"
-cd example 
-./autogen
-echo "<== example"

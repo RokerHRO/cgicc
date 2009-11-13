@@ -1,6 +1,6 @@
 /* -*-mode:c++; c-file-style: "gnu";-*- */
 /*
- *  $Id: HTTPCookie.h,v 1.8 2007/07/02 18:48:18 sebdiaz Exp $
+ *  $Id: HTTPCookie.h,v 1.9 2009/01/18 13:58:25 sebdiaz Exp $
  *
  *  Copyright (C) 1996 - 2004 Stephen F. Booth <sbooth@gnu.org>
  *                       2007 Sebastien DIAZ <sebastien.diaz@gmail.com>

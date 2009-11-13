@@ -2,7 +2,7 @@ dnl -*-m4-*-
 dnl $Id: configure.ac,v 1.12 2008/05/18 19:42:41 sebdiaz Exp $
 
 dnl Process this file with autoconf to produce a configure script.
-AC_INIT(cgicc, 3.2.8, bug-cgicc@gnu.org)
+AC_INIT(cgicc, 3.2.9, bug-cgicc@gnu.org)
 AC_CONFIG_SRCDIR(cgicc/Cgicc.cpp)
 AC_REVISION([$Revision: 1.12 $])
 AC_CONFIG_AUX_DIR(support)
