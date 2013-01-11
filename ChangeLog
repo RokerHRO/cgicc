@@ -1,7 +1,23 @@
+2013-01-14 Sebastien DIAZ  <sebastien.diaz@gmail.com>
+        Corrected Bugs on 3.2.10
+        Savannah bugs:
+          bug #32742: Malformed name/value pairs not handled nicely in Cgicc.cpp
+          bug #38053, incorrect soname
+	  bug #36497, Form Variable Parsing Bug
+          bug #35285: CGICC does not return all data from HTML request header
+
+2009-11-14 Sebastien DIAZ  <sebastien.diaz@gmail.com>
+        Corrected Bugs on 3.2.10
+        UBUNTU #219307 libcgicc5-dev still missing cgicc.pc
+	Add
+	RPM support with cgicc.spec
+
 2009-11-14  Sebastien DIAZ  <sebastien.diaz@gmail.com>
 	Corrected Bugs
         #26003 : CgiEnvironment getenv
 	#26065 : save function
+	#26917 : 3.2.8 tar files has sym links to files that don't exist
+	#27681 : Make building on FreeBSD easier
 	
 2009-01-18  Sebastien DIAZ  <sebastien.diaz@gmail.com>
         Corrected Bugs
