@@ -1,6 +1,6 @@
 /* -*-mode:c++; c-file-style: "gnu";-*- */
 /*
- *  $Id: Cgicc.cpp,v 1.33 2014/01/01 10:14:50 sebdiaz Exp $
+ *  $Id: Cgicc.cpp,v 1.34 2014/04/23 20:55:04 sebdiaz Exp $
  *
  *  Copyright (C) 1996 - 2004 Stephen F. Booth <sbooth@gnu.org>
  *                       2007 Sebastien DIAZ <sebastien.diaz@gmail.com>
@@ -24,15 +24,17 @@
 #ifdef __GNUG__
 #  pragma implementation
 #endif
-
+#if HAVE_CONFIG_H
+#  include "config.h"
+#endif
 #include <new>
 #include <algorithm>
 #include <functional>
 #include <iterator>
 #include <stdexcept>
 
-#include "cgicc/CgiUtils.h"
-#include "cgicc/Cgicc.h"
+#include "CgiUtils.h"
+#include "Cgicc.h"
 
 
 namespace cgicc {

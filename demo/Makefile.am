@@ -1,4 +1,4 @@
-## $Id: Makefile.am,v 1.14 2007/07/08 20:06:58 sebdiaz Exp $
+## $Id: Makefile.am,v 1.15 2014/04/23 20:55:11 sebdiaz Exp $
 
 CLEANFILES = *~
 
@@ -6,7 +6,7 @@ EXTRA_DIST = styles.h
 
 noinst_PROGRAMS = test.cgi dns.cgi upload.cgi cookie.cgi cardgame.cgi
 
-INCLUDES = -I$(top_srcdir) -I$(top_builddir)
+AM_CPPFLAGS = -I$(top_srcdir) -I$(top_builddir)
 
 test_cgi_SOURCES = test.cpp
 test_cgi_LDADD = ../cgicc/libcgicc.la @DEMO_LIBS@

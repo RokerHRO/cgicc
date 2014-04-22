@@ -1,6 +1,6 @@
 /* -*-mode:c++; c-file-style: "gnu";-*- */
 /*
- *  $Id: CgiEnvironment.cpp,v 1.27 2013/01/12 19:57:04 sebdiaz Exp $
+ *  $Id: CgiEnvironment.cpp,v 1.28 2014/04/23 20:55:03 sebdiaz Exp $
  *
  *  Copyright (C) 1996 - 2004 Stephen F. Booth <sbooth@gnu.org>
  *                       2007 Sebastien DIAZ <sebastien.diaz@gmail.com>
@@ -38,7 +38,7 @@
 #  include <stdio.h>
 #endif
 
-#include "cgicc/CgiEnvironment.h"
+#include "CgiEnvironment.h"
 
 // ========== Constructor/Destructor
 

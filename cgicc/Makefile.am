@@ -1,10 +1,10 @@
-## $Id: Makefile.am,v 1.28 2014/01/01 09:23:13 sebdiaz Exp $
+## $Id: Makefile.am,v 1.29 2014/04/23 20:55:10 sebdiaz Exp $
 
 CLEANFILES = *~
 
 ACLOCAL_AMFLAGS= 
 
-INCLUDES = -I$(top_srcdir) -I$(top_builddir)
+AM_CPPFLAGS = -I$(top_srcdir) -I$(top_builddir)
 
 lib_LTLIBRARIES = libcgicc.la
 libcgicc_la_SOURCES = CgiEnvironment.cpp CgiInput.cpp CgiUtils.cpp	\

@@ -1,10 +1,10 @@
 dnl -*-m4-*-
-dnl $Id: configure.ac,v 1.14 2014/03/28 20:36:53 sebdiaz Exp $
+dnl $Id: configure.ac,v 1.15 2014/04/23 20:55:03 sebdiaz Exp $
 
 dnl Process this file with autoconf to produce a configure script.
-AC_INIT(cgicc, 3.2.12, bug-cgicc@gnu.org)
+AC_INIT(cgicc, 3.2.14, bug-cgicc@gnu.org)
 AC_CONFIG_SRCDIR(cgicc/Cgicc.cpp)
-AC_REVISION([$Revision: 1.14 $])
+AC_REVISION([$Revision: 1.15 $])
 AC_CONFIG_AUX_DIR(support)
 AC_PREFIX_DEFAULT(/usr)
 AM_INIT_AUTOMAKE
@@ -79,7 +79,20 @@ AM_CONDITIONAL(DEMOS, test "$cgicc_demos" = yes)
 
 if test "$cgicc_demos" = yes; then
   AC_CONFIG_FILES(demo/Makefile)
+  AC_CHECK_FUNCS([gethostbyaddr])
+  AC_CHECK_FUNCS([gethostbyname]) 
+  AC_CHECK_FUNCS([inet_ntoa])
+  AC_CHECK_HEADERS([arpa/inet.h])
+  AC_CHECK_HEADERS([netdb.h])
+  AC_CHECK_HEADERS([netinet/in.h])
+  AC_CHECK_HEADERS([sys/socket.h])
+  AC_CHECK_HEADER_STDBOOL
 fi
+AC_CHECK_HEADERS([fcntl.h])
+AC_C_INLINE
+AC_PROG_RANLIB
+AC_TYPE_SIZE_T
+
 
 dnl enable/disable the FastCgi demos, if specified
 AC_ARG_ENABLE(fcgi-demos, 

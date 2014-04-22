@@ -1,4 +1,4 @@
-## $Id: Makefile.am,v 1.4 2002/03/17 21:39:46 sbooth Exp $
+## $Id: Makefile.am,v 1.5 2014/04/23 20:55:11 sebdiaz Exp $
 
 CLEANFILES = *~
 
@@ -13,7 +13,7 @@ endif
 
 noinst_PROGRAMS = nph-hello.cgi nph-login.cgi $(FCGI_TEST)
 
-INCLUDES = -I$(top_srcdir) -I$(top_builddir)
+AM_CPPFLAGS = -I$(top_srcdir) -I$(top_builddir)
 
 nph_hello_cgi_SOURCES = nph-hello.cpp
 nph_hello_cgi_LDADD = ../cgicc/libcgicc.la

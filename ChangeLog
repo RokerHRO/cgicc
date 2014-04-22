@@ -1,3 +1,9 @@
+2014-04-23 Sebastien DIAZ  <sebastien.diaz@gmail.com>
+	New 3.2.14
+        Remove code warnings
+        Correct Makefile.am and configure.ac
+        bug #41248: CgiDefs.h incorrectly includes config.h
+        
 2014-03-28 Sebastien DIAZ  <sebastien.diaz@gmail.com>
 	New 3.2.13
         Remove code warnings
