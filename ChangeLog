@@ -1,3 +1,8 @@
+2014-06-09 Sebastien DIAZ <sebastien.diaz@gmail.com>
+	Corrected Bugs on 3.2.15
+	   bug #34265: missing opportunity to limiy post DATA upload
+	   bug #34178: cgicc multipart/form-data timeout on binary data upload
+	   
 2014-04-23 Sebastien DIAZ  <sebastien.diaz@gmail.com>
 	New 3.2.14
         Remove code warnings

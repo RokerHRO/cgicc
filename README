@@ -15,13 +15,8 @@ Web. cgicc performs the following functions:
  - Supports HTTP file upload
  - Compatible with FastCGI
 
-Please send bug reports, suggestions, and comments to <bug-cgicc@gnu.org>
+Please send bug reports, suggestions, and comments to http://savannah.gnu.org/projects/cgicc
 
-To subscribe, send a message to <bug-cgicc-request@gnu.org> with the
-word 'subscribe' in the subject line.  A web interface to the list is
-available at http://mail.gnu.org/mailman/listinfo/bug-cgicc.
-
-Visit cgicc on the web at http://www.cgicc.org
 
 This package should contain the following directories:
 

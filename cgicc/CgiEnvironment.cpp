@@ -69,6 +69,11 @@ cgicc::CgiEnvironment::CgiEnvironment(CgiInput *input)
     // Bug reported by shinra@j10n.org
     std::vector<char> data(fContentLength);
     
+    if(getenv("CGICC_MAX_CONTENTLENGTH")&&getContentLength()>atoi(getenv("CGICC_MAX_CONTENTLENGTH")))
+    {
+      exit(1);
+    }
+    else
     // If input is 0, use the default implementation of CgiInput
 	if ( getContentLength() )
 	{

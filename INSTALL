@@ -368,3 +368,9 @@ operates.
 
 `configure' also accepts some other, not widely useful, options.  Run
 `configure --help' for more details.
+
+Manage upload limitation
+======================
+To manage upload limitation of the library cgicc , it is possible to use a environment 
+variable named CGICC_MAX_CONTENTLENGTH to set this limit in bytes unit.
+
