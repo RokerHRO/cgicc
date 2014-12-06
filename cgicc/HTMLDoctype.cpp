@@ -22,7 +22,7 @@
  */
 
 #ifdef __GNUG__
-#  pragma implementation
+#pragma implementation
 #endif
 
 #include "HTMLDoctype.h"
@@ -39,24 +39,29 @@ cgicc::HTMLDoctype::~HTMLDoctype()
 {}
 
 void
-cgicc::HTMLDoctype::render(std::ostream &out) 	const
+cgicc::HTMLDoctype::render(std::ostream &out) const
 {
-  out << "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0";
+  bool bHTML5 = false;
+  out << "<!DOCTYPE HTML";
   
   switch(fType) {
   case eStrict:
     break;
 
   case eTransitional:
-    out << " Transitional";
+    out << " PUBLIC \"-//W3C//DTD HTML 4.0 Transitional";
     break;
     
   case eFrames:
-    out << " Frameset";
+    out << " PUBLIC \"-//W3C//DTD HTML 4.0 Frameset";
+    break;
+
+  case eHTML5:
+    bHTML5 = true;
     break;
   }
-  
-  out << "//EN\" \"http://www.w3.org/TR/REC-html40/";
+  if(!bHTML5)
+    out << "//EN\" \"http://www.w3.org/TR/REC-html40/";
   
   switch(fType) {
   case eStrict:
@@ -70,6 +75,10 @@ cgicc::HTMLDoctype::render(std::ostream &out) 	const
   case eFrames:
     out << "frameset.dtd\"";
     break;
+
+  case eHTML5: // 11.30.14 t.o.
+    break;
   }
   out << '>';
 }
+

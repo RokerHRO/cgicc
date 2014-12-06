@@ -97,3 +97,4 @@ namespace cgicc {
 } // namespace cgicc
 
 #endif /* ! _MSTREAMABLE_H_ */
+

@@ -64,7 +64,9 @@ namespace cgicc {
       /*! The HTML 4.0 Transitional DTD */
       eTransitional,
       /*! The HTML 4.0 Frameset DTD */
-      eFrames
+      eFrames,
+		/*! HTML5 (added 11.30.14 t.o.) */ 
+		eHTML5
     };
     
     
@@ -81,7 +83,7 @@ namespace cgicc {
     virtual ~HTMLDoctype();
     
     virtual void 
-    render(std::ostream& out) 			const;
+    render(std::ostream& out) const;
     
   private:
     EDocumentType fType;
@@ -90,3 +92,4 @@ namespace cgicc {
 } // namespace cgicc
 
 #endif /* ! _HTMLDOCTYPE_H_ */
+

@@ -46,7 +46,8 @@ class CGICC_API XHTMLDoctype : public MStreamable {
 	enum EDocumentType {
 		eStrict,
 		eTransitional,
-		eFrames
+		eFrames,
+		eHTML5 // 11.30.14 t.o.
 	};
 	// ============================================================
     
