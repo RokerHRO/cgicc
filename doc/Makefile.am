@@ -47,7 +47,7 @@ html-doc:
 	fi;
 	DATE=`date '+%-d %b %Y'` VERSION=$(VERSION) $(DOXYGEN) Doxyfile
 	cp $(IMAGES) cgicc-doc.css html
-	if test ! -d html/index.html; then \
+	if test ! -f html/index.html; then \
 		echo empty> html/index.html; \
 	fi;
 	mv html/index.html html/index.html.bak

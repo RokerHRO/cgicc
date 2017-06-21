@@ -5,7 +5,8 @@ includedir=@includedir@
 
 Name: cgicc
 Description: GNU cgicc is an ANSI C++ compliant class library that greatly simplifies the creation of CGI applications for the World Wide Web.
-Requires: 
+Requires:
 Version: @VERSION@
-Libs: -L${libdir} 
-Cflags: 
+Conflicts:
+Libs: -L${libdir} -lcgicc
+Cflags: -I${includedir}

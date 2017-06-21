@@ -1,6 +1,6 @@
 /* -*-mode:c++; c-file-style: "gnu";-*- */
 /*
- *  $Id: HTMLDoctype.h,v 1.9 2014/04/23 20:55:05 sebdiaz Exp $
+ *  $Id: HTMLDoctype.h,v 1.10 2014/12/07 14:33:02 sebdiaz Exp $
  *
  *  Copyright (C) 1996 - 2004 Stephen F. Booth <sbooth@gnu.org>
  *                       2007 Sebastien DIAZ <sebastien.diaz@gmail.com>

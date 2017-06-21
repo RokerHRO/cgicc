@@ -1,6 +1,6 @@
 /* -*-mode:c++; c-file-style: "gnu";-*- */
 /*
- *  $Id: MStreamable.h,v 1.13 2014/04/23 20:55:09 sebdiaz Exp $
+ *  $Id: MStreamable.h,v 1.14 2014/12/07 14:33:02 sebdiaz Exp $
  *
  *  Copyright (C) 1996 - 2004 Stephen F. Booth <sbooth@gnu.org>
  *                       2007 Sebastien DIAZ <sebastien.diaz@gmail.com>

@@ -1,6 +1,6 @@
 /* -*-mode:c++; c-file-style: "gnu";-*- */
 /*
- *  $Id: XHTMLDoctype.h,v 1.2 2014/04/23 20:55:10 sebdiaz Exp $
+ *  $Id: XHTMLDoctype.h,v 1.3 2014/12/07 14:33:03 sebdiaz Exp $
  *
  *  Copyright (C) 1996 - 2004 Stephen F. Booth <sbooth@gnu.org>
  *                       2007 David Roberts
@@ -32,7 +32,7 @@
 
 #include <string>
 
-#include <MStreamable.h>
+#include "MStreamable.h"
 
 namespace cgicc {
 
