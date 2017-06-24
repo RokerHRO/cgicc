@@ -1,10 +1,10 @@
 dnl -*-m4-*-
-dnl $Id: configure.ac,v 1.18 2014/12/07 14:33:01 sebdiaz Exp $
+dnl $Id: configure.ac,v 1.19 2017/06/25 16:19:22 sebdiaz Exp $
 
 dnl Process this file with autoconf to produce a configure script.
-AC_INIT(cgicc, 3.2.16, sebastien.diaz@gmail.com)
+AC_INIT(cgicc, 3.2.18, sebastien.diaz@gmail.com)
 AC_CONFIG_SRCDIR(cgicc/Cgicc.cpp)
-AC_REVISION([$Revision: 1.18 $])
+AC_REVISION([$Revision: 1.19 $])
 AC_CONFIG_AUX_DIR(support)
 AC_PREFIX_DEFAULT(/usr)
 AM_INIT_AUTOMAKE

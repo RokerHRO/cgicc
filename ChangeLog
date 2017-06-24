@@ -1,9 +1,10 @@
 2017-06-23 Sebastien DIAZ <sebastien.diaz@gmail.com>
 	Corrected Bugs on 3.2.17
        	   bug #46426: Pkg-config file does not provide flags for include path or the library itself. From Josh Watts.
-	Patches on 3.2.17
-	   patch #7845: HTTP PUT method support from Yury Knigin 
-	   patch #8581: Added HTML5 Support from Tim O'Neil
+	   bug #48677: Generated index.html is empty. From Anonymous.	
+	   bug #49120: cgicc should not call exit(). From Thomas Pircher.
+           bug #49557: XHTMLDoctype.h fails to include MStreamable.h . From Thomas Pircher.
+	   
 
 2014-12-07 Sebastien DIAZ <sebastien.diaz@gmail.com>
 	Patches on 3.2.16

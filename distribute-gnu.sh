@@ -171,7 +171,7 @@ else
     echo "$as_me: failed to sign package using gpg." >&2
     exit 2
 fi
-
+echo "replace: true" > ${PACKAGE}.directive
 echo "version: 1.2" > ${PACKAGE}.directive
 echo "directory: ${DIRECTORY}" >> ${PACKAGE}.directive
 echo "filename: ${PACKAGE}" >> ${PACKAGE}.directive

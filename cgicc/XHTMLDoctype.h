@@ -1,6 +1,6 @@
 /* -*-mode:c++; c-file-style: "gnu";-*- */
 /*
- *  $Id: XHTMLDoctype.h,v 1.3 2014/12/07 14:33:03 sebdiaz Exp $
+ *  $Id: XHTMLDoctype.h,v 1.4 2017/06/22 20:26:35 sebdiaz Exp $
  *
  *  Copyright (C) 1996 - 2004 Stephen F. Booth <sbooth@gnu.org>
  *                       2007 David Roberts

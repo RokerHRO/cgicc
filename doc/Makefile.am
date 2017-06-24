@@ -1,4 +1,4 @@
-## $Id: Makefile.am,v 1.21 2013/12/31 17:34:00 sebdiaz Exp $
+## $Id: Makefile.am,v 1.22 2017/06/22 20:26:35 sebdiaz Exp $
 
 CLEANFILES = *~ stamp
 
