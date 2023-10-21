@@ -1,6 +1,6 @@
 /* -*-mode:c++; c-file-style: "gnu";-*- */
 /*
- *  $Id: Cgicc.cpp,v 1.34 2014/04/23 20:55:04 sebdiaz Exp $
+ *  $Id: Cgicc.cpp,v 1.35 2023/10/22 07:46:41 sebdiaz Exp $
  *
  *  Copyright (C) 1996 - 2004 Stephen F. Booth <sbooth@gnu.org>
  *                       2007 Sebastien DIAZ <sebastien.diaz@gmail.com>
@@ -491,7 +491,12 @@ cgicc::Cgicc::parseMIME(const std::string& data)
 
   // Extract the value - there is still a trailing CR/LF to be subtracted off
   std::string::size_type valueStart = headLimit + end.length();
-  std::string value = data.substr(valueStart, data.length() - valueStart - 2);
+  int lengthCorrection = 0;
+  std::string endData = "\r\n";
+  if (data.length() > 2 && std::equal(endData.rbegin(), endData.rend(), data.rbegin())) {
+    lengthCorrection = 2;
+  }
+  std::string value = data.substr(valueStart, data.length() - valueStart - lengthCorrection);
 
   // Parse the header - pass trailing CR/LF x 2 to parseHeader
   MultipartHeader head = parseHeader(data.substr(0, valueStart));
